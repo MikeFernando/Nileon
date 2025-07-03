@@ -5,9 +5,10 @@ import 'package:mockito/mockito.dart';
 import 'remote_authentication_test.mocks.dart';
 
 import 'package:flutter_tdd_clean_architecture/domain/usecases/authentication.dart';
+import 'package:flutter_tdd_clean_architecture/domain/helpers/domain_error.dart';
 
 import 'package:flutter_tdd_clean_architecture/data/usecases/usecases.dart';
-import 'package:flutter_tdd_clean_architecture/data/http/http_client.dart';
+import 'package:flutter_tdd_clean_architecture/data/http/http.dart';
 
 @GenerateMocks([HttpClient])
 void main() {
@@ -37,5 +38,25 @@ void main() {
         'password': params.password,
       },
     ));
+  });
+
+  test('should throw UnexpectedError if HttpClient returns 400', () async {
+    // Arrange
+    when(httpClient.request(
+      url: anyNamed('url'),
+      method: anyNamed('method'),
+      body: anyNamed('body'),
+    )).thenThrow(HttpError.badRequest);
+
+    final params = AuthenticationParams(
+      email: faker.internet.email(),
+      password: faker.internet.password(),
+    );
+
+    // Act
+    final future = sut.auth(params);
+
+    // Assert
+    expect(future, throwsA(DomainError.unexpected));
   });
 }
