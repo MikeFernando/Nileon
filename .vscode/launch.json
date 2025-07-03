@@ -5,6 +5,12 @@
   "version": "0.2.0",
   "configurations": [
     {
+      "name": "Flutter: Run all Tests",
+      "type": "dart",
+      "request": "launch",
+      "program": "./test/"
+    },
+    {
       "name": "flutter_tdd_clean_architecture",
       "request": "launch",
       "type": "dart"
@@ -20,6 +26,6 @@
       "request": "launch",
       "type": "dart",
       "flutterMode": "release"
-    }
+    },
   ]
 }
