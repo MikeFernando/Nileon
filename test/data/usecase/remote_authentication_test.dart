@@ -22,11 +22,17 @@ abstract class HttpClient {
 
 @GenerateMocks([HttpClient])
 void main() {
-  test('should call HttpClient with correct URL', () async {
-    final url = faker.internet.httpUrl();
-    final httpClient = MockHttpClient();
-    final sut = RemoteAuthentication(httpClient: httpClient, url: url);
+  late RemoteAuthentication sut;
+  late MockHttpClient httpClient;
+  late String url;
 
+  setUp(() {
+    url = faker.internet.httpUrl();
+    httpClient = MockHttpClient();
+    sut = RemoteAuthentication(httpClient: httpClient, url: url);
+  });
+
+  test('should call HttpClient with correct values', () async {
     when(httpClient.request(url: url, method: 'post')).thenAnswer((_) async {});
 
     await sut.auth();
