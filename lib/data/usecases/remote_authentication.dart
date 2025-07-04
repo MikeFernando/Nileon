@@ -4,6 +4,8 @@ import '../../domain/usecases/authentication.dart';
 
 import '../http/http.dart';
 
+import '../models/models.dart';
+
 class RemoteAuthentication {
   final HttpClient httpClient;
   final String url;
@@ -18,7 +20,7 @@ class RemoteAuthentication {
         body: RemoteAuthenticationParams.fromDomain(params).toJson(),
       );
 
-      return AccountEntity.fromJson(httpResponse);
+      return RemoteAccountModel.fromJson(httpResponse).toEntity();
     } on HttpError catch (error) {
       switch (error) {
         case HttpError.unauthorized:
