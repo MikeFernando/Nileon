@@ -1,5 +1,6 @@
-import '../../domain/usecases/authentication.dart';
+import '../../domain/entities/account_entity.dart';
 import '../../domain/helpers/domain_error.dart';
+import '../../domain/usecases/authentication.dart';
 
 import '../http/http.dart';
 
@@ -9,13 +10,15 @@ class RemoteAuthentication {
 
   RemoteAuthentication({required this.httpClient, required this.url});
 
-  Future<void> auth(AuthenticationParams params) async {
+  Future<AccountEntity> auth(AuthenticationParams params) async {
     try {
-      await httpClient.request(
+      final httpResponse = await httpClient.request(
         url: url,
         method: 'post',
         body: RemoteAuthenticationParams.fromDomain(params).toJson(),
       );
+
+      return AccountEntity.fromJson(httpResponse);
     } on HttpError catch (error) {
       switch (error) {
         case HttpError.unauthorized:
