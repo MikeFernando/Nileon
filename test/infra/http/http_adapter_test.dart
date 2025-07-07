@@ -25,12 +25,18 @@ class HttpAdapter {
 
 @GenerateMocks([Client])
 void main() {
+  late HttpAdapter sut;
+  late MockClient client;
+  late Uri url;
+
+  setUp(() {
+    client = MockClient();
+    url = Uri.parse('https://any_url');
+    sut = HttpAdapter(client);
+  });
+
   group('post', () {
     test('Should call post with correct values', () async {
-      final client = MockClient();
-      final url = Uri.parse('https://any_url');
-      final sut = HttpAdapter(client);
-
       when(client.post(url, headers: {
         'content-type': 'application/json',
         'accept': 'application/json',
