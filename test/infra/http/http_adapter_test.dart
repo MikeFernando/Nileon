@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
@@ -14,16 +16,22 @@ class HttpAdapter {
   Future<void> request({
     required Uri url,
     required String method,
+    Map? body,
+    Encoding? encoding,
   }) async {
     final headers = {
       'content-type': 'application/json',
       'accept': 'application/json',
     };
-    await client.post(url, headers: headers);
+    await client.post(
+      url,
+      headers: headers,
+      body: jsonEncode(body),
+    );
   }
 }
 
-@GenerateMocks([Client])
+@GenerateNiceMocks([MockSpec<Client>()])
 void main() {
   late HttpAdapter sut;
   late MockClient client;
@@ -37,17 +45,28 @@ void main() {
 
   group('post', () {
     test('Should call post with correct values', () async {
-      when(client.post(url, headers: {
-        'content-type': 'application/json',
-        'accept': 'application/json',
-      })).thenAnswer((_) async => Response('', 200));
+      when(client.post(url,
+              headers: anyNamed('headers'),
+              body: anyNamed('body'),
+              encoding: anyNamed('encoding')))
+          .thenAnswer((_) async => Response('', 200));
 
-      await sut.request(url: url, method: 'post');
+      await sut.request(
+        url: url,
+        method: 'post',
+        body: {'any_key': 'any_value'},
+        encoding: null,
+      );
 
-      verify(client.post(url, headers: {
-        'content-type': 'application/json',
-        'accept': 'application/json',
-      }));
+      verify(client.post(
+        url,
+        headers: {
+          'content-type': 'application/json',
+          'accept': 'application/json',
+        },
+        body: '{"any_key":"any_value"}',
+        encoding: anyNamed('encoding'),
+      ));
     });
   });
 }
