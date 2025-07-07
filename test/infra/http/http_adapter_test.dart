@@ -26,7 +26,7 @@ class HttpAdapter {
     await client.post(
       url,
       headers: headers,
-      body: jsonEncode(body),
+      body: body != null ? jsonEncode(body) : null,
     );
   }
 }
@@ -66,6 +66,23 @@ void main() {
         },
         body: '{"any_key":"any_value"}',
         encoding: anyNamed('encoding'),
+      ));
+    });
+
+    test('Should call post without body', () async {
+      when(client.post(
+        url,
+        headers: anyNamed('headers'),
+      )).thenAnswer((_) async => Response('', 200));
+
+      await sut.request(
+        url: url,
+        method: 'post',
+      );
+
+      verify(client.post(
+        any,
+        headers: anyNamed('headers'),
       ));
     });
   });
