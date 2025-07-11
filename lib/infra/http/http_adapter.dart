@@ -19,6 +19,11 @@ class HttpAdapter implements HttpClient {
       'content-type': 'application/json',
       'accept': 'application/json',
     };
+
+    if (method.toLowerCase() != 'post') {
+      throw HttpError.invalidData;
+    }
+
     final response = await client.post(
       Uri.parse(url),
       headers: headers,

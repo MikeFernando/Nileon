@@ -12,13 +12,13 @@
 2.✅ Unauthorized - 401
 3.✅ Forbidden - 403
 4.✅ Not Found - 404
-5. Internal Server Error - 500
+5.✅ Internal Server Error - 500
 
 > ## Exceção - Status Code diferente dos citados acima
-1. Internal server error - 500
+1.✅ Internal server error - 500
 
 > ## Exceção - Http request deu alguma exceção
-1. Internal server error - 500
+1.✅ Internal server error - 500
 
 > ## Exceção - Verbo http inválido
-1. Internal server error - 500
+1.✅ Internal server error - 500
