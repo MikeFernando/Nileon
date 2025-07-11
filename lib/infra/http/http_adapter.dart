@@ -24,13 +24,18 @@ class HttpAdapter implements HttpClient {
       throw HttpError.invalidData;
     }
 
-    final response = await client.post(
-      Uri.parse(url),
-      headers: headers,
-      body: body != null ? jsonEncode(body) : null,
-    );
-
-    return _handleResponse(response);
+    try {
+      final response = await client.post(
+        Uri.parse(url),
+        headers: headers,
+        body: body != null ? jsonEncode(body) : null,
+      );
+      return _handleResponse(response);
+    } on HttpError {
+      rethrow;
+    } catch (e) {
+      throw HttpError.serverError;
+    }
   }
 
   Map? _handleResponse(Response response) {
