@@ -86,5 +86,17 @@ void main() {
         throwsA(HttpError.badRequest),
       );
     });
+
+    test('Should return UnauthorizedError if post returns 401', () async {
+      mockResponse(401);
+
+      expect(
+        () => sut.request(
+          url: url,
+          method: 'post',
+        ),
+        throwsA(HttpError.unauthorized),
+      );
+    });
   });
 }
