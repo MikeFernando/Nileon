@@ -110,5 +110,17 @@ void main() {
         throwsA(HttpError.forbidden),
       );
     });
+
+    test('Should return NotFoundError if post returns 404', () async {
+      mockResponse(404);
+
+      expect(
+        () => sut.request(
+          url: url,
+          method: 'post',
+        ),
+        throwsA(HttpError.notFound),
+      );
+    });
   });
 }

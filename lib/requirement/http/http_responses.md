@@ -9,9 +9,9 @@
 
 > ## Erros
 1.✅ Bad request - 400
-2. Unauthorized - 401
-3. Forbidden - 403
-4. Not Found - 404
+2.✅ Unauthorized - 401
+3.✅ Forbidden - 403
+4.✅ Not Found - 404
 5. Internal Server Error - 500
 
 > ## Exceção - Status Code diferente dos citados acima
