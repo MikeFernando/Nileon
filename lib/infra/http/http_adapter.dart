@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:http/http.dart';
 
 import '../../data/http/http_client.dart';
+import '../../data/http/http_error.dart';
 
 class HttpAdapter implements HttpClient {
   final Client client;
@@ -33,7 +34,18 @@ class HttpAdapter implements HttpClient {
         return null;
       }
       return jsonDecode(response.body);
+    } else if (response.statusCode == 204) {
+      return null;
+    } else if (response.statusCode == 400) {
+      throw HttpError.badRequest;
+    } else if (response.statusCode == 401) {
+      throw HttpError.unauthorized;
+    } else if (response.statusCode == 404) {
+      throw HttpError.notFound;
+    } else if (response.statusCode >= 500) {
+      throw HttpError.serverError;
+    } else {
+      throw HttpError.invalidData;
     }
-    return null;
   }
 }
