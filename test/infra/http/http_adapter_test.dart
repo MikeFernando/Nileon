@@ -1,41 +1,11 @@
-import 'dart:convert';
-
-import 'package:flutter_tdd_clean_architecture/data/http/http_client.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
-
 import 'package:http/http.dart';
 
+import 'package:flutter_tdd_clean_architecture/infra/http/http.dart';
+
 import 'http_adapter_test.mocks.dart';
-
-class HttpAdapter implements HttpClient {
-  final Client client;
-
-  HttpAdapter(this.client);
-
-  @override
-  Future<Map?> request({
-    required String url,
-    required String method,
-    Map? body,
-  }) async {
-    final headers = {
-      'content-type': 'application/json',
-      'accept': 'application/json',
-    };
-    final response = await client.post(
-      Uri.parse(url),
-      headers: headers,
-      body: body != null ? jsonEncode(body) : null,
-    );
-
-    if (response.body.isEmpty) {
-      return null;
-    }
-    return jsonDecode(response.body);
-  }
-}
 
 @GenerateNiceMocks([MockSpec<Client>()])
 void main() {
