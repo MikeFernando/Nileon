@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter_tdd_clean_architecture/data/http/http_client.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
@@ -8,26 +9,27 @@ import 'package:http/http.dart';
 
 import 'http_adapter_test.mocks.dart';
 
-class HttpAdapter {
+class HttpAdapter implements HttpClient {
   final Client client;
 
   HttpAdapter(this.client);
 
-  Future<void> request({
-    required Uri url,
+  @override
+  Future<Map> request({
+    required String url,
     required String method,
     Map? body,
-    Encoding? encoding,
   }) async {
     final headers = {
       'content-type': 'application/json',
       'accept': 'application/json',
     };
-    await client.post(
-      url,
+    final response = await client.post(
+      Uri.parse(url),
       headers: headers,
       body: body != null ? jsonEncode(body) : null,
     );
+    return jsonDecode(response.body);
   }
 }
 
@@ -35,45 +37,41 @@ class HttpAdapter {
 void main() {
   late HttpAdapter sut;
   late MockClient client;
-  late Uri url;
+  late String url;
 
   setUp(() {
     client = MockClient();
-    url = Uri.parse('https://any_url');
+    url = 'https://any_url';
     sut = HttpAdapter(client);
   });
 
   group('post', () {
     test('Should call post with correct values', () async {
-      when(client.post(url,
-              headers: anyNamed('headers'),
-              body: anyNamed('body'),
-              encoding: anyNamed('encoding')))
-          .thenAnswer((_) async => Response('', 200));
+      when(client.post(Uri.parse(url),
+              headers: anyNamed('headers'), body: anyNamed('body')))
+          .thenAnswer((_) async => Response('{"any_key":"any_value"}', 200));
 
       await sut.request(
         url: url,
         method: 'post',
         body: {'any_key': 'any_value'},
-        encoding: null,
       );
 
       verify(client.post(
-        url,
+        Uri.parse(url),
         headers: {
           'content-type': 'application/json',
           'accept': 'application/json',
         },
         body: '{"any_key":"any_value"}',
-        encoding: anyNamed('encoding'),
       ));
     });
 
     test('Should call post without body', () async {
       when(client.post(
-        url,
+        Uri.parse(url),
         headers: anyNamed('headers'),
-      )).thenAnswer((_) async => Response('', 200));
+      )).thenAnswer((_) async => Response('{"any_key":"any_value"}', 200));
 
       await sut.request(
         url: url,
@@ -84,6 +82,20 @@ void main() {
         any,
         headers: anyNamed('headers'),
       ));
+    });
+
+    test('Should return data if post returns 200', () async {
+      when(client.post(
+        any,
+        headers: anyNamed('headers'),
+      )).thenAnswer((_) async => Response('{"any_key":"any_value"}', 200));
+
+      final response = await sut.request(
+        url: url,
+        method: 'post',
+      );
+
+      expect(response, {'any_key': 'any_value'});
     });
   });
 }
