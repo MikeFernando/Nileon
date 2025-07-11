@@ -122,5 +122,17 @@ void main() {
         throwsA(HttpError.notFound),
       );
     });
+
+    test('Should return ServerError if post returns 500', () async {
+      mockResponse(500);
+
+      expect(
+        () => sut.request(
+          url: url,
+          method: 'post',
+        ),
+        throwsA(HttpError.serverError),
+      );
+    });
   });
 }
