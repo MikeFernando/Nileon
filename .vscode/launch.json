@@ -11,9 +11,10 @@
       "program": "./test/"
     },
     {
-      "name": "flutter_tdd_clean_architecture",
+      "name": "Run App",
       "request": "launch",
-      "type": "dart"
+      "type": "dart",
+      "program": "./lib/main/main.dart"
     },
     {
       "name": "flutter_tdd_clean_architecture (profile mode)",
