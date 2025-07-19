@@ -20,8 +20,8 @@ void main() {
     sut = HttpAdapter(client);
   });
 
-  group('shared', () {
-    test('Should throw InvalidData if invalid method is provided', () async {
+  group('compartilhado', () {
+    test('Deve lançar InvalidData se método inválido for fornecido', () async {
       final future = sut.request(url: url, method: 'invalid_method');
 
       expect(future, throwsA(HttpError.invalidData));
@@ -41,7 +41,7 @@ void main() {
 
     setUp(() => mockResponse(200));
 
-    test('Should call post with correct values', () async {
+    test('Deve chamar post com valores corretos', () async {
       mockResponse(200, body: '{"any_key":"any_value"}');
 
       await sut.request(
@@ -60,7 +60,7 @@ void main() {
       ));
     });
 
-    test('Should call post without body', () async {
+    test('Deve chamar post sem body', () async {
       mockResponse(200, body: '{"any_key":"any_value"}');
 
       await sut.request(url: url, method: 'post');
@@ -68,7 +68,7 @@ void main() {
       verify(client.post(any, headers: anyNamed('headers')));
     });
 
-    test('Should return data if post returns 200', () async {
+    test('Deve retornar dados se post retornar 200', () async {
       mockResponse(200, body: '{"any_key":"any_value"}');
 
       final response = await sut.request(url: url, method: 'post');
@@ -76,7 +76,7 @@ void main() {
       expect(response, {'any_key': 'any_value'});
     });
 
-    test('Should return null if post returns 204 with no data', () async {
+    test('Deve retornar null se post retornar 204 sem dados', () async {
       mockResponse(204, body: '');
 
       final response = await sut.request(url: url, method: 'post');
@@ -84,7 +84,7 @@ void main() {
       expect(response, isNull);
     });
 
-    test('Should return BadRequestError if post returns 400', () async {
+    test('Deve retornar BadRequestError se post retornar 400', () async {
       mockResponse(400);
 
       expect(
@@ -96,7 +96,7 @@ void main() {
       );
     });
 
-    test('Should return UnauthorizedError if post returns 401', () async {
+    test('Deve retornar UnauthorizedError se post retornar 401', () async {
       mockResponse(401);
 
       expect(
@@ -108,7 +108,7 @@ void main() {
       );
     });
 
-    test('Should return ForbiddenError if post returns 403', () async {
+    test('Deve retornar ForbiddenError se post retornar 403', () async {
       mockResponse(403);
 
       expect(
@@ -120,7 +120,7 @@ void main() {
       );
     });
 
-    test('Should return NotFoundError if post returns 404', () async {
+    test('Deve retornar NotFoundError se post retornar 404', () async {
       mockResponse(404);
 
       expect(
@@ -132,7 +132,7 @@ void main() {
       );
     });
 
-    test('Should return ServerError if post returns 500', () async {
+    test('Deve retornar ServerError se post retornar 500', () async {
       mockResponse(500);
 
       expect(
@@ -144,7 +144,7 @@ void main() {
       );
     });
 
-    test('Should return ServerError if post throws', () async {
+    test('Deve retornar ServerError se post lançar exceção', () async {
       mockError();
 
       final future = sut.request(url: url, method: 'post');

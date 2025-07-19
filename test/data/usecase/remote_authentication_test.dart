@@ -48,7 +48,7 @@ void main() {
     );
   });
 
-  test('should call HttpClient with correct values', () async {
+  test('deve chamar HttpClient com valores corretos', () async {
     await sut.auth(params);
 
     verify(httpClient.request(
@@ -61,7 +61,7 @@ void main() {
     ));
   });
 
-  test('should throw UnexpectedError if HttpClient returns 400', () async {
+  test('deve lançar UnexpectedError se HttpClient retornar 400', () async {
     mockHttpError(HttpError.badRequest);
 
     final future = sut.auth(params);
@@ -69,7 +69,7 @@ void main() {
     expect(future, throwsA(DomainError.unexpected));
   });
 
-  test('should throw UnexpectedError if HttpClient returns 404', () async {
+  test('deve lançar UnexpectedError se HttpClient retornar 404', () async {
     mockHttpError(HttpError.notFound);
 
     final future = sut.auth(params);
@@ -77,7 +77,7 @@ void main() {
     expect(future, throwsA(DomainError.unexpected));
   });
 
-  test('should throw UnexpectedError if HttpClient returns 500', () async {
+  test('deve lançar UnexpectedError se HttpClient retornar 500', () async {
     mockHttpError(HttpError.serverError);
 
     final future = sut.auth(params);
@@ -85,7 +85,7 @@ void main() {
     expect(future, throwsA(DomainError.unexpected));
   });
 
-  test('should throw UnexpectedError if HttpClient returns 401', () async {
+  test('deve lançar UnexpectedError se HttpClient retornar 401', () async {
     mockHttpError(HttpError.unauthorized);
 
     final future = sut.auth(params);
@@ -93,7 +93,7 @@ void main() {
     expect(future, throwsA(DomainError.invalidCredentials));
   });
 
-  test('should returns an Account if HttpClient return 200', () async {
+  test('deve retornar uma Account se HttpClient retornar 200', () async {
     final accessToken = faker.guid.guid();
 
     mockHttpData({'accessToken': accessToken, 'name': faker.person.name()});
@@ -103,7 +103,8 @@ void main() {
     expect(account.token, accessToken);
   });
 
-  test('should throw UnexpectedError if HttpClient return 200 invalid data',
+  test(
+      'deve lançar UnexpectedError se HttpClient retornar 200 com dados inválidos',
       () async {
     mockHttpData({'invalid_key': 'invalid_value'});
 
