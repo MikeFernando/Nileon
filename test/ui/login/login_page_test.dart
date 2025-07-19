@@ -5,10 +5,14 @@ import 'package:flutter_tdd_clean_architecture/ui/components/button.dart';
 import 'package:flutter_tdd_clean_architecture/ui/pages/login_page.dart';
 
 void main() {
-  testWidgets('Deve apresentar LoginPage com estado inicial correto',
-      (tester) async {
+  Future<void> loadPage(WidgetTester tester) async {
     final loginPage = MaterialApp(home: LoginPage());
     await tester.pumpWidget(loginPage);
+  }
+
+  testWidgets('Deve apresentar LoginPage com estado inicial correto',
+      (tester) async {
+    await loadPage(tester);
 
     final emailChildrenText = find.descendant(
       of: find.bySemanticsLabel('Email'),
@@ -36,5 +40,12 @@ void main() {
     final button = tester.widget<Button>(find.byType(Button));
 
     expect(button.enabled, isFalse);
+  });
+
+  testWidgets('Deve chamar o validate com os dados corretos', (tester) async {
+    await loadPage(tester);
+
+    final button = find.byType(Button);
+    await tester.tap(button);
   });
 }
