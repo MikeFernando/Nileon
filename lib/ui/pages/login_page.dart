@@ -45,6 +45,7 @@ class LoginPage extends StatelessWidget {
                   Button(
                     onPressed: () {},
                     label: 'Entrar',
+                    enabled: false,
                   ),
                   CustomTextButton(
                     onPressed: () {},

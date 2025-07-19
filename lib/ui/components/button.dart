@@ -1,10 +1,16 @@
 import 'package:flutter/material.dart';
 
 class Button extends StatelessWidget {
-  const Button({super.key, required this.onPressed, required this.label});
+  const Button({
+    super.key,
+    required this.onPressed,
+    required this.label,
+    this.enabled = true,
+  });
 
   final VoidCallback onPressed;
   final String label;
+  final bool enabled;
 
   @override
   Widget build(BuildContext context) {
@@ -12,10 +18,11 @@ class Button extends StatelessWidget {
       height: 50,
       width: double.infinity,
       child: ElevatedButton(
-        onPressed: onPressed,
+        onPressed: enabled ? onPressed : null,
         style: ElevatedButton.styleFrom(
-          backgroundColor: Theme.of(context).colorScheme.primary,
-          foregroundColor: Colors.black,
+          backgroundColor:
+              enabled ? Theme.of(context).colorScheme.primary : Colors.grey,
+          foregroundColor: enabled ? Colors.black : Colors.white,
         ),
         child: Text(label),
       ),
