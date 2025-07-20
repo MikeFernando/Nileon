@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../pages/login_page.dart';
+import '../pages/login/login_presenter.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -55,7 +56,7 @@ class MyApp extends StatelessWidget {
       ),
       debugShowCheckedModeBanner: false,
       title: 'Nileon',
-      home: const LoginPage(),
+      home: LoginPage(presenter: LoginPresenterImpl()),
     );
   }
 }

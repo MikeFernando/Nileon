@@ -1,12 +1,19 @@
+import 'package:faker/faker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mockito/mockito.dart';
 
-import 'package:flutter_tdd_clean_architecture/ui/components/button.dart';
-import 'package:flutter_tdd_clean_architecture/ui/pages/login_page.dart';
+import 'package:flutter_tdd_clean_architecture/ui/components/components.dart';
+import 'package:flutter_tdd_clean_architecture/ui/pages/pages.dart';
+
+class LoginPresenterSpy extends Mock implements LoginPresenter {}
 
 void main() {
+  late LoginPresenterSpy presenter;
+
   Future<void> loadPage(WidgetTester tester) async {
-    final loginPage = MaterialApp(home: LoginPage());
+    presenter = LoginPresenterSpy();
+    final loginPage = MaterialApp(home: LoginPage(presenter: presenter));
     await tester.pumpWidget(loginPage);
   }
 
@@ -47,5 +54,20 @@ void main() {
 
     final button = find.byType(Button);
     await tester.tap(button);
+  });
+
+  testWidgets(
+      'Deve chamar o presenter validateEmail e validatePassword quando o usuário digitar no campo Email e Senha',
+      (tester) async {
+    await loadPage(tester);
+
+    final email = faker.internet.email();
+    await tester.enterText(find.bySemanticsLabel('Email'), email);
+
+    final password = faker.internet.password();
+    await tester.enterText(find.bySemanticsLabel('Senha'), password);
+
+    verify(presenter.validateEmail(email));
+    verify(presenter.validatePassword(password));
   });
 }
