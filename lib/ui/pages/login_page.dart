@@ -22,7 +22,7 @@ class LoginPage extends StatelessWidget {
                 children: [
                   Padding(
                     padding: const EdgeInsets.only(top: 16, bottom: 16),
-                    child: StreamBuilder<String>(
+                    child: StreamBuilder<String?>(
                       stream: presenter.emailErrorStream,
                       builder: (context, snapshot) {
                         return TextFormField(
@@ -33,7 +33,9 @@ class LoginPage extends StatelessWidget {
                                 Theme.of(context).colorScheme.primary,
                             prefixIcon: Icon(Icons.email),
                             labelText: 'Email',
-                            errorText: snapshot.data,
+                            errorText: snapshot.data?.isEmpty != false
+                                ? null
+                                : snapshot.data,
                           ),
                         );
                       },
