@@ -1,21 +1,41 @@
+import 'dart:async';
+
 import 'package:faker/faker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 
 import 'package:flutter_tdd_clean_architecture/ui/components/components.dart';
 import 'package:flutter_tdd_clean_architecture/ui/pages/pages.dart';
 
-class LoginPresenterSpy extends Mock implements LoginPresenter {}
+import 'login_page_test.mocks.dart';
 
+@GenerateMocks([LoginPresenter])
 void main() {
-  late LoginPresenterSpy presenter;
+  late MockLoginPresenter presenter;
+  late StreamController<String> emailErrorController;
+  late StreamController<String> passwordErrorController;
 
   Future<void> loadPage(WidgetTester tester) async {
-    presenter = LoginPresenterSpy();
+    presenter = MockLoginPresenter();
+    emailErrorController = StreamController<String>();
+    passwordErrorController = StreamController<String>();
+
+    when(presenter.emailErrorStream)
+        .thenAnswer((_) => emailErrorController.stream);
+
+    when(presenter.passwordErrorStream)
+        .thenAnswer((_) => passwordErrorController.stream);
+
     final loginPage = MaterialApp(home: LoginPage(presenter: presenter));
     await tester.pumpWidget(loginPage);
   }
+
+  tearDown(() {
+    emailErrorController.close();
+    passwordErrorController.close();
+  });
 
   testWidgets('Deve apresentar LoginPage com estado inicial correto',
       (tester) async {
@@ -69,5 +89,17 @@ void main() {
 
     verify(presenter.validateEmail(email));
     verify(presenter.validatePassword(password));
+  });
+
+  testWidgets('Deve apresentar erro se o email for inválido', (tester) async {
+    await loadPage(tester);
+
+    emailErrorController.add('any_error');
+    await tester.pump();
+
+    passwordErrorController.add('any_error');
+    await tester.pump();
+
+    expect(find.text('any_error'), findsOneWidget);
   });
 }
