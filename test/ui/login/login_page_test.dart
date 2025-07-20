@@ -14,19 +14,19 @@ import 'login_page_test.mocks.dart';
 @GenerateMocks([LoginPresenter])
 void main() {
   late MockLoginPresenter presenter;
-  late StreamController<String> emailErrorController;
-  late StreamController<String> passwordErrorController;
+  late StreamController<String?> emailErrorController;
+  late StreamController<String?> passwordErrorController;
 
   Future<void> loadPage(WidgetTester tester) async {
     presenter = MockLoginPresenter();
-    emailErrorController = StreamController<String>();
-    passwordErrorController = StreamController<String>();
+    emailErrorController = StreamController<String?>();
+    passwordErrorController = StreamController<String?>();
 
-    when(presenter.emailErrorStream)
-        .thenAnswer((_) => emailErrorController.stream);
+    when(presenter.emailErrorStream).thenAnswer(
+        (_) => emailErrorController.stream.map((email) => email ?? ''));
 
-    when(presenter.passwordErrorStream)
-        .thenAnswer((_) => passwordErrorController.stream);
+    when(presenter.passwordErrorStream).thenAnswer((_) =>
+        passwordErrorController.stream.map((password) => password ?? ''));
 
     final loginPage = MaterialApp(home: LoginPage(presenter: presenter));
     await tester.pumpWidget(loginPage);
@@ -91,7 +91,8 @@ void main() {
     verify(presenter.validatePassword(password));
   });
 
-  testWidgets('Deve apresentar erro se o email for inválido', (tester) async {
+  testWidgets('Deve apresentar erro se o email ou senha for inválido',
+      (tester) async {
     await loadPage(tester);
 
     emailErrorController.add('any_error');
@@ -101,5 +102,36 @@ void main() {
     await tester.pump();
 
     expect(find.text('any_error'), findsOneWidget);
+  });
+
+  testWidgets('Não deve apresentar erro se o email for válido', (tester) async {
+    await loadPage(tester);
+
+    emailErrorController.add(null);
+    await tester.pump();
+
+    expect(
+      find.descendant(
+        of: find.bySemanticsLabel('Email'),
+        matching: find.byType(Text),
+      ),
+      findsOneWidget,
+    );
+  });
+
+  testWidgets('Não deve apresentar erro se o email estiver com um string vazia',
+      (tester) async {
+    await loadPage(tester);
+
+    emailErrorController.add('');
+    await tester.pump();
+
+    expect(
+      find.descendant(
+        of: find.bySemanticsLabel('Email'),
+        matching: find.byType(Text),
+      ),
+      findsOneWidget,
+    );
   });
 }
