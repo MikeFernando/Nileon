@@ -51,6 +51,8 @@ void main() {
       matching: find.byType(Text),
     );
 
+    final button = tester.widget<Button>(find.byType(Button));
+
     expect(
       emailChildrenText,
       findsOneWidget,
@@ -63,8 +65,6 @@ void main() {
       reason:
           'quando um TextFormField tem apenas um filho de texto, significa que não há erros, já que um dos filhos é sempre o texto do label',
     );
-
-    final button = tester.widget<Button>(find.byType(Button));
 
     expect(button.enabled, isFalse);
   });
