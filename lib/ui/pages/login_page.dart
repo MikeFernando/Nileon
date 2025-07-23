@@ -45,9 +45,7 @@ class LoginPage extends StatelessWidget {
                     padding: const EdgeInsets.only(bottom: 24),
                     child: TextFormField(
                       onChanged: presenter.validatePassword,
-                      style: TextStyle(
-                        color: Theme.of(context).colorScheme.primary,
-                      ),
+                      style: TextStyle(color: Colors.white),
                       decoration: InputDecoration(
                         prefixIconColor: Theme.of(context).colorScheme.primary,
                         prefixIcon: Icon(Icons.lock),

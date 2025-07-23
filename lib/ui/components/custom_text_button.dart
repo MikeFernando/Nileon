@@ -15,8 +15,20 @@ class CustomTextButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextButton.icon(
       onPressed: onPressed,
-      icon: Icon(icon),
-      label: Text(label),
+      icon: Icon(
+        icon,
+        color: Theme.of(context).colorScheme.primary,
+      ),
+      label: Text(
+        label,
+        style: TextStyle(
+          color: Theme.of(context).colorScheme.primary,
+          fontSize: 16,
+        ),
+      ),
+      style: TextButton.styleFrom(
+        padding: EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+      ),
     );
   }
 }
