@@ -189,4 +189,16 @@ void main() {
 
     expect(button.enabled, isTrue);
   });
+
+  testWidgets('Deve desabilitar o botão se o formulário for inválido',
+      (tester) async {
+    await loadPage(tester);
+
+    isFormValidController.add(false);
+    await tester.pump();
+
+    final button = tester.widget<Button>(find.byType(Button));
+
+    expect(button.enabled, isFalse);
+  });
 }
