@@ -43,14 +43,23 @@ class LoginPage extends StatelessWidget {
                   ),
                   Padding(
                     padding: const EdgeInsets.only(bottom: 24),
-                    child: TextFormField(
-                      onChanged: presenter.validatePassword,
-                      style: TextStyle(color: Colors.white),
-                      decoration: InputDecoration(
-                        prefixIconColor: Theme.of(context).colorScheme.primary,
-                        prefixIcon: Icon(Icons.lock),
-                        labelText: 'Senha',
-                      ),
+                    child: StreamBuilder<String?>(
+                      stream: presenter.passwordErrorStream,
+                      builder: (context, snapshot) {
+                        return TextFormField(
+                          onChanged: presenter.validatePassword,
+                          style: TextStyle(color: Colors.white),
+                          decoration: InputDecoration(
+                            prefixIconColor:
+                                Theme.of(context).colorScheme.primary,
+                            prefixIcon: Icon(Icons.lock),
+                            labelText: 'Senha',
+                            errorText: snapshot.data?.isEmpty != false
+                                ? null
+                                : snapshot.data,
+                          ),
+                        );
+                      },
                     ),
                   ),
                   Button(

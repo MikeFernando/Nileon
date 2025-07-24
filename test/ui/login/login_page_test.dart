@@ -134,4 +134,14 @@ void main() {
       findsOneWidget,
     );
   });
+
+  testWidgets('Mostrar mensagem de erro se a senha for inválida',
+      (tester) async {
+    await loadPage(tester);
+
+    passwordErrorController.add('any_error');
+    await tester.pump();
+
+    expect(find.text('any_error'), findsOneWidget);
+  });
 }
