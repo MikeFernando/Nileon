@@ -101,7 +101,7 @@ void main() {
     passwordErrorController.add('any_error');
     await tester.pump();
 
-    expect(find.text('any_error'), findsOneWidget);
+    expect(find.text('any_error'), findsNWidgets(2));
   });
 
   testWidgets('Não deve apresentar erro se o email for válido', (tester) async {
@@ -135,7 +135,7 @@ void main() {
     );
   });
 
-  testWidgets('Mostrar mensagem de erro se a senha for inválida',
+  testWidgets('Deve mostrar mensagem de erro se a senha for inválida',
       (tester) async {
     await loadPage(tester);
 
@@ -143,5 +143,32 @@ void main() {
     await tester.pump();
 
     expect(find.text('any_error'), findsOneWidget);
+  });
+
+  testWidgets(
+      'Deve remover mensagem de erro se a senha for válida e não tiver erro',
+      (tester) async {
+    await loadPage(tester);
+
+    passwordErrorController.add(null);
+    await tester.pump();
+
+    expect(find.text('any_error'), findsNothing);
+  });
+
+  testWidgets('Não deve apresentar erro se o senha estiver com um string vazia',
+      (tester) async {
+    await loadPage(tester);
+
+    passwordErrorController.add('');
+    await tester.pump();
+
+    expect(
+      find.descendant(
+        of: find.bySemanticsLabel('Senha'),
+        matching: find.byType(Text),
+      ),
+      findsOneWidget,
+    );
   });
 }
