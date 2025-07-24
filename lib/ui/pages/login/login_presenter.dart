@@ -3,9 +3,11 @@ import 'dart:async';
 abstract class LoginPresenter {
   Stream<String?> get emailErrorStream;
   Stream<String?> get passwordErrorStream;
+  Stream<bool> get isFormValidStream;
 
   void validateEmail(String email);
   void validatePassword(String password);
+  void auth();
 }
 
 class LoginPresenterImpl implements LoginPresenter {
@@ -13,6 +15,8 @@ class LoginPresenterImpl implements LoginPresenter {
       StreamController<String?>();
   final StreamController<String?> _passwordErrorController =
       StreamController<String?>();
+  final StreamController<bool> _isFormValidController =
+      StreamController<bool>();
 
   @override
   Stream<String?> get emailErrorStream => _emailErrorController.stream;
@@ -21,8 +25,14 @@ class LoginPresenterImpl implements LoginPresenter {
   Stream<String?> get passwordErrorStream => _passwordErrorController.stream;
 
   @override
+  Stream<bool> get isFormValidStream => _isFormValidController.stream;
+
+  @override
   void validateEmail(String email) {}
 
   @override
   void validatePassword(String password) {}
+
+  @override
+  void auth() {}
 }
