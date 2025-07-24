@@ -62,10 +62,15 @@ class LoginPage extends StatelessWidget {
                       },
                     ),
                   ),
-                  Button(
-                    onPressed: () {},
-                    label: 'Entrar',
-                    enabled: false,
+                  StreamBuilder<bool>(
+                    stream: presenter.isFormValidStream,
+                    builder: (context, snapshot) {
+                      return Button(
+                        onPressed: () => presenter.auth,
+                        label: 'Entrar',
+                        enabled: snapshot.data ?? false,
+                      );
+                    },
                   ),
                   CustomTextButton(
                     onPressed: () {},
