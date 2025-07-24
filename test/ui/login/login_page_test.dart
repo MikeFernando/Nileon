@@ -17,12 +17,14 @@ void main() {
   late StreamController<String?> emailErrorController;
   late StreamController<String?> passwordErrorController;
   late StreamController<bool> isFormValidController;
+  late StreamController<bool> isLoadingController;
 
   Future<void> loadPage(WidgetTester tester) async {
     presenter = MockLoginPresenter();
     emailErrorController = StreamController<String?>();
     passwordErrorController = StreamController<String?>();
     isFormValidController = StreamController<bool>();
+    isLoadingController = StreamController<bool>();
 
     when(presenter.emailErrorStream).thenAnswer(
         (_) => emailErrorController.stream.map((email) => email ?? ''));
@@ -33,6 +35,9 @@ void main() {
     when(presenter.isFormValidStream).thenAnswer(
         (_) => isFormValidController.stream.map((isValid) => isValid));
 
+    when(presenter.isLoadingStream).thenAnswer(
+        (_) => isLoadingController.stream.map((isLoading) => isLoading));
+
     final loginPage = MaterialApp(home: LoginPage(presenter: presenter));
     await tester.pumpWidget(loginPage);
   }
@@ -41,6 +46,7 @@ void main() {
     emailErrorController.close();
     passwordErrorController.close();
     isFormValidController.close();
+    isLoadingController.close();
   });
 
   testWidgets('Deve apresentar LoginPage com estado inicial correto',
@@ -200,5 +206,30 @@ void main() {
     final button = tester.widget<Button>(find.byType(Button));
 
     expect(button.enabled, isFalse);
+  });
+
+  testWidgets('Deve exibir loading quando o botão de login for pressionado',
+      (tester) async {
+    await loadPage(tester);
+
+    isLoadingController.add(true);
+    await tester.pump();
+
+    expect(find.byType(CircularProgressIndicator), findsOneWidget);
+  });
+
+  testWidgets(
+      'Deve chamar o método de autenticar quando o botão for pressionado',
+      (tester) async {
+    await loadPage(tester);
+
+    isFormValidController.add(true);
+    await tester.pump();
+
+    final button = find.byType(Button);
+    await tester.tap(button);
+    await tester.pump();
+
+    verify(presenter.auth()).called(1);
   });
 }

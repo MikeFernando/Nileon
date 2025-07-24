@@ -32,20 +32,20 @@ class MockLoginPresenter extends _i1.Mock implements _i2.LoginPresenter {
   }
 
   @override
-  _i3.Stream<String> get emailErrorStream =>
+  _i3.Stream<String?> get emailErrorStream =>
       (super.noSuchMethod(
             Invocation.getter(#emailErrorStream),
-            returnValue: _i3.Stream<String>.empty(),
+            returnValue: _i3.Stream<String?>.empty(),
           )
-          as _i3.Stream<String>);
+          as _i3.Stream<String?>);
 
   @override
-  _i3.Stream<String> get passwordErrorStream =>
+  _i3.Stream<String?> get passwordErrorStream =>
       (super.noSuchMethod(
             Invocation.getter(#passwordErrorStream),
-            returnValue: _i3.Stream<String>.empty(),
+            returnValue: _i3.Stream<String?>.empty(),
           )
-          as _i3.Stream<String>);
+          as _i3.Stream<String?>);
 
   @override
   _i3.Stream<bool> get isFormValidStream =>
@@ -56,14 +56,28 @@ class MockLoginPresenter extends _i1.Mock implements _i2.LoginPresenter {
           as _i3.Stream<bool>);
 
   @override
-  void validateEmail(String? email) => super.noSuchMethod(
+  _i3.Stream<bool> get isLoadingStream =>
+      (super.noSuchMethod(
+            Invocation.getter(#isLoadingStream),
+            returnValue: _i3.Stream<bool>.empty(),
+          )
+          as _i3.Stream<bool>);
+
+  @override
+  void validateEmail(String email) => super.noSuchMethod(
     Invocation.method(#validateEmail, [email]),
     returnValueForMissingStub: null,
   );
 
   @override
-  void validatePassword(String? password) => super.noSuchMethod(
+  void validatePassword(String password) => super.noSuchMethod(
     Invocation.method(#validatePassword, [password]),
+    returnValueForMissingStub: null,
+  );
+
+  @override
+  void isLoading(bool isLoading) => super.noSuchMethod(
+    Invocation.method(#isLoading, [isLoading]),
     returnValueForMissingStub: null,
   );
 
@@ -72,4 +86,4 @@ class MockLoginPresenter extends _i1.Mock implements _i2.LoginPresenter {
     Invocation.method(#auth, []),
     returnValueForMissingStub: null,
   );
-}
+} 
