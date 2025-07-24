@@ -65,6 +65,8 @@ void main() {
 
     final button = tester.widget<Button>(find.byType(Button));
 
+    expect(find.byType(CircularProgressIndicator), findsNothing);
+
     expect(
       emailChildrenText,
       findsOneWidget,
@@ -208,14 +210,25 @@ void main() {
     expect(button.enabled, isFalse);
   });
 
-  testWidgets('Deve exibir loading quando o botão de login for pressionado',
-      (tester) async {
+  testWidgets('Deve mostrar loading', (tester) async {
     await loadPage(tester);
 
     isLoadingController.add(true);
     await tester.pump();
 
     expect(find.byType(CircularProgressIndicator), findsOneWidget);
+  });
+
+  testWidgets('Deve esconder loading', (tester) async {
+    await loadPage(tester);
+
+    isLoadingController.add(true);
+    await tester.pump();
+
+    isLoadingController.add(false);
+    await tester.pump();
+
+    expect(find.byType(CircularProgressIndicator), findsNothing);
   });
 
   testWidgets(

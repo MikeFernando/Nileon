@@ -13,12 +13,13 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  StreamSubscription? _loadingSubscription;
+  StreamSubscription? _loadingAuthentication;
 
   @override
   void initState() {
     super.initState();
-    _loadingSubscription = widget.presenter.isLoadingStream.listen((isLoading) {
+    _loadingAuthentication =
+        widget.presenter.isLoadingStream.listen((isLoading) {
       if (mounted) {
         if (isLoading) {
           showDialog(
@@ -35,7 +36,9 @@ class _LoginPageState extends State<LoginPage> {
             ),
           );
         } else {
-          Navigator.of(context).pop();
+          if (Navigator.canPop(context)) {
+            Navigator.of(context).pop();
+          }
         }
       }
     });
@@ -43,7 +46,7 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   void dispose() {
-    _loadingSubscription?.cancel();
+    _loadingAuthentication?.cancel();
     super.dispose();
   }
 
