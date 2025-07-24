@@ -13,8 +13,7 @@
 10. ✅ Deve habilitar o botão se o formulário for válido
 11. ✅ Deve desabilitar o botão se o formulário for inválido
 12. Deve exibir loading no início da ação de login
-13. Deve autenticar usuário com email e senha informados no formulário
+13. Deve chamar o método de autenticar
 14. Deve exibir mensagem de erro caso o login falhe
-15. Deve gravar o token do usuário no cache para mantê-lo conectado
-16. Deve redirecionar o usuário para tela de lista de enquetes
-17. Deve esconder loading no fim da ação de login
+15. Deve esconder loading no fim da ação de login
+16. Deve fechar streams quando a página for encerrada
