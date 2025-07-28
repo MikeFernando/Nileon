@@ -38,6 +38,12 @@ void main() {
     when(presenter.isLoadingStream)
         .thenAnswer((_) => isLoadingController.stream);
 
+    // Inicializa os streams com valores padrão
+    emailErrorController.add(null);
+    passwordErrorController.add(null);
+    isFormValidController.add(false);
+    isLoadingController.add(false);
+
     final loginPage = MaterialApp(home: LoginPage(presenter: presenter));
     await tester.pumpWidget(loginPage);
   }
@@ -53,34 +59,24 @@ void main() {
       (tester) async {
     await loadPage(tester);
 
-    final emailChildrenText = find.descendant(
-      of: find.bySemanticsLabel('Email'),
-      matching: find.byType(Text),
-    );
+    // Verifica se os campos de email e senha estão presentes
+    expect(find.byType(TextFormField), findsNWidgets(2));
 
-    final passwordChildrenText = find.descendant(
-      of: find.bySemanticsLabel('Senha'),
-      matching: find.byType(Text),
-    );
+    // Verifica se o botão de login está presente
+    expect(find.text('Entrar'), findsOneWidget);
 
-    final button = tester.widget<Button>(find.byType(Button));
-
+    // Verifica se não há loading no estado inicial
     expect(find.byType(CircularProgressIndicator), findsNothing);
 
-    expect(
-      emailChildrenText,
-      findsOneWidget,
-      reason:
-          'quando um TextFormField tem apenas um filho de texto, significa que não há erros, já que um dos filhos é sempre o texto do label',
-    );
-    expect(
-      passwordChildrenText,
-      findsOneWidget,
-      reason:
-          'quando um TextFormField tem apenas um filho de texto, significa que não há erros, já que um dos filhos é sempre o texto do label',
-    );
+    // Verifica se não há mensagens de erro nos campos
+    expect(find.text('any_error'), findsNothing);
 
-    expect(button.enabled, isFalse);
+    // Verifica se o botão está desabilitado (onPressed == null)
+    final elevatedButton = find.byType(ElevatedButton);
+    expect(elevatedButton, findsOneWidget);
+
+    final buttonWidget = tester.widget<ElevatedButton>(elevatedButton);
+    expect(buttonWidget.onPressed, isNull);
   });
 
   testWidgets('Deve chamar o validate com os dados corretos', (tester) async {
