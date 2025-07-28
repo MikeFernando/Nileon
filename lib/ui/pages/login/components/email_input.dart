@@ -48,56 +48,75 @@ class _EmailInputState extends State<EmailInput> {
         StreamBuilder<String?>(
           stream: presenter.emailErrorStream,
           builder: (context, snapshot) {
-            return TextFormField(
-              focusNode: _focusNode,
-              keyboardType: TextInputType.emailAddress,
-              onChanged: presenter.validateEmail,
-              decoration: InputDecoration(
-                hintText: 'Digite seu email',
-                hintStyle: TextStyle(
-                  color: AppColors.dark80,
-                  fontFamily: 'Manrope',
-                  fontSize: 14,
-                ),
-                prefixIcon: Padding(
-                  padding: const EdgeInsets.all(12.0),
-                  child: SvgPicture.asset(
-                    'lib/ui/assets/svg/email.svg',
-                    width: 20,
-                    height: 20,
-                    colorFilter: ColorFilter.mode(
-                      _hasFocus ? AppColors.dark100 : AppColors.dark80,
-                      BlendMode.srcIn,
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                TextFormField(
+                  focusNode: _focusNode,
+                  keyboardType: TextInputType.emailAddress,
+                  onChanged: presenter.validateEmail,
+                  decoration: InputDecoration(
+                    hintText: 'Digite seu email',
+                    hintStyle: TextStyle(
+                      color: AppColors.dark80,
+                      fontFamily: 'Manrope',
+                      fontSize: 14,
+                    ),
+                    prefixIcon: Padding(
+                      padding: const EdgeInsets.all(12.0),
+                      child: SvgPicture.asset(
+                        'lib/ui/assets/svg/email.svg',
+                        width: 20,
+                        height: 20,
+                        colorFilter: ColorFilter.mode(
+                          _hasFocus ? AppColors.dark100 : AppColors.dark80,
+                          BlendMode.srcIn,
+                        ),
+                      ),
+                    ),
+                    filled: true,
+                    fillColor: AppColors.dark30,
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(32),
+                      borderSide: BorderSide.none,
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(32),
+                      borderSide: BorderSide.none,
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(32),
+                      borderSide: const BorderSide(
+                        color: AppColors.primary,
+                        width: 1.0,
+                      ),
+                    ),
+                    contentPadding: const EdgeInsets.symmetric(
+                      vertical: 0,
+                      horizontal: 0,
                     ),
                   ),
-                ),
-                filled: true,
-                fillColor: AppColors.dark30,
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(32),
-                  borderSide: BorderSide.none,
-                ),
-                enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(32),
-                  borderSide: BorderSide.none,
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(32),
-                  borderSide: const BorderSide(
-                    color: AppColors.primary,
-                    width: 1.0,
+                  style: const TextStyle(
+                    color: AppColors.dark100,
+                    fontFamily: 'Manrope',
+                    fontSize: 14,
                   ),
                 ),
-                contentPadding: const EdgeInsets.symmetric(
-                  vertical: 0,
-                  horizontal: 0,
-                ),
-              ),
-              style: const TextStyle(
-                color: AppColors.dark100,
-                fontFamily: 'Manrope',
-                fontSize: 14,
-              ),
+                if (snapshot.hasData &&
+                    snapshot.data != null &&
+                    snapshot.data!.isNotEmpty)
+                  Padding(
+                    padding: const EdgeInsets.only(top: 8.0),
+                    child: Text(
+                      snapshot.data!,
+                      style: TextStyle(
+                        color: Colors.red,
+                        fontSize: 12,
+                        fontFamily: 'Manrope',
+                      ),
+                    ),
+                  ),
+              ],
             );
           },
         ),

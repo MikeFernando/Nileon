@@ -121,6 +121,20 @@ class _PasswordInputState extends State<PasswordInput> {
                     fontSize: 14,
                   ),
                 ),
+                if (snapshot.hasData &&
+                    snapshot.data != null &&
+                    snapshot.data!.isNotEmpty)
+                  Padding(
+                    padding: const EdgeInsets.only(top: 8.0),
+                    child: Text(
+                      snapshot.data!,
+                      style: TextStyle(
+                        color: Colors.red,
+                        fontSize: 12,
+                        fontFamily: 'Manrope',
+                      ),
+                    ),
+                  ),
               ],
             );
           },
