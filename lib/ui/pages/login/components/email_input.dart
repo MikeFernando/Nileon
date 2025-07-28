@@ -5,8 +5,32 @@ import 'package:provider/provider.dart';
 import '../../../themes/themes.dart';
 import '../login_presenter.dart';
 
-class EmailInput extends StatelessWidget {
+class EmailInput extends StatefulWidget {
   const EmailInput({super.key});
+
+  @override
+  State<EmailInput> createState() => _EmailInputState();
+}
+
+class _EmailInputState extends State<EmailInput> {
+  final FocusNode _focusNode = FocusNode();
+  bool _hasFocus = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _focusNode.addListener(() {
+      setState(() {
+        _hasFocus = _focusNode.hasFocus;
+      });
+    });
+  }
+
+  @override
+  void dispose() {
+    _focusNode.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -25,6 +49,7 @@ class EmailInput extends StatelessWidget {
           stream: presenter.emailErrorStream,
           builder: (context, snapshot) {
             return TextFormField(
+              focusNode: _focusNode,
               keyboardType: TextInputType.emailAddress,
               onChanged: presenter.validateEmail,
               decoration: InputDecoration(
@@ -40,6 +65,10 @@ class EmailInput extends StatelessWidget {
                     'lib/ui/assets/svg/email.svg',
                     width: 20,
                     height: 20,
+                    colorFilter: ColorFilter.mode(
+                      _hasFocus ? AppColors.dark100 : AppColors.dark80,
+                      BlendMode.srcIn,
+                    ),
                   ),
                 ),
                 filled: true,
@@ -47,6 +76,17 @@ class EmailInput extends StatelessWidget {
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(32),
                   borderSide: BorderSide.none,
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(32),
+                  borderSide: BorderSide.none,
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(32),
+                  borderSide: const BorderSide(
+                    color: AppColors.primary,
+                    width: 1.0,
+                  ),
                 ),
                 contentPadding: const EdgeInsets.symmetric(
                   vertical: 0,

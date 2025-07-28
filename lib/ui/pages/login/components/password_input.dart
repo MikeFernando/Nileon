@@ -14,6 +14,24 @@ class PasswordInput extends StatefulWidget {
 
 class _PasswordInputState extends State<PasswordInput> {
   bool isObscureText = true;
+  final FocusNode _focusNode = FocusNode();
+  bool _hasFocus = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _focusNode.addListener(() {
+      setState(() {
+        _hasFocus = _focusNode.hasFocus;
+      });
+    });
+  }
+
+  @override
+  void dispose() {
+    _focusNode.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -34,6 +52,7 @@ class _PasswordInputState extends State<PasswordInput> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 TextFormField(
+                  focusNode: _focusNode,
                   keyboardType: TextInputType.visiblePassword,
                   onChanged: presenter.validatePassword,
                   obscureText: isObscureText,
@@ -50,6 +69,10 @@ class _PasswordInputState extends State<PasswordInput> {
                         'lib/ui/assets/svg/key.svg',
                         width: 20,
                         height: 20,
+                        colorFilter: ColorFilter.mode(
+                          _hasFocus ? AppColors.dark100 : AppColors.dark80,
+                          BlendMode.srcIn,
+                        ),
                       ),
                     ),
                     suffixIcon: IconButton(
@@ -60,7 +83,7 @@ class _PasswordInputState extends State<PasswordInput> {
                         width: 20,
                         height: 20,
                         colorFilter: ColorFilter.mode(
-                          AppColors.dark80,
+                          _hasFocus ? AppColors.dark100 : AppColors.dark80,
                           BlendMode.srcIn,
                         ),
                       ),
@@ -75,6 +98,17 @@ class _PasswordInputState extends State<PasswordInput> {
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(32),
                       borderSide: BorderSide.none,
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(32),
+                      borderSide: BorderSide.none,
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(32),
+                      borderSide: const BorderSide(
+                        color: AppColors.primary,
+                        width: 1.0,
+                      ),
                     ),
                     contentPadding: const EdgeInsets.symmetric(
                       vertical: 0,

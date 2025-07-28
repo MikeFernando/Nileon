@@ -24,7 +24,7 @@ class _LoginPageState extends State<LoginPage> {
       body: Stack(
         fit: StackFit.expand,
         children: [
-          const BackgroundImage(),
+          backgroundImage(),
           SafeArea(
             bottom: false,
             child: Column(
