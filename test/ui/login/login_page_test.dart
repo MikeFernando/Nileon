@@ -21,22 +21,22 @@ void main() {
 
   Future<void> loadPage(WidgetTester tester) async {
     presenter = MockLoginPresenter();
-    emailErrorController = StreamController<String?>();
-    passwordErrorController = StreamController<String?>();
-    isFormValidController = StreamController<bool>();
-    isLoadingController = StreamController<bool>();
+    emailErrorController = StreamController<String?>.broadcast();
+    passwordErrorController = StreamController<String?>.broadcast();
+    isFormValidController = StreamController<bool>.broadcast();
+    isLoadingController = StreamController<bool>.broadcast();
 
-    when(presenter.emailErrorStream).thenAnswer(
-        (_) => emailErrorController.stream.map((email) => email ?? ''));
+    when(presenter.emailErrorStream)
+        .thenAnswer((_) => emailErrorController.stream);
 
-    when(presenter.passwordErrorStream).thenAnswer((_) =>
-        passwordErrorController.stream.map((password) => password ?? ''));
+    when(presenter.passwordErrorStream)
+        .thenAnswer((_) => passwordErrorController.stream);
 
-    when(presenter.isFormValidStream).thenAnswer(
-        (_) => isFormValidController.stream.map((isValid) => isValid));
+    when(presenter.isFormValidStream)
+        .thenAnswer((_) => isFormValidController.stream);
 
-    when(presenter.isLoadingStream).thenAnswer(
-        (_) => isLoadingController.stream.map((isLoading) => isLoading));
+    when(presenter.isLoadingStream)
+        .thenAnswer((_) => isLoadingController.stream);
 
     final loginPage = MaterialApp(home: LoginPage(presenter: presenter));
     await tester.pumpWidget(loginPage);

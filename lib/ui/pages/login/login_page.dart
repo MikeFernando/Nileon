@@ -1,8 +1,12 @@
-import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-import '../../components/components.dart';
-import '../pages.dart';
+import 'components/components.dart';
+import 'login_presenter.dart';
+
+import '../../themes/themes.dart';
+
+import 'widgets/or_divider.dart';
 
 class LoginPage extends StatefulWidget {
   final LoginPresenter presenter;
@@ -13,119 +17,62 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  StreamSubscription? _loadingAuthentication;
-
-  @override
-  void initState() {
-    super.initState();
-    _loadingAuthentication =
-        widget.presenter.isLoadingStream.listen((isLoading) {
-      if (mounted) {
-        if (isLoading) {
-          showDialog(
-            context: context,
-            barrierDismissible: false,
-            builder: (context) => const Center(
-              child: Column(
-                children: [
-                  CircularProgressIndicator(),
-                  SizedBox(height: 16),
-                  Text('Aguarde...', textAlign: TextAlign.center),
-                ],
-              ),
-            ),
-          );
-        } else {
-          if (Navigator.canPop(context)) {
-            Navigator.of(context).pop();
-          }
-        }
-      }
-    });
-  }
-
-  @override
-  void dispose() {
-    _loadingAuthentication?.cancel();
-    super.dispose();
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black,
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: EdgeInsets.all(24),
-          child: Column(
-            children: [
-              LoginHeader(),
-              Form(
-                child: Column(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(top: 16, bottom: 16),
-                      child: StreamBuilder<String?>(
-                        stream: widget.presenter.emailErrorStream,
-                        builder: (context, snapshot) {
-                          return TextFormField(
-                            onChanged: widget.presenter.validateEmail,
-                            style: TextStyle(color: Colors.white),
-                            decoration: InputDecoration(
-                              prefixIconColor:
-                                  Theme.of(context).colorScheme.primary,
-                              prefixIcon: Icon(Icons.email),
-                              labelText: 'Email',
-                              errorText: snapshot.data?.isEmpty != false
-                                  ? null
-                                  : snapshot.data,
-                            ),
-                          );
-                        },
+      backgroundColor: AppColors.dark30,
+      body: Stack(
+        fit: StackFit.expand,
+        children: [
+          const BackgroundImage(),
+          SafeArea(
+            bottom: false,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                loginHeader(context),
+                Expanded(
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: AppColors.dark10,
+                      borderRadius: const BorderRadius.only(
+                        topLeft: Radius.circular(32),
+                        topRight: Radius.circular(32),
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(bottom: 24),
-                      child: StreamBuilder<String?>(
-                        stream: widget.presenter.passwordErrorStream,
-                        builder: (context, snapshot) {
-                          return TextFormField(
-                            onChanged: widget.presenter.validatePassword,
-                            style: TextStyle(color: Colors.white),
-                            decoration: InputDecoration(
-                              prefixIconColor:
-                                  Theme.of(context).colorScheme.primary,
-                              prefixIcon: Icon(Icons.lock),
-                              labelText: 'Senha',
-                              errorText: snapshot.data?.isEmpty != false
-                                  ? null
-                                  : snapshot.data,
+                    child: Padding(
+                      padding: const EdgeInsets.only(
+                        left: 24,
+                        right: 24,
+                        top: 8,
+                        bottom: 16,
+                      ),
+                      child: SingleChildScrollView(
+                        child: Provider.value(
+                          value: widget.presenter,
+                          child: Form(
+                            key: GlobalKey<FormState>(),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                const EmailInput(),
+                                const PasswordInput(),
+                                const ButtonLogin(),
+                                orDivider(),
+                                const ButtonGoogle(),
+                                const ButtonRegister(),
+                              ],
                             ),
-                          );
-                        },
+                          ),
+                        ),
                       ),
                     ),
-                    StreamBuilder<bool>(
-                      stream: widget.presenter.isFormValidStream,
-                      builder: (context, snapshot) {
-                        return Button(
-                          onPressed: () => widget.presenter.auth(),
-                          label: 'Entrar',
-                          enabled: snapshot.data ?? false,
-                        );
-                      },
-                    ),
-                    CustomTextButton(
-                      onPressed: () {},
-                      icon: Icons.person_add,
-                      label: 'Criar conta',
-                    ),
-                  ],
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
-        ),
+        ],
       ),
     );
   }
