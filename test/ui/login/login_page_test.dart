@@ -79,11 +79,28 @@ void main() {
     expect(buttonWidget.onPressed, isNull);
   });
 
-  testWidgets('Deve chamar o validate com os dados corretos', (tester) async {
+  testWidgets(
+      'Deve chamar o auth quando o botão Entrar estiver habilitado e for clicado',
+      (tester) async {
     await loadPage(tester);
 
-    final button = find.byType(Button);
-    await tester.tap(button);
+    // Habilita o formulário
+    isFormValidController.add(true);
+    await tester.pump();
+
+    // Verifica se o botão está habilitado (onPressed não é null)
+    final elevatedButton = find.byType(ElevatedButton);
+    expect(elevatedButton, findsOneWidget);
+
+    final buttonWidget = tester.widget<ElevatedButton>(elevatedButton);
+    expect(buttonWidget.onPressed, isNotNull);
+
+    // Clica no botão
+    await tester.tap(elevatedButton);
+    await tester.pump();
+
+    // Verifica se o método auth foi chamado
+    verify(presenter.auth()).called(1);
   });
 
   testWidgets(
