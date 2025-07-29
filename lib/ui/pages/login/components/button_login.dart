@@ -14,28 +14,43 @@ class ButtonLogin extends StatelessWidget {
       width: double.infinity,
       child: StreamBuilder<bool>(
         stream: presenter.isFormValidStream,
-        builder: (context, snapshot) {
-          return ElevatedButton(
-            onPressed: snapshot.data == true ? presenter.auth : null,
-            style: ElevatedButton.styleFrom(
-              backgroundColor:
-                  snapshot.data == true ? AppColors.primary : AppColors.dark40,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(40),
-              ),
-              padding: const EdgeInsets.symmetric(vertical: 14),
-              elevation: 4,
-            ),
-            child: Text(
-              'Entrar',
-              style: TextStyle(
-                color:
-                    snapshot.data == true ? AppColors.dark10 : AppColors.dark80,
-                fontSize: 16,
-                fontWeight: FontWeight.w500,
-                fontFamily: 'Manrope',
-              ),
-            ),
+        builder: (context, formSnapshot) {
+          return StreamBuilder<bool>(
+            stream: presenter.isLoadingStream,
+            builder: (context, loadingSnapshot) {
+              final isLoading = loadingSnapshot.data ?? false;
+              final isFormValid = formSnapshot.data ?? false;
+
+              return ElevatedButton(
+                onPressed: (isFormValid && !isLoading) ? presenter.auth : null,
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: (isFormValid && !isLoading)
+                      ? AppColors.primary
+                      : AppColors.dark40,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(40),
+                  ),
+                  padding: const EdgeInsets.symmetric(vertical: 14),
+                  elevation: 4,
+                ),
+                child: isLoading
+                    ? const CircularProgressIndicator(
+                        valueColor:
+                            AlwaysStoppedAnimation<Color>(AppColors.dark10),
+                      )
+                    : Text(
+                        'Entrar',
+                        style: TextStyle(
+                          color: (isFormValid && !isLoading)
+                              ? AppColors.dark10
+                              : AppColors.dark80,
+                          fontSize: 16,
+                          fontWeight: FontWeight.w500,
+                          fontFamily: 'Manrope',
+                        ),
+                      ),
+              );
+            },
           );
         },
       ),
