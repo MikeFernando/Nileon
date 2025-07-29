@@ -10,6 +10,7 @@ abstract class LoginPresenter {
   void validatePassword(String password);
   void isLoading(bool isLoading);
   void auth();
+  void dispose();
 }
 
 class LoginPresenterImpl implements LoginPresenter {
@@ -46,4 +47,12 @@ class LoginPresenterImpl implements LoginPresenter {
 
   @override
   void auth() {}
+
+  @override
+  void dispose() {
+    _emailErrorController.close();
+    _passwordErrorController.close();
+    _isFormValidController.close();
+    _isLoadingController.close();
+  }
 }

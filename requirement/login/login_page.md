@@ -14,6 +14,6 @@
 11. ✅ Deve desabilitar o botão se o formulário for inválido
 12. ✅ Deve exibir loading 
 13. ✅ Deve esconder loading
-14. Deve exibir mensagem de erro caso o login falhe
+14. ✅ Deve exibir mensagem de erro caso o login falhe
 15. ✅ Deve chamar o método de autenticar
-16. Deve fechar streams quando a página for encerrada
+16. ✅ Deve fechar streams quando a página for encerrada

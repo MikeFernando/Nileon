@@ -257,4 +257,13 @@ void main() {
 
     verify(presenter.auth()).called(1);
   });
+
+  testWidgets('Deve fechar streams quando a página for encerrada',
+      (tester) async {
+    await loadPage(tester);
+
+    await tester.pumpWidget(const SizedBox());
+
+    verify(presenter.dispose()).called(1);
+  });
 }

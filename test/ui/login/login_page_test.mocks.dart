@@ -64,19 +64,19 @@ class MockLoginPresenter extends _i1.Mock implements _i2.LoginPresenter {
           as _i3.Stream<bool>);
 
   @override
-  void validateEmail(String email) => super.noSuchMethod(
+  void validateEmail(String? email) => super.noSuchMethod(
     Invocation.method(#validateEmail, [email]),
     returnValueForMissingStub: null,
   );
 
   @override
-  void validatePassword(String password) => super.noSuchMethod(
+  void validatePassword(String? password) => super.noSuchMethod(
     Invocation.method(#validatePassword, [password]),
     returnValueForMissingStub: null,
   );
 
   @override
-  void isLoading(bool isLoading) => super.noSuchMethod(
+  void isLoading(bool? isLoading) => super.noSuchMethod(
     Invocation.method(#isLoading, [isLoading]),
     returnValueForMissingStub: null,
   );
@@ -86,4 +86,10 @@ class MockLoginPresenter extends _i1.Mock implements _i2.LoginPresenter {
     Invocation.method(#auth, []),
     returnValueForMissingStub: null,
   );
-} 
+
+  @override
+  void dispose() => super.noSuchMethod(
+    Invocation.method(#dispose, []),
+    returnValueForMissingStub: null,
+  );
+}
