@@ -192,10 +192,10 @@ void main() {
 
     expect(
       find.descendant(
-        of: find.bySemanticsLabel('Senha'),
+        of: find.bySemanticsLabel('Digite sua senha'),
         matching: find.byType(Text),
       ),
-      findsNothing,
+      findsOneWidget,
     );
   });
 
