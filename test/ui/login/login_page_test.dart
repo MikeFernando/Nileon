@@ -139,7 +139,7 @@ void main() {
 
     expect(
       find.descendant(
-        of: find.bySemanticsLabel('Email'),
+        of: find.bySemanticsLabel('Digite seu email'),
         matching: find.byType(Text),
       ),
       findsOneWidget,
@@ -155,7 +155,7 @@ void main() {
 
     expect(
       find.descendant(
-        of: find.bySemanticsLabel('Email'),
+        of: find.bySemanticsLabel('Digite seu email'),
         matching: find.byType(Text),
       ),
       findsOneWidget,
@@ -195,7 +195,7 @@ void main() {
         of: find.bySemanticsLabel('Senha'),
         matching: find.byType(Text),
       ),
-      findsOneWidget,
+      findsNothing,
     );
   });
 
