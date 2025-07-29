@@ -206,9 +206,9 @@ void main() {
     isFormValidController.add(true);
     await tester.pump();
 
-    final button = tester.widget<Button>(find.byType(Button));
+    final button = tester.widget<ElevatedButton>(find.byType(ElevatedButton));
 
-    expect(button.enabled, isTrue);
+    expect(button.onPressed, isNotNull);
   });
 
   testWidgets('Deve desabilitar o botão se o formulário for inválido',
@@ -218,9 +218,9 @@ void main() {
     isFormValidController.add(false);
     await tester.pump();
 
-    final button = tester.widget<Button>(find.byType(Button));
+    final button = tester.widget<ElevatedButton>(find.byType(ElevatedButton));
 
-    expect(button.enabled, isFalse);
+    expect(button.onPressed, isNull);
   });
 
   testWidgets('Deve mostrar loading', (tester) async {
@@ -252,7 +252,7 @@ void main() {
     isFormValidController.add(true);
     await tester.pump();
 
-    final button = find.byType(Button);
+    final button = find.byType(ElevatedButton);
     await tester.tap(button);
     await tester.pump();
 
