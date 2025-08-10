@@ -4,11 +4,11 @@ import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'remote_authentication_test.mocks.dart';
 
-import 'package:flutter_tdd_clean_architecture/domain/usecases/authentication.dart';
-import 'package:flutter_tdd_clean_architecture/domain/helpers/domain_error.dart';
+import 'package:nileon/domain/usecases/usecases.dart';
+import 'package:nileon/domain/helpers/helpers.dart';
 
-import 'package:flutter_tdd_clean_architecture/data/usecases/usecases.dart';
-import 'package:flutter_tdd_clean_architecture/data/http/http.dart';
+import 'package:nileon/data/usecases/usecases.dart';
+import 'package:nileon/data/http/http.dart';
 
 @GenerateMocks([HttpClient])
 void main() {

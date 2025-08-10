@@ -8,25 +8,33 @@
       "name": "Flutter: Run all Tests",
       "type": "dart",
       "request": "launch",
-      "program": "./test/"
+      "program": "test/"
     },
     {
-      "name": "Run App",
+      "name": "Flutter: Run App (Debug)",
       "request": "launch",
       "type": "dart",
-      "program": "./lib/main/main.dart"
+      "program": "lib/main/main.dart",
+      "flutterMode": "debug"
     },
     {
-      "name": "flutter_tdd_clean_architecture (profile mode)",
+      "name": "Flutter: Run App (Profile)",
       "request": "launch",
       "type": "dart",
+      "program": "lib/main/main.dart",
       "flutterMode": "profile"
     },
     {
-      "name": "flutter_tdd_clean_architecture (release mode)",
+      "name": "Flutter: Run App (Release)",
       "request": "launch",
       "type": "dart",
+      "program": "lib/main/main.dart",
       "flutterMode": "release"
     },
+    {
+      "name": "Flutter: Attach to Device",
+      "request": "attach",
+      "type": "dart"
+    }
   ]
 }

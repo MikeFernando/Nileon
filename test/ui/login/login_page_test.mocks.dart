@@ -5,7 +5,7 @@
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'dart:async' as _i3;
 
-import 'package:flutter_tdd_clean_architecture/ui/pages/login/login_presenter.dart'
+import 'package:nileon/ui/pages/login/login_presenter.dart'
     as _i2;
 import 'package:mockito/mockito.dart' as _i1;
 

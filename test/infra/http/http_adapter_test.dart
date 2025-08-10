@@ -3,8 +3,8 @@ import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:http/http.dart';
 
-import 'package:flutter_tdd_clean_architecture/data/http/http_error.dart';
-import 'package:flutter_tdd_clean_architecture/infra/http/http.dart';
+import 'package:nileon/data/http/http_error.dart';
+import 'package:nileon/infra/http/http.dart';
 
 import 'http_adapter_test.mocks.dart';
 
