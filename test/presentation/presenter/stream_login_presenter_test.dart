@@ -55,16 +55,6 @@ void main() {
     sut.validateEmail(email);
   });
 
-  test('Não deve notificar o emailErrorStream se o valor for igual ao último',
-      () async {
-    mockValidation(field: 'email', value: 'Campo obrigatório');
-
-    expectLater(sut.emailErrorStream, emits('Campo obrigatório'));
-
-    sut.validateEmail(email);
-    sut.validateEmail(email);
-  });
-
   test('Deve notificar o isFormValidStream após alterar o email', () async {
     mockValidation(field: 'email', value: '');
 
@@ -114,18 +104,6 @@ void main() {
     sut.validatePassword(password);
   });
 
-  test(
-      'Não deve notificar o passwordErrorStream se o valor for igual ao último',
-      () async {
-    final password = faker.internet.password();
-    mockValidation(field: 'password', value: 'Campo obrigatório');
-
-    expectLater(sut.passwordErrorStream, emits('Campo obrigatório'));
-
-    sut.validatePassword(password);
-    sut.validatePassword(password);
-  });
-
   test('Deve notificar o isFormValidStream após alterar a senha', () async {
     final password = faker.internet.password();
     mockValidation(field: 'password', value: '');
@@ -143,6 +121,54 @@ void main() {
 
     expectLater(sut.isFormValidStream, emits(false));
 
+    sut.validatePassword(password);
+  });
+
+  test('Deve manter o estado correto quando ambos os campos são validados',
+      () async {
+    final password = faker.internet.password();
+
+    mockValidation(field: 'email', value: '');
+    mockValidation(field: 'password', value: '');
+
+    expectLater(
+        sut.stateStream,
+        emitsInOrder([
+          isA<LoginState>()
+              .having((state) => state.emailError, 'emailError', null)
+              .having((state) => state.isFormValid, 'isFormValid', true),
+          isA<LoginState>()
+              .having((state) => state.emailError, 'emailError', null)
+              .having((state) => state.passwordError, 'passwordError', null)
+              .having((state) => state.isFormValid, 'isFormValid', true),
+        ]));
+
+    sut.validateEmail(email);
+    sut.validatePassword(password);
+  });
+
+  test('Deve manter o estado correto quando um campo tem erro e outro não',
+      () async {
+    final password = faker.internet.password();
+
+    mockValidation(field: 'email', value: 'Email inválido');
+    mockValidation(field: 'password', value: '');
+
+    expectLater(
+        sut.stateStream,
+        emitsInOrder([
+          isA<LoginState>()
+              .having(
+                  (state) => state.emailError, 'emailError', 'Email inválido')
+              .having((state) => state.isFormValid, 'isFormValid', false),
+          isA<LoginState>()
+              .having(
+                  (state) => state.emailError, 'emailError', 'Email inválido')
+              .having((state) => state.passwordError, 'passwordError', null)
+              .having((state) => state.isFormValid, 'isFormValid', false),
+        ]));
+
+    sut.validateEmail(email);
     sut.validatePassword(password);
   });
 }
