@@ -82,4 +82,67 @@ void main() {
 
     sut.validateEmail(email);
   });
+
+  test('Deve chamar Validation ao alterar a senha', () async {
+    final password = faker.internet.password();
+
+    sut.validatePassword(password);
+
+    verify(() => validation.validate(field: 'password', value: password))
+        .called(1);
+  });
+
+  test('Deve emitir erro no passwordErrorStream se o Validation retornar erro',
+      () async {
+    final error = 'Campo obrigatório';
+    final password = faker.internet.password();
+    mockValidation(field: 'password', value: error);
+
+    expectLater(sut.passwordErrorStream, emits(error));
+
+    sut.validatePassword(password);
+  });
+
+  test(
+      'Deve notificar o passwordErrorStream com null, caso o Validation não retorne erro',
+      () async {
+    final password = faker.internet.password();
+    mockValidation(field: 'password', value: '');
+
+    expectLater(sut.passwordErrorStream, emits(null));
+
+    sut.validatePassword(password);
+  });
+
+  test(
+      'Não deve notificar o passwordErrorStream se o valor for igual ao último',
+      () async {
+    final password = faker.internet.password();
+    mockValidation(field: 'password', value: 'Campo obrigatório');
+
+    expectLater(sut.passwordErrorStream, emits('Campo obrigatório'));
+
+    sut.validatePassword(password);
+    sut.validatePassword(password);
+  });
+
+  test('Deve notificar o isFormValidStream após alterar a senha', () async {
+    final password = faker.internet.password();
+    mockValidation(field: 'password', value: '');
+
+    expectLater(sut.isFormValidStream, emits(true));
+
+    sut.validatePassword(password);
+  });
+
+  test(
+      'Deve notificar o isFormValidStream com false quando há erro de validação na senha',
+      () async {
+    final password = faker.internet.password();
+    mockValidation(field: 'password', value: 'Campo obrigatório');
+
+    expectLater(sut.isFormValidStream, emits(false));
+
+    sut.validatePassword(password);
+  });
 }
