@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:faker/faker.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
@@ -8,11 +9,20 @@ abstract class Validation {
 
 class StreamLoginPresenter {
   final Validation validation;
+  final StreamController<String?> _emailErrorController =
+      StreamController<String?>.broadcast();
 
   StreamLoginPresenter({required this.validation});
 
+  Stream<String?> get emailErrorStream => _emailErrorController.stream;
+
   void validateEmail(String email) {
-    validation.validate(field: 'email', value: email);
+    final error = validation.validate(field: 'email', value: email);
+    _emailErrorController.add(error);
+  }
+
+  void dispose() {
+    _emailErrorController.close();
   }
 }
 
@@ -30,9 +40,24 @@ void main() {
         field: any(named: 'field'), value: any(named: 'value'))).thenReturn('');
   });
 
+  tearDown(() {
+    sut.dispose();
+  });
+
   test('Deve chamar o Validation com os valores corretos', () {
     sut.validateEmail(email);
 
     verify(() => validation.validate(field: 'email', value: email)).called(1);
+  });
+
+  test('Deve emitir erro no emailErrorStream se o Validation retornar erro',
+      () async {
+    final error = 'Campo obrigatório';
+    when(() => validation.validate(field: 'email', value: email))
+        .thenReturn(error);
+
+    expectLater(sut.emailErrorStream, emits(error));
+
+    sut.validateEmail(email);
   });
 }
