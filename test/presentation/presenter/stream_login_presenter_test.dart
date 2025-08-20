@@ -33,6 +33,12 @@ void main() {
   late StreamLoginPresenter sut;
   String email = faker.internet.email();
 
+  mockValidation({String? field, String? value}) {
+    when(() => validation.validate(
+        field: field ?? any(named: 'field'),
+        value: any(named: 'value'))).thenReturn(value ?? '');
+  }
+
   setUp(() {
     validation = ValidationSpy();
     sut = StreamLoginPresenter(validation: validation);
@@ -53,8 +59,7 @@ void main() {
   test('Deve emitir erro no emailErrorStream se o Validation retornar erro',
       () async {
     final error = 'Campo obrigatório';
-    when(() => validation.validate(field: 'email', value: email))
-        .thenReturn(error);
+    mockValidation(field: 'email', value: error);
 
     expectLater(sut.emailErrorStream, emits(error));
 
