@@ -19,5 +19,4 @@
 15. Deve notificar o isLoadingStream como false no fim do Authentication
 16. Deve notificar o mainErrorStream caso o Authentication retorne um DomainError
 17. Deve fechar todos os Streams no dispose
-18. ⛔ Deve gravar o Account no cache em caso de sucesso
 19. ⛔ Deve levar o usuário pra tela de Enquetes em caso de sucesso
