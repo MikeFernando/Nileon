@@ -13,7 +13,7 @@ class StreamLoginPresenter {
 
   void validateEmail(String email) {
     final error = validation.validate(field: 'email', value: email);
-    _emailErrorController.add(error);
+    _emailErrorController.add(error.isEmpty ? null : error);
   }
 
   void dispose() {

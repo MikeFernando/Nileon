@@ -44,4 +44,14 @@ void main() {
 
     sut.validateEmail(email);
   });
+
+  test(
+      'Deve notificar o emailErrorStream com null, caso o Validation não retorne erro',
+      () async {
+    mockValidation(field: 'email', value: '');
+
+    expectLater(sut.emailErrorStream, emits(null));
+
+    sut.validateEmail(email);
+  });
 }
