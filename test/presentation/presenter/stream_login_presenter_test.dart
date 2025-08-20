@@ -54,4 +54,14 @@ void main() {
 
     sut.validateEmail(email);
   });
+
+  test('Não deve notificar o emailErrorStream se o valor for igual ao último',
+      () async {
+    mockValidation(field: 'email', value: 'Campo obrigatório');
+
+    expectLater(sut.emailErrorStream, emits('Campo obrigatório'));
+
+    sut.validateEmail(email);
+    sut.validateEmail(email);
+  });
 }
