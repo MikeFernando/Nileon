@@ -1,21 +1,23 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mockito/annotations.dart';
-import 'package:mockito/mockito.dart';
+import 'package:mocktail/mocktail.dart';
 import 'package:http/http.dart';
 
 import 'package:nileon/data/http/http_error.dart';
 import 'package:nileon/infra/http/http.dart';
 
-import 'http_adapter_test.mocks.dart';
+class ClientSpy extends Mock implements Client {}
 
-@GenerateNiceMocks([MockSpec<Client>()])
 void main() {
   late HttpAdapter sut;
-  late MockClient client;
+  late ClientSpy client;
   late String url;
 
+  setUpAll(() {
+    registerFallbackValue(Uri.parse('https://any_url'));
+  });
+
   setUp(() {
-    client = MockClient();
+    client = ClientSpy();
     url = 'https://any_url';
     sut = HttpAdapter(client);
   });
@@ -28,16 +30,24 @@ void main() {
     });
   });
   group('post', () {
-    PostExpectation mockRequest() => when(
-        client.post(any, headers: anyNamed('headers'), body: anyNamed('body')));
-
     void mockResponse(
       int statusCode, {
       String body = '{"any_key":"any_value"}',
-    }) =>
-        mockRequest().thenAnswer((_) async => Response(body, statusCode));
+    }) {
+      when(() => client.post(
+            any(),
+            headers: any(named: 'headers'),
+            body: any(named: 'body'),
+          )).thenAnswer((_) async => Response(body, statusCode));
+    }
 
-    void mockError() => mockRequest().thenThrow(Exception());
+    void mockError() {
+      when(() => client.post(
+            any(),
+            headers: any(named: 'headers'),
+            body: any(named: 'body'),
+          )).thenThrow(Exception());
+    }
 
     setUp(() => mockResponse(200));
 
@@ -50,14 +60,14 @@ void main() {
         body: {'any_key': 'any_value'},
       );
 
-      verify(client.post(
-        Uri.parse(url),
-        headers: {
-          'content-type': 'application/json',
-          'accept': 'application/json',
-        },
-        body: '{"any_key":"any_value"}',
-      ));
+      verify(() => client.post(
+            Uri.parse(url),
+            headers: {
+              'content-type': 'application/json',
+              'accept': 'application/json',
+            },
+            body: '{"any_key":"any_value"}',
+          ));
     });
 
     test('Deve chamar post sem body', () async {
@@ -65,7 +75,7 @@ void main() {
 
       await sut.request(url: url, method: 'post');
 
-      verify(client.post(any, headers: anyNamed('headers')));
+      verify(() => client.post(any(), headers: any(named: 'headers')));
     });
 
     test('Deve retornar dados se post retornar 200', () async {

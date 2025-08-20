@@ -3,38 +3,36 @@ import 'dart:async';
 import 'package:faker/faker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mockito/annotations.dart';
-import 'package:mockito/mockito.dart';
+import 'package:mocktail/mocktail.dart';
 
 import 'package:nileon/ui/pages/pages.dart';
 
-import 'login_page_test.mocks.dart';
+class LoginPresenterSpy extends Mock implements LoginPresenter {}
 
-@GenerateMocks([LoginPresenter])
 void main() {
-  late MockLoginPresenter presenter;
+  late LoginPresenter presenter;
   late StreamController<String?> emailErrorController;
   late StreamController<String?> passwordErrorController;
   late StreamController<bool> isFormValidController;
   late StreamController<bool> isLoadingController;
 
   Future<void> loadPage(WidgetTester tester) async {
-    presenter = MockLoginPresenter();
+    presenter = LoginPresenterSpy();
     emailErrorController = StreamController<String?>.broadcast();
     passwordErrorController = StreamController<String?>.broadcast();
     isFormValidController = StreamController<bool>.broadcast();
     isLoadingController = StreamController<bool>.broadcast();
 
-    when(presenter.emailErrorStream)
+    when(() => presenter.emailErrorStream)
         .thenAnswer((_) => emailErrorController.stream);
 
-    when(presenter.passwordErrorStream)
+    when(() => presenter.passwordErrorStream)
         .thenAnswer((_) => passwordErrorController.stream);
 
-    when(presenter.isFormValidStream)
+    when(() => presenter.isFormValidStream)
         .thenAnswer((_) => isFormValidController.stream);
 
-    when(presenter.isLoadingStream)
+    when(() => presenter.isLoadingStream)
         .thenAnswer((_) => isLoadingController.stream);
 
     // Inicializa os streams com valores padrão
@@ -99,7 +97,7 @@ void main() {
     await tester.pump();
 
     // Verifica se o método auth foi chamado
-    verify(presenter.auth()).called(1);
+    verify(() => presenter.auth()).called(1);
   });
 
   testWidgets(
@@ -113,8 +111,8 @@ void main() {
     final password = faker.internet.password();
     await tester.enterText(find.byType(TextFormField).last, password);
 
-    verify(presenter.validateEmail(email));
-    verify(presenter.validatePassword(password));
+    verify(() => presenter.validateEmail(email));
+    verify(() => presenter.validatePassword(password));
   });
 
   testWidgets('Deve apresentar erro se o email ou senha for inválido',
@@ -255,7 +253,7 @@ void main() {
     await tester.tap(button);
     await tester.pump();
 
-    verify(presenter.auth()).called(1);
+    verify(() => presenter.auth()).called(1);
   });
 
   testWidgets('Deve fechar streams quando a página for encerrada',
@@ -264,6 +262,6 @@ void main() {
 
     await tester.pumpWidget(const SizedBox());
 
-    verify(presenter.dispose()).called(1);
+    verify(() => presenter.dispose()).called(1);
   });
 }
