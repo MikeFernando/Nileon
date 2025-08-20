@@ -64,4 +64,22 @@ void main() {
     sut.validateEmail(email);
     sut.validateEmail(email);
   });
+
+  test('Deve notificar o isFormValidStream após alterar o email', () async {
+    mockValidation(field: 'email', value: '');
+
+    expectLater(sut.isFormValidStream, emits(true));
+
+    sut.validateEmail(email);
+  });
+
+  test(
+      'Deve notificar o isFormValidStream com false quando há erro de validação',
+      () async {
+    mockValidation(field: 'email', value: 'Campo obrigatório');
+
+    expectLater(sut.isFormValidStream, emits(false));
+
+    sut.validateEmail(email);
+  });
 }
