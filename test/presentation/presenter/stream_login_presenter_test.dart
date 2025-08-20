@@ -1,30 +1,9 @@
-import 'dart:async';
 import 'package:faker/faker.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 
-abstract class Validation {
-  String validate({required String field, required String value});
-}
-
-class StreamLoginPresenter {
-  final Validation validation;
-  final StreamController<String?> _emailErrorController =
-      StreamController<String?>.broadcast();
-
-  StreamLoginPresenter({required this.validation});
-
-  Stream<String?> get emailErrorStream => _emailErrorController.stream;
-
-  void validateEmail(String email) {
-    final error = validation.validate(field: 'email', value: email);
-    _emailErrorController.add(error);
-  }
-
-  void dispose() {
-    _emailErrorController.close();
-  }
-}
+import 'package:nileon/presentation/presenters/presenters.dart';
+import 'package:nileon/presentation/protocols/protocols.dart';
 
 class ValidationSpy extends Mock implements Validation {}
 
