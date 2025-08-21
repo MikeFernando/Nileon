@@ -94,6 +94,25 @@ void main() {
       sut.validatePassword(password);
       sut.validateEmail(email);
     });
+
+    test('Deve remover erro quando o email fica vazio', () async {
+      final error = 'Email inválido';
+      mockValidation('email', error);
+
+      // Primeiro valida com erro
+      expectLater(sut.emailErrorStream, emits(error));
+      sut.validateEmail('invalid@email');
+      
+      // Depois remove o erro quando fica vazio
+      expectLater(sut.emailErrorStream, emits(null));
+      sut.validateEmail('');
+    });
+
+    test('Não deve chamar validação quando o email está vazio', () {
+      sut.validateEmail('');
+
+      verifyNever(() => validation.validate(field: 'email', value: any(named: 'value')));
+    });
   });
 
   group('validatePassword', () {
@@ -140,6 +159,25 @@ void main() {
       expectLater(sut.isFormValidStream, emitsInOrder([false, true]));
       sut.validateEmail(email);
       sut.validatePassword(password);
+    });
+
+    test('Deve remover erro quando a senha fica vazia', () async {
+      final error = 'Senha deve ter pelo menos 8 caracteres';
+      mockValidation('password', error);
+
+      // Primeiro valida com erro
+      expectLater(sut.passwordErrorStream, emits(error));
+      sut.validatePassword('123');
+      
+      // Depois remove o erro quando fica vazio
+      expectLater(sut.passwordErrorStream, emits(null));
+      sut.validatePassword('');
+    });
+
+    test('Não deve chamar validação quando a senha está vazia', () {
+      sut.validatePassword('');
+
+      verifyNever(() => validation.validate(field: 'password', value: any(named: 'value')));
     });
   });
 

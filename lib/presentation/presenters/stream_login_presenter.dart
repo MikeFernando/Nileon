@@ -105,7 +105,16 @@ class StreamLoginPresenter implements LoginPresenter {
   }
 
   void _validateEmail() {
-    final error = validation.validate(field: 'email', value: _email ?? '');
+    // Se o campo estiver vazio, não mostrar erro
+    if (_email == null || _email!.isEmpty) {
+      if (_lastEmailError != null) {
+        _lastEmailError = null;
+        _emailErrorController.add(null);
+      }
+      return;
+    }
+
+    final error = validation.validate(field: 'email', value: _email!);
 
     if (error != _lastEmailError) {
       _lastEmailError = error;
@@ -114,8 +123,15 @@ class StreamLoginPresenter implements LoginPresenter {
   }
 
   void _validatePassword() {
-    final error =
-        validation.validate(field: 'password', value: _password ?? '');
+    if (_password == null || _password!.isEmpty) {
+      if (_lastPasswordError != null) {
+        _lastPasswordError = null;
+        _passwordErrorController.add(null);
+      }
+      return;
+    }
+
+    final error = validation.validate(field: 'password', value: _password!);
 
     if (error != _lastPasswordError) {
       _lastPasswordError = error;
@@ -124,12 +140,12 @@ class StreamLoginPresenter implements LoginPresenter {
   }
 
   void _validateForm() {
-    final isEmailValid =
-        (_lastEmailError == null || _lastEmailError!.isEmpty) &&
-            (_email?.isNotEmpty ?? false);
-    final isPasswordValid =
-        (_lastPasswordError == null || _lastPasswordError!.isEmpty) &&
-            (_password?.isNotEmpty ?? false);
+    final isEmailValid = _email != null &&
+        _email!.isNotEmpty &&
+        (_lastEmailError == null || _lastEmailError!.isEmpty);
+    final isPasswordValid = _password != null &&
+        _password!.isNotEmpty &&
+        (_lastPasswordError == null || _lastPasswordError!.isEmpty);
     final isFormValid = isEmailValid && isPasswordValid;
 
     _isFormValidController.add(isFormValid);
