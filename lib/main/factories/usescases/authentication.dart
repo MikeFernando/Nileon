@@ -1,11 +1,14 @@
-import 'package:nileon/data/usecases/remote_authentication.dart';
-import 'package:nileon/domain/usecases/authentication.dart';
-import 'package:nileon/main/factories/http/http_client_factory.dart';
+import 'package:nileon/data/usecases/usecases.dart';
+import 'package:nileon/domain/usecases/usecases.dart';
+
+import '../http/http.dart';
 
 Authentication makeRemoteAuthentication() {
   final httpClient = makeHttpAdapter();
-  final url = 'https://api.example.com/login';
-  final authentication = RemoteAuthentication(httpClient: httpClient, url: url);
+  final authentication = RemoteAuthentication(
+    httpClient: httpClient,
+    url: makeApiUrl('login'),
+  );
 
   return authentication;
 }
