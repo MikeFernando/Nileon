@@ -3,6 +3,7 @@ import 'dart:async';
 import '../../domain/helpers/helpers.dart';
 import '../../domain/usecases/usecases.dart';
 import '../protocols/protocols.dart';
+import '../../ui/pages/login/login_presenter.dart';
 
 class LoginState {
   final String? emailError;
@@ -36,7 +37,7 @@ class LoginState {
   }
 }
 
-class StreamLoginPresenter {
+class StreamLoginPresenter implements LoginPresenter {
   final Validation validation;
   final Authentication authentication;
   final StreamController<LoginState> _stateController =
@@ -54,15 +55,20 @@ class StreamLoginPresenter {
   });
 
   Stream<LoginState> get stateStream => _stateController.stream;
+  @override
   Stream<String?> get emailErrorStream =>
       _stateController.stream.map((state) => state.emailError);
+  @override
   Stream<String?> get passwordErrorStream =>
       _stateController.stream.map((state) => state.passwordError);
+  @override
   Stream<bool> get isFormValidStream =>
       _stateController.stream.map((state) => state.isFormValid);
+  @override
   Stream<bool> get isLoadingStream => _isLoadingController.stream;
   Stream<DomainError?> get mainErrorStream => _mainErrorController.stream;
 
+  @override
   void validateEmail(String email) {
     final error = validation.validate(field: 'email', value: email);
     final emailError = error.isEmpty ? null : error;
@@ -76,6 +82,7 @@ class StreamLoginPresenter {
     _stateController.add(_currentState);
   }
 
+  @override
   void validatePassword(String password) {
     final error = validation.validate(field: 'password', value: password);
     final passwordError = error.isEmpty ? null : error;
@@ -89,10 +96,16 @@ class StreamLoginPresenter {
     _stateController.add(_currentState);
   }
 
+  @override
+  void isLoading(bool isLoading) {
+    _isLoadingController.add(isLoading);
+  }
+
   bool _isFormValid(String? emailError, String? passwordError) {
     return emailError == null && passwordError == null;
   }
 
+  @override
   Future<void> auth() async {
     if (!_currentState.isFormValid) return;
 
@@ -111,6 +124,7 @@ class StreamLoginPresenter {
     }
   }
 
+  @override
   void dispose() {
     _stateController.close();
     _isLoadingController.close();

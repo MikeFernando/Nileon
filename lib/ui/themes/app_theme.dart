@@ -15,4 +15,8 @@ class AppTheme {
     textTheme: AppTypography.textTheme,
     scaffoldBackgroundColor: AppColors.dark10,
   );
+
+  static ThemeData makeAppTheme() {
+    return darkTheme;
+  }
 }
