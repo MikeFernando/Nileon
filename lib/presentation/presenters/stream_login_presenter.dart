@@ -102,7 +102,12 @@ class StreamLoginPresenter implements LoginPresenter {
   }
 
   bool _isFormValid(String? emailError, String? passwordError) {
-    return emailError == null && passwordError == null;
+    return emailError == null &&
+        passwordError == null &&
+        _currentState.email != null &&
+        _currentState.email!.isNotEmpty &&
+        _currentState.password != null &&
+        _currentState.password!.isNotEmpty;
   }
 
   @override

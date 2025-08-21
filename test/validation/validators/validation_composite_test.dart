@@ -4,9 +4,13 @@ import 'package:nileon/validation/validators/validators.dart';
 
 class FieldValidationSpy implements FieldValidation {
   String? errorMessage;
+  String fieldNameValue = 'any_field';
 
   @override
   String? validate(String? value) => errorMessage;
+
+  @override
+  String get fieldName => fieldNameValue;
 }
 
 void main() {
@@ -23,6 +27,7 @@ void main() {
     final field = 'other_field';
     final firstSpy = FieldValidationSpy();
     firstSpy.errorMessage = 'error';
+    firstSpy.fieldNameValue = field;
     final secondSpy = FieldValidationSpy();
     final sut = ValidationComposite([firstSpy, secondSpy]);
 
@@ -35,6 +40,7 @@ void main() {
     final field = 'email';
     final firstSpy = FieldValidationSpy();
     firstSpy.errorMessage = 'error';
+    firstSpy.fieldNameValue = field;
     final secondSpy = FieldValidationSpy();
     final sut = ValidationComposite([firstSpy, secondSpy]);
 

@@ -77,7 +77,7 @@ void main() {
   test('Deve notificar o isFormValidStream após alterar o email', () async {
     mockValidation(field: 'email', value: '');
 
-    expectLater(sut.isFormValidStream, emits(true));
+    expectLater(sut.isFormValidStream, emits(false));
 
     sut.validateEmail(email);
   });
@@ -122,7 +122,7 @@ void main() {
   test('Deve notificar o isFormValidStream após alterar a senha', () async {
     mockValidation(field: 'password', value: '');
 
-    expectLater(sut.isFormValidStream, emits(true));
+    expectLater(sut.isFormValidStream, emits(false));
 
     sut.validatePassword(password);
   });
@@ -147,7 +147,7 @@ void main() {
         emitsInOrder([
           isA<LoginState>()
               .having((state) => state.emailError, 'emailError', null)
-              .having((state) => state.isFormValid, 'isFormValid', true),
+              .having((state) => state.isFormValid, 'isFormValid', false),
           isA<LoginState>()
               .having((state) => state.emailError, 'emailError', null)
               .having((state) => state.passwordError, 'passwordError', null)

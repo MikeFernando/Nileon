@@ -13,4 +13,7 @@ class RequiredFieldValidator implements FieldValidation {
 
     return null;
   }
+
+  @override
+  String get fieldName => field;
 }

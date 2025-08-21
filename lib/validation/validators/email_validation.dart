@@ -20,4 +20,7 @@ class EmailValidation implements FieldValidation {
 
     return null;
   }
+
+  @override
+  String get fieldName => field;
 }
