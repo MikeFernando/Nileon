@@ -30,4 +30,16 @@ void main() {
 
     expect(error, 'error');
   });
+
+  test('Deve retornar o primeiro erro do campo correto', () {
+    final field = 'email';
+    final firstSpy = FieldValidationSpy();
+    firstSpy.errorMessage = 'error';
+    final secondSpy = FieldValidationSpy();
+    final sut = ValidationComposite([firstSpy, secondSpy]);
+
+    final error = sut.validate(field: field, value: 'any_value');
+
+    expect(error, 'error');
+  });
 }
