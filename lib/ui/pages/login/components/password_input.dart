@@ -70,7 +70,13 @@ class _PasswordInputState extends State<PasswordInput> {
                         width: 20,
                         height: 20,
                         colorFilter: ColorFilter.mode(
-                          _hasFocus ? AppColors.dark100 : AppColors.dark80,
+                          snapshot.hasData &&
+                                  snapshot.data != null &&
+                                  snapshot.data!.isNotEmpty
+                              ? AppColors.error
+                              : _hasFocus
+                                  ? AppColors.dark100
+                                  : AppColors.dark80,
                           BlendMode.srcIn,
                         ),
                       ),
@@ -101,12 +107,23 @@ class _PasswordInputState extends State<PasswordInput> {
                     ),
                     enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(32),
-                      borderSide: BorderSide.none,
+                      borderSide: snapshot.hasData &&
+                              snapshot.data != null &&
+                              snapshot.data!.isNotEmpty
+                          ? const BorderSide(
+                              color: AppColors.error,
+                              width: 1.0,
+                            )
+                          : BorderSide.none,
                     ),
                     focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(32),
-                      borderSide: const BorderSide(
-                        color: AppColors.primary,
+                      borderSide: BorderSide(
+                        color: snapshot.hasData &&
+                                snapshot.data != null &&
+                                snapshot.data!.isNotEmpty
+                            ? AppColors.error
+                            : AppColors.primary,
                         width: 1.0,
                       ),
                     ),
@@ -129,7 +146,7 @@ class _PasswordInputState extends State<PasswordInput> {
                     child: Text(
                       snapshot.data!,
                       style: TextStyle(
-                        color: Colors.red,
+                        color: AppColors.error,
                         fontSize: 12,
                         fontFamily: 'Manrope',
                       ),
