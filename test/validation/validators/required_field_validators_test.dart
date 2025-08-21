@@ -1,30 +1,12 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mocktail/mocktail.dart';
 
-abstract class FieldValidation {
-  String? validate(String? value);
-}
-
-class RequiredFieldValidatorSpy extends Mock implements FieldValidation {
-  final String field;
-
-  RequiredFieldValidatorSpy(this.field);
-
-  @override
-  String? validate(String? value) {
-    if (value == null || value.isEmpty) {
-      return 'Campo obrigatório';
-    }
-
-    return null;
-  }
-}
+import 'package:nileon/validation/validators/validators.dart';
 
 void main() {
-  late RequiredFieldValidatorSpy sut;
+  late RequiredFieldValidator sut;
 
   setUp(() {
-    sut = RequiredFieldValidatorSpy('any_field');
+    sut = RequiredFieldValidator('any_field');
   });
 
   test('Deve retornar null se o campo não for vazio', () {
