@@ -18,4 +18,16 @@ void main() {
 
     expect(error, '');
   });
+
+  test('Deve retornar o primeiro erro que ocorrer', () {
+    final field = 'other_field';
+    final firstSpy = FieldValidationSpy();
+    firstSpy.errorMessage = 'error';
+    final secondSpy = FieldValidationSpy();
+    final sut = ValidationComposite([firstSpy, secondSpy]);
+
+    final error = sut.validate(field: field, value: 'any_value');
+
+    expect(error, 'error');
+  });
 }
