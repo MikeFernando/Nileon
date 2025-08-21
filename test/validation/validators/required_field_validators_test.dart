@@ -2,7 +2,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 
 abstract class FieldValidation {
-  String? validate(String value);
+  String? validate(String? value);
 }
 
 class RequiredFieldValidatorSpy extends Mock implements FieldValidation {
@@ -11,8 +11,8 @@ class RequiredFieldValidatorSpy extends Mock implements FieldValidation {
   RequiredFieldValidatorSpy(this.field);
 
   @override
-  String? validate(String value) {
-    if (value.isEmpty) {
+  String? validate(String? value) {
+    if (value == null || value.isEmpty) {
       return 'Campo obrigatório';
     }
 
@@ -35,6 +35,12 @@ void main() {
 
   test('Deve retornar o erro se o campo for vazio', () {
     final error = sut.validate('');
+
+    expect(error, 'Campo obrigatório');
+  });
+
+  test('Deve retornar o erro se o campo for nulo', () {
+    final error = sut.validate(null);
 
     expect(error, 'Campo obrigatório');
   });
