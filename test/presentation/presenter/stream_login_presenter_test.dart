@@ -190,7 +190,6 @@ void main() {
     sut.validateEmail(email);
     sut.validatePassword(password);
 
-    // Aguardar um pouco para garantir que o estado foi atualizado
     await Future.delayed(Duration(milliseconds: 100));
 
     await sut.auth();
