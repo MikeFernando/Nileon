@@ -26,7 +26,7 @@ class _PasswordInputState extends State<PasswordInput> {
       setState(() {
         _hasFocus = _focusNode.hasFocus;
       });
-      
+
       // Valida quando o foco sai
       if (!_focusNode.hasFocus && _controller.text.isNotEmpty) {
         // Valida quando o foco sai
@@ -85,13 +85,7 @@ class _PasswordInputState extends State<PasswordInput> {
                         width: 20,
                         height: 20,
                         colorFilter: ColorFilter.mode(
-                          snapshot.hasData &&
-                                  snapshot.data != null &&
-                                  snapshot.data!.isNotEmpty
-                              ? AppColors.error
-                              : _hasFocus
-                                  ? AppColors.dark100
-                                  : AppColors.dark80,
+                          _hasFocus ? AppColors.dark100 : AppColors.dark80,
                           BlendMode.srcIn,
                         ),
                       ),
