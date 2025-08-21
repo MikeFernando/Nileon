@@ -11,7 +11,7 @@
       "program": "test/"
     },
     {
-      "name": "Flutter: Run App (Debug)",
+      "name": "Run App",
       "request": "launch",
       "type": "dart",
       "program": "lib/main/main.dart",

@@ -1,99 +1,74 @@
 import 'dart:async';
-
-import '../../domain/helpers/helpers.dart';
-import '../../domain/usecases/usecases.dart';
-import '../protocols/protocols.dart';
-import '../../ui/pages/login/login_presenter.dart';
-
-class LoginState {
-  final String? emailError;
-  final String? passwordError;
-  final bool isFormValid;
-  final String? email;
-  final String? password;
-
-  LoginState({
-    this.emailError,
-    this.passwordError,
-    required this.isFormValid,
-    this.email,
-    this.password,
-  });
-
-  LoginState copyWith({
-    String? emailError,
-    String? passwordError,
-    bool? isFormValid,
-    String? email,
-    String? password,
-  }) {
-    return LoginState(
-      emailError: emailError ?? this.emailError,
-      passwordError: passwordError ?? this.passwordError,
-      isFormValid: isFormValid ?? this.isFormValid,
-      email: email ?? this.email,
-      password: password ?? this.password,
-    );
-  }
-}
+import 'package:nileon/domain/usecases/usecases.dart';
+import 'package:nileon/domain/helpers/helpers.dart';
+import 'package:nileon/presentation/protocols/protocols.dart';
+import 'package:nileon/ui/pages/login/login_presenter.dart';
 
 class StreamLoginPresenter implements LoginPresenter {
   final Validation validation;
   final Authentication authentication;
-  final StreamController<LoginState> _stateController =
-      StreamController<LoginState>.broadcast();
-  final StreamController<bool> _isLoadingController =
-      StreamController<bool>.broadcast();
-  final StreamController<DomainError?> _mainErrorController =
-      StreamController<DomainError?>.broadcast();
 
-  LoginState _currentState = LoginState(isFormValid: false);
+  final _emailErrorController = StreamController<String?>.broadcast();
+  final _passwordErrorController = StreamController<String?>.broadcast();
+  final _isFormValidController = StreamController<bool>.broadcast();
+  final _isLoadingController = StreamController<bool>.broadcast();
+  final _mainErrorController = StreamController<String?>.broadcast();
+
+  String? _email;
+  String? _password;
+  String? _lastEmailError;
+  String? _lastPasswordError;
 
   StreamLoginPresenter({
     required this.validation,
     required this.authentication,
-  });
+  }) {
+    // Inicializar streams com valores padrão
+    _isFormValidController.add(false);
+    _isLoadingController.add(false);
+  }
 
-  Stream<LoginState> get stateStream => _stateController.stream;
   @override
-  Stream<String?> get emailErrorStream =>
-      _stateController.stream.map((state) => state.emailError);
+  Stream<String?> get emailErrorStream => _emailErrorController.stream;
+
   @override
-  Stream<String?> get passwordErrorStream =>
-      _stateController.stream.map((state) => state.passwordError);
+  Stream<String?> get passwordErrorStream => _passwordErrorController.stream;
+
   @override
-  Stream<bool> get isFormValidStream =>
-      _stateController.stream.map((state) => state.isFormValid);
+  Stream<bool> get isFormValidStream => _isFormValidController.stream;
+
   @override
   Stream<bool> get isLoadingStream => _isLoadingController.stream;
-  Stream<DomainError?> get mainErrorStream => _mainErrorController.stream;
+
+  @override
+  Stream<String?> get mainErrorStream => _mainErrorController.stream;
 
   @override
   void validateEmail(String email) {
-    final error = validation.validate(field: 'email', value: email);
-    final emailError = error.isEmpty ? null : error;
-
-    _currentState = _currentState.copyWith(
-      emailError: emailError,
-      email: email,
-      isFormValid: _isFormValid(emailError, _currentState.passwordError),
-    );
-
-    _stateController.add(_currentState);
+    _email = email;
+    _validateEmail();
+    _validateForm();
   }
 
   @override
   void validatePassword(String password) {
-    final error = validation.validate(field: 'password', value: password);
-    final passwordError = error.isEmpty ? null : error;
+    _password = password;
+    _validatePassword();
+    _validateForm();
+  }
 
-    _currentState = _currentState.copyWith(
-      passwordError: passwordError,
-      password: password,
-      isFormValid: _isFormValid(_currentState.emailError, passwordError),
-    );
+  @override
+  void validateEmailOnFocusLost(String email) {
+    _email = email;
+    _validateEmail();
+    _validateForm();
+  }
 
-    _stateController.add(_currentState);
+  @override
+  void validatePasswordOnFocusLost(String password) {
+    _password = password;
+    _validatePassword();
+    _validateForm();
   }
 
   @override
@@ -101,29 +76,20 @@ class StreamLoginPresenter implements LoginPresenter {
     _isLoadingController.add(isLoading);
   }
 
-  bool _isFormValid(String? emailError, String? passwordError) {
-    return emailError == null &&
-        passwordError == null &&
-        _currentState.email != null &&
-        _currentState.email!.isNotEmpty &&
-        _currentState.password != null &&
-        _currentState.password!.isNotEmpty;
-  }
-
   @override
   Future<void> auth() async {
-    if (!_currentState.isFormValid) return;
-
-    _isLoadingController.add(true);
-    _mainErrorController.add(null);
-
     try {
-      await authentication.auth(AuthenticationParams(
-        email: _currentState.email ?? '',
-        password: _currentState.password ?? '',
-      ));
+      _mainErrorController.add(null);
+      _isLoadingController.add(true);
+
+      final params = AuthenticationParams(
+        email: _email ?? '',
+        password: _password ?? '',
+      );
+
+      await authentication.auth(params);
     } on DomainError catch (error) {
-      _mainErrorController.add(error);
+      _mainErrorController.add(_getErrorMessage(error));
     } finally {
       _isLoadingController.add(false);
     }
@@ -131,8 +97,50 @@ class StreamLoginPresenter implements LoginPresenter {
 
   @override
   void dispose() {
-    _stateController.close();
+    _emailErrorController.close();
+    _passwordErrorController.close();
+    _isFormValidController.close();
     _isLoadingController.close();
     _mainErrorController.close();
+  }
+
+  void _validateEmail() {
+    final error = validation.validate(field: 'email', value: _email ?? '');
+
+    if (error != _lastEmailError) {
+      _lastEmailError = error;
+      _emailErrorController.add(error.isEmpty ? null : error);
+    }
+  }
+
+  void _validatePassword() {
+    final error =
+        validation.validate(field: 'password', value: _password ?? '');
+
+    if (error != _lastPasswordError) {
+      _lastPasswordError = error;
+      _passwordErrorController.add(error.isEmpty ? null : error);
+    }
+  }
+
+  void _validateForm() {
+    final isEmailValid =
+        (_lastEmailError == null || _lastEmailError!.isEmpty) &&
+            (_email?.isNotEmpty ?? false);
+    final isPasswordValid =
+        (_lastPasswordError == null || _lastPasswordError!.isEmpty) &&
+            (_password?.isNotEmpty ?? false);
+    final isFormValid = isEmailValid && isPasswordValid;
+
+    _isFormValidController.add(isFormValid);
+  }
+
+  String _getErrorMessage(DomainError error) {
+    switch (error) {
+      case DomainError.invalidCredentials:
+        return 'Credenciais inválidas';
+      case DomainError.unexpected:
+        return 'Erro inesperado';
+    }
   }
 }

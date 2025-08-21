@@ -5,3 +5,4 @@ export 'password_input.dart';
 export 'button_login.dart';
 export 'button_google.dart';
 export 'button_register.dart';
+export 'main_error_display.dart';

@@ -63,6 +63,7 @@ class _LoginPageState extends State<LoginPage> {
                               children: [
                                 const EmailInput(),
                                 const PasswordInput(),
+                                const MainErrorDisplay(),
                                 const ButtonLogin(),
                                 orDivider(),
                                 const ButtonGoogle(),

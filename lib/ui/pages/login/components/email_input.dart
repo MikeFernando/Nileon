@@ -14,7 +14,9 @@ class EmailInput extends StatefulWidget {
 
 class _EmailInputState extends State<EmailInput> {
   final FocusNode _focusNode = FocusNode();
+  final TextEditingController _controller = TextEditingController();
   bool _hasFocus = false;
+  LoginPresenter? _presenter;
 
   @override
   void initState() {
@@ -23,18 +25,26 @@ class _EmailInputState extends State<EmailInput> {
       setState(() {
         _hasFocus = _focusNode.hasFocus;
       });
+
+      if (!_focusNode.hasFocus && _controller.text.isNotEmpty) {
+        // Valida quando o foco sai
+        if (mounted && _presenter != null) {
+          _presenter!.validateEmailOnFocusLost(_controller.text);
+        }
+      }
     });
   }
 
   @override
   void dispose() {
     _focusNode.dispose();
+    _controller.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    final presenter = Provider.of<LoginPresenter>(context);
+    _presenter = Provider.of<LoginPresenter>(context);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -46,15 +56,18 @@ class _EmailInputState extends State<EmailInput> {
         ),
         const SizedBox(height: 8),
         StreamBuilder<String?>(
-          stream: presenter.emailErrorStream,
+          stream: _presenter!.emailErrorStream,
           builder: (context, snapshot) {
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 TextFormField(
+                  controller: _controller,
                   focusNode: _focusNode,
                   keyboardType: TextInputType.emailAddress,
-                  onChanged: presenter.validateEmail,
+                  onChanged: _presenter!.validateEmail,
+                  onEditingComplete: () =>
+                      _presenter!.validateEmailOnFocusLost(_controller.text),
                   decoration: InputDecoration(
                     hintText: 'Digite seu email',
                     hintStyle: TextStyle(

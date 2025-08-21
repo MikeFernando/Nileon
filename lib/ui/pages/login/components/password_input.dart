@@ -15,7 +15,9 @@ class PasswordInput extends StatefulWidget {
 class _PasswordInputState extends State<PasswordInput> {
   bool isObscureText = true;
   final FocusNode _focusNode = FocusNode();
+  final TextEditingController _controller = TextEditingController();
   bool _hasFocus = false;
+  LoginPresenter? _presenter;
 
   @override
   void initState() {
@@ -24,18 +26,27 @@ class _PasswordInputState extends State<PasswordInput> {
       setState(() {
         _hasFocus = _focusNode.hasFocus;
       });
+      
+      // Valida quando o foco sai
+      if (!_focusNode.hasFocus && _controller.text.isNotEmpty) {
+        // Valida quando o foco sai
+        if (mounted && _presenter != null) {
+          _presenter!.validatePasswordOnFocusLost(_controller.text);
+        }
+      }
     });
   }
 
   @override
   void dispose() {
     _focusNode.dispose();
+    _controller.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    final presenter = Provider.of<LoginPresenter>(context);
+    _presenter = Provider.of<LoginPresenter>(context);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -46,15 +57,19 @@ class _PasswordInputState extends State<PasswordInput> {
         ),
         const SizedBox(height: 8),
         StreamBuilder<String?>(
-          stream: presenter.passwordErrorStream,
+          stream: _presenter!.passwordErrorStream,
           builder: (context, snapshot) {
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 TextFormField(
+                  controller: _controller,
                   focusNode: _focusNode,
                   keyboardType: TextInputType.visiblePassword,
-                  onChanged: presenter.validatePassword,
+                  onChanged: _presenter!.validatePassword,
+                  onEditingComplete: () {
+                    _presenter!.validatePasswordOnFocusLost(_controller.text);
+                  },
                   obscureText: isObscureText,
                   decoration: InputDecoration(
                     hintText: 'Digite sua senha',
