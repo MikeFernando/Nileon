@@ -21,15 +21,19 @@ class RequiredFieldValidatorSpy extends Mock implements FieldValidation {
 }
 
 void main() {
+  late RequiredFieldValidatorSpy sut;
+
+  setUp(() {
+    sut = RequiredFieldValidatorSpy('any_field');
+  });
+
   test('Deve retornar null se o campo não for vazio', () {
-    final sut = RequiredFieldValidatorSpy('any_field');
     final error = sut.validate('any_value');
 
     expect(error, null);
   });
 
   test('Deve retornar o erro se o campo for vazio', () {
-    final sut = RequiredFieldValidatorSpy('any_field');
     final error = sut.validate('');
 
     expect(error, 'Campo obrigatório');
