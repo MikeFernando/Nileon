@@ -27,7 +27,6 @@ class _EmailInputState extends State<EmailInput> {
       });
 
       if (!_focusNode.hasFocus && _controller.text.isNotEmpty) {
-        // Valida quando o foco sai
         if (mounted && _presenter != null) {
           _presenter!.validateEmailOnFocusLost(_controller.text);
         }
@@ -82,13 +81,7 @@ class _EmailInputState extends State<EmailInput> {
                         width: 20,
                         height: 20,
                         colorFilter: ColorFilter.mode(
-                          snapshot.hasData &&
-                                  snapshot.data != null &&
-                                  snapshot.data!.isNotEmpty
-                              ? AppColors.error
-                              : _hasFocus
-                                  ? AppColors.dark100
-                                  : AppColors.dark80,
+                          _hasFocus ? AppColors.dark100 : AppColors.dark80,
                           BlendMode.srcIn,
                         ),
                       ),
