@@ -13,7 +13,7 @@ class AlreadyHaveAccount extends StatelessWidget {
         Center(
           child: RichText(
             text: TextSpan(
-              text: 'Não possui uma conta? ',
+              text: 'Já possui uma conta? ',
               style: TextStyle(
                 color: AppColors.dark80,
                 fontFamily: 'Manrope',

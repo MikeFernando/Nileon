@@ -6,6 +6,7 @@ ValidationComposite makeSignupValidation() {
     RequiredFieldValidator('email'),
     EmailValidation('email'),
     RequiredFieldValidator('phone'),
+    PhoneValidation('phone'),
     RequiredFieldValidator('password'),
     PasswordValidation('password'),
   ]);

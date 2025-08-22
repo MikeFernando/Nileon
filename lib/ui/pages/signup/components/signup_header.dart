@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../themes/themes.dart';
 
-Widget loginHeader(BuildContext context) {
+Widget signupHeader(BuildContext context) {
   return Padding(
     padding: const EdgeInsets.only(left: 24, top: 24, right: 24),
     child: Column(
@@ -29,7 +29,7 @@ Widget loginHeader(BuildContext context) {
         ),
         const SizedBox(height: 8),
         Text(
-          'Serviços de agendamentos inteligentes e simples começam aqui',
+          'Serviços de agendamentos simples e inteligente.',
           style: AppTypography.bodyMediumWithColor(AppColors.dark80),
         ),
         const SizedBox(height: 24),

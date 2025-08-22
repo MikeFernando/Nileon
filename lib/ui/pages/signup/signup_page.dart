@@ -36,7 +36,7 @@ class _SignupPageState extends State<SignupPage> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                loginHeader(context),
+                signupHeader(context),
                 Expanded(
                   child: Container(
                     decoration: BoxDecoration(
@@ -62,6 +62,7 @@ class _SignupPageState extends State<SignupPage> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 const EmailInput(),
+                                const PhoneInput(),
                                 const PasswordInput(),
                                 const MainErrorDisplay(),
                                 const ButtonSignup(),
