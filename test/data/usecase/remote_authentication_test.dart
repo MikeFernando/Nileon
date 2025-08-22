@@ -92,13 +92,19 @@ void main() {
   });
 
   test('deve retornar uma Account se HttpClient retornar 200', () async {
-    final accessToken = faker.guid.guid();
-
-    mockHttpData({'accessToken': accessToken, 'name': faker.person.name()});
+    mockHttpData({
+      'id': faker.guid.guid(),
+      'name': faker.person.name(),
+      'email': faker.internet.email(),
+      'phone': faker.phoneNumber.toString(),
+    });
 
     final account = await sut.auth(params);
 
-    expect(account.token, accessToken);
+    expect(account.id, faker.guid.guid());
+    expect(account.name, faker.person.name());
+    expect(account.email, faker.internet.email());
+    expect(account.phone, faker.phoneNumber.toString());
   });
 
   test(

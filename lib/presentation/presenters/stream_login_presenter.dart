@@ -23,7 +23,6 @@ class StreamLoginPresenter implements LoginPresenter {
     required this.validation,
     required this.authentication,
   }) {
-    // Inicializar streams com valores padrão
     _isFormValidController.add(false);
     _isLoadingController.add(false);
   }
@@ -157,6 +156,14 @@ class StreamLoginPresenter implements LoginPresenter {
         return 'Credenciais inválidas';
       case DomainError.unexpected:
         return 'Erro inesperado';
+      case DomainError.emailInUse:
+        return 'E-mail já está em uso';
+      case DomainError.invalidEmail:
+        return 'E-mail inválido';
+      case DomainError.weakPassword:
+        return 'Senha muito fraca';
+      case DomainError.invalidPhone:
+        return 'Telefone inválido';
     }
   }
 }

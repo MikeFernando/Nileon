@@ -1,5 +1,13 @@
 class AccountEntity {
-  final String token;
+  final String id;
+  final String name;
+  final String email;
+  final String phone;
 
-  AccountEntity({required this.token});
+  AccountEntity({
+    required this.id,
+    required this.name,
+    required this.email,
+    required this.phone,
+  });
 }

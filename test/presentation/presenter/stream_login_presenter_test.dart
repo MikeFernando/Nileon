@@ -29,8 +29,14 @@ void main() {
   }
 
   void mockAuthentication() {
-    when(() => authentication.auth(any<AuthenticationParams>()))
-        .thenAnswer((_) async => AccountEntity(token: faker.guid.guid()));
+    when(() => authentication.auth(any<AuthenticationParams>())).thenAnswer(
+      (_) async => AccountEntity(
+        id: faker.guid.guid(),
+        name: faker.person.name(),
+        email: faker.internet.email(),
+        phone: faker.phoneNumber.toString(),
+      ),
+    );
   }
 
   void mockAuthenticationError(DomainError error) {
@@ -102,7 +108,7 @@ void main() {
       // Primeiro valida com erro
       expectLater(sut.emailErrorStream, emits(error));
       sut.validateEmail('invalid@email');
-      
+
       // Depois remove o erro quando fica vazio
       expectLater(sut.emailErrorStream, emits(null));
       sut.validateEmail('');
@@ -111,7 +117,8 @@ void main() {
     test('Não deve chamar validação quando o email está vazio', () {
       sut.validateEmail('');
 
-      verifyNever(() => validation.validate(field: 'email', value: any(named: 'value')));
+      verifyNever(() =>
+          validation.validate(field: 'email', value: any(named: 'value')));
     });
   });
 
@@ -168,7 +175,7 @@ void main() {
       // Primeiro valida com erro
       expectLater(sut.passwordErrorStream, emits(error));
       sut.validatePassword('123');
-      
+
       // Depois remove o erro quando fica vazio
       expectLater(sut.passwordErrorStream, emits(null));
       sut.validatePassword('');
@@ -177,7 +184,8 @@ void main() {
     test('Não deve chamar validação quando a senha está vazia', () {
       sut.validatePassword('');
 
-      verifyNever(() => validation.validate(field: 'password', value: any(named: 'value')));
+      verifyNever(() =>
+          validation.validate(field: 'password', value: any(named: 'value')));
     });
   });
 
