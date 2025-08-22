@@ -105,16 +105,25 @@ class _PhoneInputState extends State<PhoneInput> {
                         child: Row(
                           children: [
                             Container(
-                              width: 22,
-                              height: 22,
+                              width: 24,
+                              height: 24,
                               decoration: BoxDecoration(
                                 shape: BoxShape.circle,
                                 color: Colors.green,
                               ),
-                              child: const Center(
-                                child: Text(
-                                  '🇧🇷',
-                                  style: TextStyle(fontSize: 16),
+                              child: const Align(
+                                alignment: Alignment.center,
+                                child: SizedBox(
+                                  width: 18,
+                                  height: 18,
+                                  child: Text(
+                                    '🇧🇷',
+                                    style: TextStyle(
+                                      fontSize: 18,
+                                      height: 1.0,
+                                    ),
+                                    textAlign: TextAlign.center,
+                                  ),
                                 ),
                               ),
                             ),
