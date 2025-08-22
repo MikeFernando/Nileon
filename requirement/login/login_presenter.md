@@ -21,4 +21,3 @@
 14. ✅ Deve notificar o isLoadingStream como false no fim do Authentication
 15. ✅ Deve notificar o mainErrorStream caso o Authentication retorne um DomainError
 16. ✅ Deve fechar todos os Streams no dispose
-17
