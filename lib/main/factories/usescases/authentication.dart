@@ -1,5 +1,5 @@
-import 'package:nileon/data/usecases/usecases.dart';
-import 'package:nileon/domain/usecases/usecases.dart';
+import '../../../data/usecases/authentication/remote_authentication.dart';
+import '../../../domain/usecases/usecases.dart';
 
 import '../http/http.dart';
 

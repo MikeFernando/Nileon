@@ -5,8 +5,8 @@ import 'package:mocktail/mocktail.dart';
 import 'package:nileon/domain/usecases/usecases.dart';
 import 'package:nileon/domain/helpers/helpers.dart';
 
-import 'package:nileon/data/usecases/usecases.dart';
 import 'package:nileon/data/http/http.dart';
+import 'package:nileon/data/usecases/authentication/remote_authentication.dart';
 
 class HttpClientSpy extends Mock implements HttpClient {}
 

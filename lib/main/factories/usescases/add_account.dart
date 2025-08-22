@@ -1,9 +1,10 @@
-import 'package:nileon/data/usecases/usecases.dart';
-import 'package:nileon/domain/usecases/usecases.dart';
+import '../../../data/usecases/usecases.dart';
+
+import '../../factories/factories.dart';
 
 import '../http/http.dart';
 
-AddAccount makeRemoteAddAccount() {
+RemoteAddAccount makeRemoteAddAccount() {
   final httpClient = makeHttpAdapter();
   final addAccount = RemoteAddAccount(
     httpClient: httpClient,
