@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 import '../../../themes/themes.dart';
 
@@ -21,11 +22,20 @@ class AlreadyHaveAccount extends StatelessWidget {
                 fontWeight: FontWeight.w400,
               ),
               children: [
-                TextSpan(
-                  text: ' Login',
-                  style: TextStyle(
-                    color: AppColors.dark100,
-                    fontWeight: FontWeight.w500,
+                WidgetSpan(
+                  child: GestureDetector(
+                    onTap: () {
+                      Get.toNamed('/login');
+                    },
+                    child: Text(
+                      ' Login',
+                      style: TextStyle(
+                        color: AppColors.dark100,
+                        fontWeight: FontWeight.w500,
+                        fontFamily: 'Manrope',
+                        fontSize: 14,
+                      ),
+                    ),
                   ),
                 ),
               ],

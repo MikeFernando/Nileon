@@ -181,6 +181,41 @@ void main() {
 
       verify(() => presenter.validatePassword('123')).called(1);
     });
+
+    testWidgets('Deve navegar para login ao clicar em AlreadyHaveAccount',
+        (WidgetTester tester) async {
+      await tester.pumpWidget(
+        GetMaterialApp(
+          getPages: [
+            GetPage(
+                name: '/login',
+                page: () => const Scaffold(body: Text('Login Page'))),
+          ],
+          home: SignupPage(presenter: presenter),
+        ),
+      );
+
+      // Scroll para garantir que o AlreadyHaveAccount esteja visível
+      await tester.drag(
+          find.byType(SingleChildScrollView), const Offset(0, -300));
+      await tester.pumpAndSettle();
+
+      // Verificar se o AlreadyHaveAccount está visível antes de clicar
+      expect(find.byType(AlreadyHaveAccount), findsOneWidget);
+
+      // Encontrar o GestureDetector dentro do AlreadyHaveAccount
+      final alreadyHaveAccount = find.byType(AlreadyHaveAccount);
+      final gestureDetector = find.descendant(
+        of: alreadyHaveAccount,
+        matching: find.byType(GestureDetector),
+      );
+
+      await tester.tap(gestureDetector, warnIfMissed: false);
+      await tester.pumpAndSettle();
+
+      // Assert - verificar se a navegação foi chamada
+      expect(Get.currentRoute, '/login');
+    });
   });
 
   group('SignupPage - Regras de Estado de Loading', () {
