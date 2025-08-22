@@ -73,6 +73,7 @@ class _PhoneInputState extends State<PhoneInput> {
         const SizedBox(height: 8),
         StreamBuilder<String?>(
           stream: _presenter!.phoneErrorStream,
+          initialData: null,
           builder: (context, snapshot) {
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,

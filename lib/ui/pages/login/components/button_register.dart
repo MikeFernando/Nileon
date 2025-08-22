@@ -15,10 +15,7 @@ class ButtonRegister extends StatelessWidget {
         const SizedBox(height: 24),
         Center(
           child: GestureDetector(
-            onTap: onTap ??
-                () {
-                  Get.toNamed('/signup');
-                },
+            onTap: onTap ?? () => Get.toNamed('/signup'),
             child: RichText(
               text: TextSpan(
                 text: 'Não possui uma conta? ',

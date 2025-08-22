@@ -28,12 +28,17 @@ class RemoteAddAccount implements AddAccount {
     } on HttpError catch (error) {
       switch (error) {
         case HttpError.badRequest:
+          throw DomainError.invalidEmail;
         case HttpError.unauthorized:
+          throw DomainError.invalidCredentials;
         case HttpError.forbidden:
+          throw DomainError.emailInUse;
         case HttpError.notFound:
-        case HttpError.serverError:
-        case HttpError.invalidData:
           throw DomainError.unexpected;
+        case HttpError.serverError:
+          throw DomainError.unexpected;
+        case HttpError.invalidData:
+          throw DomainError.invalidEmail;
       }
     }
   }
@@ -62,9 +67,9 @@ class RemoteSignupParams {
   }
 
   Map toJson() => {
-        'name': name,
+        'nome': name,
         'email': email,
-        'phone': phone,
-        'password': password,
+        'telefone': phone,
+        'senha': password,
       };
 }

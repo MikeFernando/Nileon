@@ -56,6 +56,7 @@ class _EmailInputState extends State<EmailInput> {
         const SizedBox(height: 8),
         StreamBuilder<String?>(
           stream: _presenter!.emailErrorStream,
+          initialData: null,
           builder: (context, snapshot) {
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,

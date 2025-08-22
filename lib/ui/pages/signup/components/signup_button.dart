@@ -14,15 +14,19 @@ class ButtonSignup extends StatelessWidget {
       width: double.infinity,
       child: StreamBuilder<bool>(
         stream: presenter.isFormValidStream,
+        initialData: false,
         builder: (context, formSnapshot) {
           return StreamBuilder<bool>(
             stream: presenter.isLoadingStream,
+            initialData: false,
             builder: (context, loadingSnapshot) {
               final isLoading = loadingSnapshot.data ?? false;
               final isFormValid = formSnapshot.data ?? false;
 
               return ElevatedButton(
-                onPressed: () {},
+                onPressed: (isFormValid && !isLoading)
+                    ? () async => await presenter.signup()
+                    : null,
                 style: ElevatedButton.styleFrom(
                   backgroundColor: (isFormValid && !isLoading)
                       ? AppColors.primary

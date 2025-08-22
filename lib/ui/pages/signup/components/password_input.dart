@@ -58,6 +58,7 @@ class _PasswordInputState extends State<PasswordInput> {
         const SizedBox(height: 8),
         StreamBuilder<String?>(
           stream: _presenter!.passwordErrorStream,
+          initialData: null,
           builder: (context, snapshot) {
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,

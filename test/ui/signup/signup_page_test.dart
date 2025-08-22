@@ -100,49 +100,116 @@ void main() {
     testWidgets('Deve exibir mensagem de erro para nome',
         (WidgetTester tester) async {
       when(() => presenter.nameErrorStream)
-          .thenAnswer((_) => Stream.value('Nome obrigatório'));
+          .thenAnswer((_) => Stream.value('Nome é obrigatório'));
 
       await tester.pumpWidget(createWidgetUnderTest());
       await tester.pump();
 
-      expect(find.text('Nome obrigatório'), findsOneWidget);
+      expect(find.text('Nome é obrigatório'), findsOneWidget);
     });
 
     testWidgets('Deve exibir mensagem de erro para email',
         (WidgetTester tester) async {
       when(() => presenter.emailErrorStream)
-          .thenAnswer((_) => Stream.value('E-mail obrigatório'));
+          .thenAnswer((_) => Stream.value('Email inválido'));
 
       await tester.pumpWidget(createWidgetUnderTest());
       await tester.pump();
 
-      expect(find.text('E-mail obrigatório'), findsOneWidget);
+      expect(find.text('Email inválido'), findsOneWidget);
     });
 
     testWidgets('Deve exibir mensagem de erro para telefone',
         (WidgetTester tester) async {
       when(() => presenter.phoneErrorStream)
-          .thenAnswer((_) => Stream.value('Telefone obrigatório'));
+          .thenAnswer((_) => Stream.value('Telefone inválido'));
 
       await tester.pumpWidget(createWidgetUnderTest());
       await tester.pump();
 
-      expect(find.text('Telefone obrigatório'), findsOneWidget);
+      expect(find.text('Telefone inválido'), findsOneWidget);
     });
 
     testWidgets('Deve exibir mensagem de erro para senha',
         (WidgetTester tester) async {
       when(() => presenter.passwordErrorStream)
-          .thenAnswer((_) => Stream.value('Senha obrigatória'));
+          .thenAnswer((_) => Stream.value('Senha muito fraca'));
 
       await tester.pumpWidget(createWidgetUnderTest());
       await tester.pump();
 
-      expect(find.text('Senha obrigatória'), findsOneWidget);
+      expect(find.text('Senha muito fraca'), findsOneWidget);
     });
   });
 
   group('SignupPage - Regras de Interação', () {
+    testWidgets('Deve chamar presenter.signup() quando botão for pressionado',
+        (WidgetTester tester) async {
+      // Configura o formulário como válido
+      when(() => presenter.isFormValidStream)
+          .thenAnswer((_) => Stream.value(true));
+      when(() => presenter.isLoadingStream)
+          .thenAnswer((_) => Stream.value(false));
+      when(() => presenter.signup()).thenAnswer((_) async {});
+
+      await tester.pumpWidget(createWidgetUnderTest());
+      await tester.pump();
+
+      // Verifica se o botão está habilitado
+      final button = tester.widget<ElevatedButton>(find.byType(ElevatedButton));
+      expect(button.onPressed, isNotNull);
+
+      // Verifica se o texto do botão está correto
+      expect(find.text('Registrar'), findsOneWidget);
+    });
+
+    testWidgets('Deve desabilitar botão quando formulário não for válido',
+        (WidgetTester tester) async {
+      // Configura o formulário como inválido
+      when(() => presenter.isFormValidStream)
+          .thenAnswer((_) => Stream.value(false));
+      when(() => presenter.isLoadingStream)
+          .thenAnswer((_) => Stream.value(false));
+
+      await tester.pumpWidget(createWidgetUnderTest());
+      await tester.pump();
+
+      // Verifica se o botão está desabilitado
+      final button = tester.widget<ElevatedButton>(find.byType(ElevatedButton));
+      expect(button.onPressed, isNull);
+    });
+
+    testWidgets('Deve desabilitar botão quando estiver carregando',
+        (WidgetTester tester) async {
+      // Configura o formulário como válido mas carregando
+      when(() => presenter.isFormValidStream)
+          .thenAnswer((_) => Stream.value(true));
+      when(() => presenter.isLoadingStream)
+          .thenAnswer((_) => Stream.value(true));
+
+      await tester.pumpWidget(createWidgetUnderTest());
+      await tester.pump();
+
+      // Verifica se o botão está desabilitado
+      final button = tester.widget<ElevatedButton>(find.byType(ElevatedButton));
+      expect(button.onPressed, isNull);
+    });
+
+    testWidgets('Deve mostrar loading indicator quando estiver carregando',
+        (WidgetTester tester) async {
+      // Configura o formulário como válido e carregando
+      when(() => presenter.isFormValidStream)
+          .thenAnswer((_) => Stream.value(true));
+      when(() => presenter.isLoadingStream)
+          .thenAnswer((_) => Stream.value(true));
+
+      await tester.pumpWidget(createWidgetUnderTest());
+      await tester.pump();
+
+      // Verifica se o CircularProgressIndicator está sendo exibido
+      expect(find.byType(CircularProgressIndicator), findsOneWidget);
+    });
+
     testWidgets('Deve validar nome em tempo real', (WidgetTester tester) async {
       await tester.pumpWidget(createWidgetUnderTest());
 

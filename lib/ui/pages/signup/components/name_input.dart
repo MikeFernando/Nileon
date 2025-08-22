@@ -56,6 +56,7 @@ class _NameInputState extends State<NameInput> {
         const SizedBox(height: 8),
         StreamBuilder<String?>(
           stream: _presenter!.nameErrorStream,
+          initialData: null,
           builder: (context, snapshot) {
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,

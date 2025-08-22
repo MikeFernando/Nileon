@@ -41,8 +41,17 @@ class StreamSignupPresenter implements SignupPresenter {
     required this.validation,
     required this.addAccount,
   }) {
+    // Inicializa todos os streams com valores padrão
+    _nameErrorController.add(null);
+    _emailErrorController.add(null);
+    _phoneErrorController.add(null);
+    _passwordErrorController.add(null);
     _isFormValidController.add(false);
     _isLoadingController.add(false);
+    _mainErrorController.add(null);
+    _navigateToController.add(null);
+    _navigateToLoginController.add(null);
+    _navigateToGoogleSignupController.add(null);
   }
 
   @override
@@ -144,10 +153,13 @@ class StreamSignupPresenter implements SignupPresenter {
       _mainErrorController.add(null);
       _isLoadingController.add(true);
 
+      // Limpa a formatação do telefone (remove espaços e hífens)
+      final cleanPhone = _phone?.replaceAll(RegExp(r'[^\d]'), '') ?? '';
+
       final params = SignupParams(
         name: _name ?? '',
         email: _email ?? '',
-        phone: _phone ?? '',
+        phone: cleanPhone,
         password: _password ?? '',
       );
 
@@ -155,6 +167,8 @@ class StreamSignupPresenter implements SignupPresenter {
       _navigateToController.add('/home'); // Navegação após sucesso
     } on DomainError catch (error) {
       _mainErrorController.add(_getErrorMessage(error));
+    } catch (e) {
+      _mainErrorController.add('Erro inesperado: $e');
     } finally {
       _isLoadingController.add(false);
     }

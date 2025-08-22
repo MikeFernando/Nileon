@@ -22,6 +22,7 @@ class App extends StatelessWidget {
       getPages: [
         GetPage(name: '/login', page: makeLoginPage),
         GetPage(name: '/signup', page: makeSignupPage),
+        GetPage(name: '/home', page: makeHomePage),
       ],
     );
   }

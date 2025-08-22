@@ -18,6 +18,32 @@ class SignupPage extends StatefulWidget {
 
 class _SignupPageState extends State<SignupPage> {
   @override
+  void initState() {
+    super.initState();
+    _setupNavigationListeners();
+  }
+
+  void _setupNavigationListeners() {
+    widget.presenter.navigateToStream.listen((route) {
+      if (route != null && mounted) {
+        Navigator.of(context).pushReplacementNamed(route);
+      }
+    });
+
+    widget.presenter.navigateToLoginStream.listen((route) {
+      if (route != null && mounted) {
+        Navigator.of(context).pushReplacementNamed(route);
+      }
+    });
+
+    widget.presenter.navigateToGoogleSignupStream.listen((route) {
+      if (route != null && mounted) {
+        Navigator.of(context).pushReplacementNamed(route);
+      }
+    });
+  }
+
+  @override
   void dispose() {
     super.dispose();
     widget.presenter.dispose();

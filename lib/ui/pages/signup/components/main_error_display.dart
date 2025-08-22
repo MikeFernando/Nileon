@@ -18,6 +18,7 @@ class _MainErrorDisplayState extends State<MainErrorDisplay> {
 
     return StreamBuilder<String?>(
       stream: presenter.mainErrorStream,
+      initialData: null,
       builder: (context, snapshot) {
         if (snapshot.hasData &&
             snapshot.data != null &&
