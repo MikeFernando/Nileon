@@ -61,6 +61,7 @@ class _SignupPageState extends State<SignupPage> {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
+                                const NameInput(),
                                 const EmailInput(),
                                 const PhoneInput(),
                                 const PasswordInput(),

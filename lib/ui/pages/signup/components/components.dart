@@ -1,5 +1,6 @@
 export 'background_image.dart';
 export 'email_input.dart';
+export 'name_input.dart';
 export 'phone_input.dart';
 export 'signup_header.dart';
 export 'password_input.dart';
