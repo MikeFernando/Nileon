@@ -1,0 +1,8 @@
+export 'background_image.dart';
+export 'email_input.dart';
+export 'signup_header.dart';
+export 'password_input.dart';
+export 'signup_button.dart';
+export 'button_google.dart';
+export 'already_account_button.dart';
+export 'main_error_display.dart';
