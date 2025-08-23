@@ -35,6 +35,9 @@ void main() {
         name: faker.person.name(),
         email: faker.internet.email(),
         phone: faker.phoneNumber.toString(),
+        accessToken: faker.guid.guid(),
+        refreshToken: faker.guid.guid(),
+        role: 'CLIENT',
       ),
     );
   }

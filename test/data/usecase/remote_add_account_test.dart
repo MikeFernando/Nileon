@@ -46,10 +46,15 @@ void main() {
 
   test('deve chamar HttpClient com valores corretos', () async {
     final validData = {
-      'id': faker.guid.guid(),
-      'name': faker.person.name(),
-      'email': faker.internet.email(),
-      'phone': faker.phoneNumber.toString(),
+      'accessToken': faker.guid.guid(),
+      'refreshToken': faker.guid.guid(),
+      'user': {
+        'id': faker.guid.guid(),
+        'name': faker.person.name(),
+        'email': faker.internet.email(),
+        'phone': faker.phoneNumber.toString(),
+        'role': 'CLIENT',
+      },
     };
     mockHttpData(validData);
 
@@ -69,12 +74,12 @@ void main() {
     );
   });
 
-  test('deve lançar InvalidEmail se HttpClient retornar 400', () async {
+  test('deve lançar UnexpectedError se HttpClient retornar 400', () async {
     mockHttpError(HttpError.badRequest);
 
     final future = sut.add(params);
 
-    expect(future, throwsA(DomainError.invalidEmail));
+    expect(future, throwsA(DomainError.unexpected));
   });
 
   test('deve lançar UnexpectedError se HttpClient retornar 404', () async {
@@ -103,19 +108,28 @@ void main() {
 
   test('deve retornar uma Account se HttpClient retornar 200', () async {
     final mockData = {
-      'id': faker.guid.guid(),
-      'name': faker.person.name(),
-      'email': faker.internet.email(),
-      'phone': faker.phoneNumber.toString(),
+      'accessToken': faker.guid.guid(),
+      'refreshToken': faker.guid.guid(),
+      'user': {
+        'id': faker.guid.guid(),
+        'name': faker.person.name(),
+        'email': faker.internet.email(),
+        'phone': faker.phoneNumber.toString(),
+        'role': 'CLIENT',
+      },
     };
     mockHttpData(mockData);
 
     final account = await sut.add(params);
 
-    expect(account.id, mockData['id']);
-    expect(account.name, mockData['name']);
-    expect(account.email, mockData['email']);
-    expect(account.phone, mockData['phone']);
+    final user = mockData['user'] as Map;
+    expect(account.id, user['id']);
+    expect(account.name, user['name']);
+    expect(account.email, user['email']);
+    expect(account.phone, user['phone']);
+    expect(account.role, user['role']);
+    expect(account.accessToken, mockData['accessToken']);
+    expect(account.refreshToken, mockData['refreshToken']);
   });
 
   test(
