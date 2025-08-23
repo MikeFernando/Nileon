@@ -2,21 +2,23 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 
-import '../../../themes/themes.dart';
-import '../signup_presenter.dart';
+import '../add_account_presenter.dart';
 
-class NameInput extends StatefulWidget {
-  const NameInput({super.key});
+import '../../../themes/themes.dart';
+
+class PasswordInput extends StatefulWidget {
+  const PasswordInput({super.key});
 
   @override
-  State<NameInput> createState() => _NameInputState();
+  State<PasswordInput> createState() => _PasswordInputState();
 }
 
-class _NameInputState extends State<NameInput> {
+class _PasswordInputState extends State<PasswordInput> {
+  bool isObscureText = true;
   final FocusNode _focusNode = FocusNode();
   final TextEditingController _controller = TextEditingController();
   bool _hasFocus = false;
-  SignupPresenter? _presenter;
+  AddAccountPresenter? _presenter;
 
   @override
   void initState() {
@@ -28,7 +30,7 @@ class _NameInputState extends State<NameInput> {
 
       if (!_focusNode.hasFocus && _controller.text.isNotEmpty) {
         if (mounted && _presenter != null) {
-          _presenter!.validateNameOnFocusLost(_controller.text);
+          _presenter!.validatePasswordOnFocusLost(_controller.text);
         }
       }
     });
@@ -43,19 +45,18 @@ class _NameInputState extends State<NameInput> {
 
   @override
   Widget build(BuildContext context) {
-    _presenter = Provider.of<SignupPresenter>(context);
+    _presenter = Provider.of<AddAccountPresenter>(context);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const SizedBox(height: 18),
         Text(
-          'Nome',
+          'Senha',
           style: AppTypography.bodyLargeWithColor(AppColors.dark100),
         ),
         const SizedBox(height: 8),
         StreamBuilder<String?>(
-          stream: _presenter!.nameErrorStream,
+          stream: _presenter!.passwordErrorStream,
           initialData: null,
           builder: (context, snapshot) {
             return Column(
@@ -64,13 +65,14 @@ class _NameInputState extends State<NameInput> {
                 TextFormField(
                   controller: _controller,
                   focusNode: _focusNode,
-                  keyboardType: TextInputType.name,
-                  textCapitalization: TextCapitalization.words,
-                  onChanged: _presenter!.validateName,
-                  onEditingComplete: () =>
-                      _presenter!.validateNameOnFocusLost(_controller.text),
+                  keyboardType: TextInputType.visiblePassword,
+                  onChanged: _presenter!.validatePassword,
+                  onEditingComplete: () {
+                    _presenter!.validatePasswordOnFocusLost(_controller.text);
+                  },
+                  obscureText: isObscureText,
                   decoration: InputDecoration(
-                    hintText: 'Digite seu nome',
+                    hintText: 'Digite sua senha',
                     hintStyle: TextStyle(
                       color: AppColors.dark80,
                       fontFamily: 'Manrope',
@@ -79,14 +81,32 @@ class _NameInputState extends State<NameInput> {
                     prefixIcon: Padding(
                       padding: const EdgeInsets.all(12.0),
                       child: SvgPicture.asset(
-                        'lib/ui/assets/svg/user.svg',
-                        width: 18,
-                        height: 18,
+                        'lib/ui/assets/svg/key.svg',
+                        width: 20,
+                        height: 20,
                         colorFilter: ColorFilter.mode(
                           _hasFocus ? AppColors.dark100 : AppColors.dark80,
                           BlendMode.srcIn,
                         ),
                       ),
+                    ),
+                    suffixIcon: IconButton(
+                      icon: SvgPicture.asset(
+                        isObscureText
+                            ? 'lib/ui/assets/svg/eye-slash.svg'
+                            : 'lib/ui/assets/svg/eye.svg',
+                        width: 20,
+                        height: 20,
+                        colorFilter: ColorFilter.mode(
+                          _hasFocus ? AppColors.dark100 : AppColors.dark80,
+                          BlendMode.srcIn,
+                        ),
+                      ),
+                      onPressed: () {
+                        setState(() {
+                          isObscureText = !isObscureText;
+                        });
+                      },
                     ),
                     filled: true,
                     fillColor: AppColors.dark30,
@@ -145,6 +165,7 @@ class _NameInputState extends State<NameInput> {
             );
           },
         ),
+        const SizedBox(height: 61),
       ],
     );
   }

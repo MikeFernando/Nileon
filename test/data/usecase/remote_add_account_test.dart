@@ -14,7 +14,7 @@ void main() {
   late RemoteAddAccount sut;
   late HttpClientSpy httpClient;
   late String url;
-  late SignupParams params;
+  late AddAccountParams params;
 
   void mockHttpData(Map data) {
     when(() => httpClient.request(
@@ -36,7 +36,7 @@ void main() {
     url = faker.internet.httpUrl();
     httpClient = HttpClientSpy();
     sut = RemoteAddAccount(httpClient: httpClient, url: url);
-    params = SignupParams(
+    params = AddAccountParams(
       name: faker.person.name(),
       email: faker.internet.email(),
       phone: faker.phoneNumber.toString(),
@@ -60,21 +60,21 @@ void main() {
         url: url,
         method: 'post',
         body: {
-          'name': params.name,
+          'nome': params.name,
           'email': params.email,
-          'phone': params.phone,
-          'password': params.password,
+          'telefone': params.phone,
+          'senha': params.password,
         },
       ),
     );
   });
 
-  test('deve lançar UnexpectedError se HttpClient retornar 400', () async {
+  test('deve lançar InvalidEmail se HttpClient retornar 400', () async {
     mockHttpError(HttpError.badRequest);
 
     final future = sut.add(params);
 
-    expect(future, throwsA(DomainError.unexpected));
+    expect(future, throwsA(DomainError.invalidEmail));
   });
 
   test('deve lançar UnexpectedError se HttpClient retornar 404', () async {
@@ -93,12 +93,12 @@ void main() {
     expect(future, throwsA(DomainError.unexpected));
   });
 
-  test('deve lançar UnexpectedError se HttpClient retornar 409', () async {
-    mockHttpError(HttpError.badRequest);
+  test('deve lançar EmailInUse se HttpClient retornar 409', () async {
+    mockHttpError(HttpError.forbidden);
 
     final future = sut.add(params);
 
-    expect(future, throwsA(DomainError.unexpected));
+    expect(future, throwsA(DomainError.emailInUse));
   });
 
   test('deve retornar uma Account se HttpClient retornar 200', () async {
@@ -119,13 +119,13 @@ void main() {
   });
 
   test(
-      'deve lançar UnexpectedError se HttpClient retornar 200 com dados inválidos',
+      'deve lançar InvalidEmail se HttpClient retornar 200 com dados inválidos',
       () async {
     mockHttpData({'invalid_key': 'invalid_value'});
 
     final future = sut.add(params);
 
-    expect(future, throwsA(DomainError.unexpected));
+    expect(future, throwsA(DomainError.invalidEmail));
   });
 
   test('deve lançar UnexpectedError se HttpClient retornar null', () async {

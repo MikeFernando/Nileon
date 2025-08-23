@@ -1,4 +1,4 @@
-# Signup Presenter
+# Add Account Presenter
 
 > ## Regras de nome
 01. ✅ Deve chamar NameValidation ao alterar o nome
@@ -43,7 +43,7 @@
 
 > ## Regras de navegação
 28. ✅ Deve notificar o navigateToLoginStream quando o usuário clicar em "Já tem uma conta? Login"
-29. ✅ Deve notificar o navigateToGoogleSignupStream quando o usuário clicar em "Registrar com Google"
+29. ✅ Deve notificar o navigateToGoogleAddAccountStream quando o usuário clicar em "Registrar com Google"
 
 > ## Regras de gerenciamento de estado
 30. ✅ Deve fechar todos os Streams no dispose

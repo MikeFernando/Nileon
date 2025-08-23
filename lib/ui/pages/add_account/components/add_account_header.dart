@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../themes/themes.dart';
 
-Widget signupHeader(BuildContext context) {
+Widget addAccountHeader(BuildContext context) {
   return Padding(
     padding: const EdgeInsets.only(left: 24, top: 24, right: 24),
     child: Column(

@@ -1,3 +1,3 @@
 export 'login/login.dart';
-export 'signup/signup.dart';
+export 'add_account/add_account.dart';
 export 'home/home.dart';

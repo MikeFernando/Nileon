@@ -1,12 +1,14 @@
 import 'dart:async';
-import 'package:nileon/domain/usecases/usecases.dart';
-import 'package:nileon/domain/helpers/helpers.dart';
-import 'package:nileon/presentation/protocols/protocols.dart';
-import 'package:nileon/ui/pages/signup/signup_presenter.dart';
 
-class StreamSignupPresenter implements SignupPresenter {
+import '../../domain/usecases/usecases.dart';
+import '../../domain/helpers/helpers.dart';
+
+import '../../presentation/protocols/protocols.dart';
+import '../../ui/pages/add_account/add_account_presenter.dart';
+
+class StreamAddAccountPresenter implements AddAccountPresenter {
   final Validation validation;
-  final AddAccount addAccount;
+  final AddAccount addAccountUseCase;
 
   // Controllers para streams de erro
   final _nameErrorController = StreamController<String?>.broadcast();
@@ -22,7 +24,7 @@ class StreamSignupPresenter implements SignupPresenter {
   // Controllers para streams de navegação
   final _navigateToController = StreamController<String?>.broadcast();
   final _navigateToLoginController = StreamController<String?>.broadcast();
-  final _navigateToGoogleSignupController =
+  final _navigateToGoogleAddAccountController =
       StreamController<String?>.broadcast();
 
   // Variáveis de estado
@@ -37,9 +39,9 @@ class StreamSignupPresenter implements SignupPresenter {
   String? _lastPhoneError;
   String? _lastPasswordError;
 
-  StreamSignupPresenter({
+  StreamAddAccountPresenter({
     required this.validation,
-    required this.addAccount,
+    required this.addAccountUseCase,
   }) {
     // Inicializa todos os streams com valores padrão
     _nameErrorController.add(null);
@@ -51,7 +53,7 @@ class StreamSignupPresenter implements SignupPresenter {
     _mainErrorController.add(null);
     _navigateToController.add(null);
     _navigateToLoginController.add(null);
-    _navigateToGoogleSignupController.add(null);
+    _navigateToGoogleAddAccountController.add(null);
   }
 
   @override
@@ -83,8 +85,8 @@ class StreamSignupPresenter implements SignupPresenter {
       _navigateToLoginController.stream;
 
   @override
-  Stream<String?> get navigateToGoogleSignupStream =>
-      _navigateToGoogleSignupController.stream;
+  Stream<String?> get navigateToGoogleAddAccountStream =>
+      _navigateToGoogleAddAccountController.stream;
 
   @override
   void validateName(String name) {
@@ -148,7 +150,7 @@ class StreamSignupPresenter implements SignupPresenter {
   }
 
   @override
-  Future<void> signup() async {
+  Future<void> addAccount() async {
     try {
       _mainErrorController.add(null);
       _isLoadingController.add(true);
@@ -156,14 +158,14 @@ class StreamSignupPresenter implements SignupPresenter {
       // Limpa a formatação do telefone (remove espaços e hífens)
       final cleanPhone = _phone?.replaceAll(RegExp(r'[^\d]'), '') ?? '';
 
-      final params = SignupParams(
+      final params = AddAccountParams(
         name: _name ?? '',
         email: _email ?? '',
         phone: cleanPhone,
         password: _password ?? '',
       );
 
-      await addAccount.add(params);
+      await addAccountUseCase.add(params);
       _navigateToController.add('/home'); // Navegação após sucesso
     } on DomainError catch (error) {
       _mainErrorController.add(_getErrorMessage(error));
@@ -180,8 +182,8 @@ class StreamSignupPresenter implements SignupPresenter {
   }
 
   @override
-  void navigateToGoogleSignup() {
-    _navigateToGoogleSignupController.add('/google-signup');
+  void navigateToGoogleAddAccount() {
+    _navigateToGoogleAddAccountController.add('/google-add-account');
   }
 
   @override
@@ -195,7 +197,7 @@ class StreamSignupPresenter implements SignupPresenter {
     _mainErrorController.close();
     _navigateToController.close();
     _navigateToLoginController.close();
-    _navigateToGoogleSignupController.close();
+    _navigateToGoogleAddAccountController.close();
   }
 
   void _validateName() {

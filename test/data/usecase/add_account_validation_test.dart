@@ -3,9 +3,9 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:nileon/domain/usecases/add_account.dart';
 
 void main() {
-  group('SignupParams', () {
-    test('deve criar SignupParams com valores válidos', () {
-      final params = SignupParams(
+  group('AddAccountParams', () {
+    test('deve criar AddAccountParams com valores válidos', () {
+      final params = AddAccountParams(
         name: 'John Doe',
         email: 'john@example.com',
         phone: '+5511999999999',
@@ -19,7 +19,7 @@ void main() {
     });
 
     test('deve aceitar nome com pelo menos 3 caracteres', () {
-      final params = SignupParams(
+      final params = AddAccountParams(
         name: 'Jo',
         email: 'john@example.com',
         phone: '+5511999999999',
@@ -30,7 +30,7 @@ void main() {
     });
 
     test('deve aceitar email em formato válido', () {
-      final params = SignupParams(
+      final params = AddAccountParams(
         name: 'John Doe',
         email: 'john.doe@example.com',
         phone: '+5511999999999',
@@ -41,7 +41,7 @@ void main() {
     });
 
     test('deve aceitar telefone em formato válido', () {
-      final params = SignupParams(
+      final params = AddAccountParams(
         name: 'John Doe',
         email: 'john@example.com',
         phone: '+5511999999999',
@@ -52,7 +52,7 @@ void main() {
     });
 
     test('deve aceitar senha com pelo menos 8 caracteres', () {
-      final params = SignupParams(
+      final params = AddAccountParams(
         name: 'John Doe',
         email: 'john@example.com',
         phone: '+5511999999999',

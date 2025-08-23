@@ -17,4 +17,4 @@
 14. ✅ Deve exibir mensagem de erro caso o login falhe
 15. ✅ Deve chamar o método de autenticar
 16. ✅ Deve fechar streams quando a página for encerrada
-17. ✅ Deve navegar para a tela de signup ao clicar no botão ButtonRegister
+17. ✅ Deve navegar para a tela de add account ao clicar no botão ButtonRegister

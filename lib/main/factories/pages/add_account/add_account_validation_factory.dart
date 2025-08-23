@@ -1,6 +1,6 @@
 import 'package:nileon/validation/validation.dart';
 
-ValidationComposite makeSignupValidation() {
+ValidationComposite makeAddAccountValidation() {
   return ValidationComposite([
     RequiredFieldValidator('name'),
     NameValidation('name'),

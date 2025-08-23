@@ -1,6 +1,6 @@
-import '../../../domain/entities/account_entity.dart';
-import '../../../domain/helpers/domain_error.dart';
-import '../../../domain/usecases/add_account.dart';
+import '../../../domain/entities/entities.dart';
+import '../../../domain/helpers/helpers.dart';
+import '../../../domain/usecases/usecases.dart';
 
 import '../../http/http.dart';
 import '../../models/models.dart';
@@ -12,12 +12,12 @@ class RemoteAddAccount implements AddAccount {
   RemoteAddAccount({required this.httpClient, required this.url});
 
   @override
-  Future<AccountEntity> add(SignupParams params) async {
+  Future<AccountEntity> add(AddAccountParams params) async {
     try {
       final httpResponse = await httpClient.request(
         url: url,
         method: 'post',
-        body: RemoteSignupParams.fromDomain(params).toJson(),
+        body: RemoteAddAccountParams.fromDomain(params).toJson(),
       );
 
       if (httpResponse == null) {
@@ -28,7 +28,7 @@ class RemoteAddAccount implements AddAccount {
     } on HttpError catch (error) {
       switch (error) {
         case HttpError.badRequest:
-          throw DomainError.invalidEmail;
+          throw DomainError.unexpected;
         case HttpError.unauthorized:
           throw DomainError.invalidCredentials;
         case HttpError.forbidden:
@@ -44,21 +44,21 @@ class RemoteAddAccount implements AddAccount {
   }
 }
 
-class RemoteSignupParams {
+class RemoteAddAccountParams {
   final String name;
   final String email;
   final String phone;
   final String password;
 
-  RemoteSignupParams({
+  RemoteAddAccountParams({
     required this.name,
     required this.email,
     required this.phone,
     required this.password,
   });
 
-  factory RemoteSignupParams.fromDomain(SignupParams params) {
-    return RemoteSignupParams(
+  factory RemoteAddAccountParams.fromDomain(AddAccountParams params) {
+    return RemoteAddAccountParams(
       name: params.name,
       email: params.email,
       phone: params.phone,

@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../add_account_presenter.dart';
+
 import '../../../themes/themes.dart';
-import '../signup_presenter.dart';
 
 class MainErrorDisplay extends StatefulWidget {
   const MainErrorDisplay({super.key});
@@ -14,7 +15,7 @@ class MainErrorDisplay extends StatefulWidget {
 class _MainErrorDisplayState extends State<MainErrorDisplay> {
   @override
   Widget build(BuildContext context) {
-    final presenter = Provider.of<SignupPresenter>(context);
+    final presenter = Provider.of<AddAccountPresenter>(context);
 
     return StreamBuilder<String?>(
       stream: presenter.mainErrorStream,

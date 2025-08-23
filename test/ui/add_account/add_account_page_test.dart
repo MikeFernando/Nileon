@@ -3,17 +3,17 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:get/get.dart';
 
-import 'package:nileon/ui/pages/signup/signup_page.dart';
-import 'package:nileon/ui/pages/signup/signup_presenter.dart';
-import 'package:nileon/ui/pages/signup/components/components.dart';
+import 'package:nileon/ui/pages/add_account/add_account.dart';
+import 'package:nileon/ui/pages/add_account/add_account_presenter.dart';
+import 'package:nileon/ui/pages/add_account/components/components.dart';
 
-class SignupPresenterSpy extends Mock implements SignupPresenter {}
+class AddAccountPresenterSpy extends Mock implements AddAccountPresenter {}
 
 void main() {
-  late SignupPresenterSpy presenter;
+  late AddAccountPresenterSpy presenter;
 
   setUp(() {
-    presenter = SignupPresenterSpy();
+    presenter = AddAccountPresenterSpy();
 
     // Setup default stream responses
     when(() => presenter.nameErrorStream).thenAnswer((_) => Stream.value(null));
@@ -32,18 +32,18 @@ void main() {
         .thenAnswer((_) => Stream.value(null));
     when(() => presenter.navigateToLoginStream)
         .thenAnswer((_) => Stream.value(null));
-    when(() => presenter.navigateToGoogleSignupStream)
+    when(() => presenter.navigateToGoogleAddAccountStream)
         .thenAnswer((_) => Stream.value(null));
     when(() => presenter.dispose()).thenAnswer((_) {});
   });
 
   Widget createWidgetUnderTest() {
     return GetMaterialApp(
-      home: SignupPage(presenter: presenter),
+      home: AddAccountPage(presenter: presenter),
     );
   }
 
-  group('SignupPage - Regras de Interface', () {
+  group('AddAccountPage - Regras de Interface', () {
     testWidgets('Deve exibir campo de entrada para nome',
         (WidgetTester tester) async {
       await tester.pumpWidget(createWidgetUnderTest());
@@ -79,7 +79,7 @@ void main() {
     testWidgets('Deve exibir botão de registro', (WidgetTester tester) async {
       await tester.pumpWidget(createWidgetUnderTest());
 
-      expect(find.byType(ButtonSignup), findsOneWidget);
+      expect(find.byType(AddAccountButton), findsOneWidget);
       expect(find.text('Registrar'), findsOneWidget);
     });
 
@@ -96,7 +96,7 @@ void main() {
     });
   });
 
-  group('SignupPage - Regras de Validação Visual', () {
+  group('AddAccountPage - Regras de Validação Visual', () {
     testWidgets('Deve exibir mensagem de erro para nome',
         (WidgetTester tester) async {
       when(() => presenter.nameErrorStream)
@@ -142,15 +142,16 @@ void main() {
     });
   });
 
-  group('SignupPage - Regras de Interação', () {
-    testWidgets('Deve chamar presenter.signup() quando botão for pressionado',
+  group('AddAccountPage - Regras de Interação', () {
+    testWidgets(
+        'Deve chamar presenter.addAccount() quando botão for pressionado',
         (WidgetTester tester) async {
       // Configura o formulário como válido
       when(() => presenter.isFormValidStream)
           .thenAnswer((_) => Stream.value(true));
       when(() => presenter.isLoadingStream)
           .thenAnswer((_) => Stream.value(false));
-      when(() => presenter.signup()).thenAnswer((_) async {});
+      when(() => presenter.addAccount()).thenAnswer((_) async {});
 
       await tester.pumpWidget(createWidgetUnderTest());
       await tester.pump();
@@ -258,7 +259,7 @@ void main() {
                 name: '/login',
                 page: () => const Scaffold(body: Text('Login Page'))),
           ],
-          home: SignupPage(presenter: presenter),
+          home: AddAccountPage(presenter: presenter),
         ),
       );
 
@@ -285,7 +286,7 @@ void main() {
     });
   });
 
-  group('SignupPage - Regras de Estado de Loading', () {
+  group('AddAccountPage - Regras de Estado de Loading', () {
     testWidgets('Deve exibir indicador de loading durante cadastro',
         (WidgetTester tester) async {
       when(() => presenter.isLoadingStream)
@@ -298,7 +299,7 @@ void main() {
     });
   });
 
-  group('SignupPage - Regras de Tratamento de Erro', () {
+  group('AddAccountPage - Regras de Tratamento de Erro', () {
     testWidgets('Deve exibir "E-mail já está em uso"',
         (WidgetTester tester) async {
       when(() => presenter.emailErrorStream)
@@ -321,7 +322,7 @@ void main() {
     });
   });
 
-  group('SignupPage - Regras de Acessibilidade', () {
+  group('AddAccountPage - Regras de Acessibilidade', () {
     testWidgets('Deve ter campos de entrada acessíveis',
         (WidgetTester tester) async {
       await tester.pumpWidget(createWidgetUnderTest());
@@ -332,12 +333,12 @@ void main() {
     testWidgets('Deve ter botões acessíveis', (WidgetTester tester) async {
       await tester.pumpWidget(createWidgetUnderTest());
 
-      expect(find.byType(ButtonSignup), findsOneWidget);
+      expect(find.byType(AddAccountButton), findsOneWidget);
       expect(find.byType(ButtonGoogle), findsOneWidget);
     });
   });
 
-  group('SignupPage - Regras de Responsividade', () {
+  group('AddAccountPage - Regras de Responsividade', () {
     testWidgets('Deve ter scroll adequado', (WidgetTester tester) async {
       await tester.pumpWidget(createWidgetUnderTest());
 
@@ -345,7 +346,7 @@ void main() {
     });
   });
 
-  group('SignupPage - Testes de Integração', () {
+  group('AddAccountPage - Testes de Integração', () {
     testWidgets('Deve executar fluxo básico de preenchimento',
         (WidgetTester tester) async {
       await tester.pumpWidget(createWidgetUnderTest());
@@ -374,7 +375,7 @@ void main() {
       expect(find.byType(EmailInput), findsOneWidget);
       expect(find.byType(PhoneInput), findsOneWidget);
       expect(find.byType(PasswordInput), findsOneWidget);
-      expect(find.byType(ButtonSignup), findsOneWidget);
+      expect(find.byType(AddAccountButton), findsOneWidget);
       expect(find.byType(ButtonGoogle), findsOneWidget);
       expect(find.byType(AlreadyHaveAccount), findsOneWidget);
       expect(find.byType(MainErrorDisplay), findsOneWidget);

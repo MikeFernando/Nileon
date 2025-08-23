@@ -1,18 +1,16 @@
 String makeApiUrl(String path) {
   const environment = 'dev';
 
-  // URLs base para cada ambiente
   const baseUrls = {
-    'dev': 'https://dev.your-api-server.com',
+    'dev': 'https://mock.apidog.com/m1/1046251-1033583-default',
     'test': 'https://test.your-api-server.com',
     'prod': 'https://prod.your-api-server.com',
   };
 
   final baseUrl = baseUrls[environment] ?? baseUrls['dev']!;
 
-  // Mapeia os paths para os endpoints corretos da API
   switch (path) {
-    case 'signup':
+    case 'add_account':
       return '$baseUrl/usuario/registrar';
     case 'login':
       return '$baseUrl/usuario/login';

@@ -91,7 +91,7 @@ void main() {
   });
 
   testWidgets(
-      'Deve navegar para a tela de signup ao clicar no botão ButtonRegister',
+      'Deve navegar para a tela de add account ao clicar no botão ButtonRegister',
       (WidgetTester tester) async {
     // Arrange
     when(() => presenter.emailErrorStream)
@@ -110,8 +110,8 @@ void main() {
       GetMaterialApp(
         getPages: [
           GetPage(
-              name: '/signup',
-              page: () => const Scaffold(body: Text('Signup Page'))),
+              name: '/add_account',
+              page: () => const Scaffold(body: Text('Add Account Page'))),
         ],
         home: LoginPage(presenter: presenter),
       ),
@@ -136,6 +136,6 @@ void main() {
     await tester.pumpAndSettle();
 
     // Assert - verificar se a navegação foi chamada
-    expect(Get.currentRoute, '/signup');
+    expect(Get.currentRoute, '/add_account');
   });
 }

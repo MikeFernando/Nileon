@@ -8,7 +8,7 @@ RemoteAddAccount makeRemoteAddAccount() {
   final httpClient = makeHttpAdapter();
   final addAccount = RemoteAddAccount(
     httpClient: httpClient,
-    url: makeApiUrl('signup'),
+    url: makeApiUrl('add_account'),
   );
 
   return addAccount;

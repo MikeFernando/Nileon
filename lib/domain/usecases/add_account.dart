@@ -1,16 +1,16 @@
 import '../entities/entities.dart';
 
 abstract class AddAccount {
-  Future<AccountEntity> add(SignupParams params);
+  Future<AccountEntity> add(AddAccountParams params);
 }
 
-class SignupParams {
+class AddAccountParams {
   final String name;
   final String email;
   final String phone;
   final String password;
 
-  SignupParams({
+  AddAccountParams({
     required this.name,
     required this.email,
     required this.phone,

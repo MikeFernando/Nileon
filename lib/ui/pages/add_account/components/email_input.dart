@@ -2,22 +2,22 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 
-import '../../../themes/themes.dart';
-import '../signup_presenter.dart';
+import '../add_account_presenter.dart';
 
-class PasswordInput extends StatefulWidget {
-  const PasswordInput({super.key});
+import '../../../themes/themes.dart';
+
+class EmailInput extends StatefulWidget {
+  const EmailInput({super.key});
 
   @override
-  State<PasswordInput> createState() => _PasswordInputState();
+  State<EmailInput> createState() => _EmailInputState();
 }
 
-class _PasswordInputState extends State<PasswordInput> {
-  bool isObscureText = true;
+class _EmailInputState extends State<EmailInput> {
   final FocusNode _focusNode = FocusNode();
   final TextEditingController _controller = TextEditingController();
   bool _hasFocus = false;
-  SignupPresenter? _presenter;
+  AddAccountPresenter? _presenter;
 
   @override
   void initState() {
@@ -27,11 +27,9 @@ class _PasswordInputState extends State<PasswordInput> {
         _hasFocus = _focusNode.hasFocus;
       });
 
-      // Valida quando o foco sai
       if (!_focusNode.hasFocus && _controller.text.isNotEmpty) {
-        // Valida quando o foco sai
         if (mounted && _presenter != null) {
-          _presenter!.validatePasswordOnFocusLost(_controller.text);
+          _presenter!.validateEmailOnFocusLost(_controller.text);
         }
       }
     });
@@ -46,18 +44,19 @@ class _PasswordInputState extends State<PasswordInput> {
 
   @override
   Widget build(BuildContext context) {
-    _presenter = Provider.of<SignupPresenter>(context);
+    _presenter = Provider.of<AddAccountPresenter>(context);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        const SizedBox(height: 24),
         Text(
-          'Senha',
+          'Email',
           style: AppTypography.bodyLargeWithColor(AppColors.dark100),
         ),
         const SizedBox(height: 8),
         StreamBuilder<String?>(
-          stream: _presenter!.passwordErrorStream,
+          stream: _presenter!.emailErrorStream,
           initialData: null,
           builder: (context, snapshot) {
             return Column(
@@ -66,14 +65,12 @@ class _PasswordInputState extends State<PasswordInput> {
                 TextFormField(
                   controller: _controller,
                   focusNode: _focusNode,
-                  keyboardType: TextInputType.visiblePassword,
-                  onChanged: _presenter!.validatePassword,
-                  onEditingComplete: () {
-                    _presenter!.validatePasswordOnFocusLost(_controller.text);
-                  },
-                  obscureText: isObscureText,
+                  keyboardType: TextInputType.emailAddress,
+                  onChanged: _presenter!.validateEmail,
+                  onEditingComplete: () =>
+                      _presenter!.validateEmailOnFocusLost(_controller.text),
                   decoration: InputDecoration(
-                    hintText: 'Digite sua senha',
+                    hintText: 'Digite seu email',
                     hintStyle: TextStyle(
                       color: AppColors.dark80,
                       fontFamily: 'Manrope',
@@ -82,7 +79,7 @@ class _PasswordInputState extends State<PasswordInput> {
                     prefixIcon: Padding(
                       padding: const EdgeInsets.all(12.0),
                       child: SvgPicture.asset(
-                        'lib/ui/assets/svg/key.svg',
+                        'lib/ui/assets/svg/email.svg',
                         width: 20,
                         height: 20,
                         colorFilter: ColorFilter.mode(
@@ -90,24 +87,6 @@ class _PasswordInputState extends State<PasswordInput> {
                           BlendMode.srcIn,
                         ),
                       ),
-                    ),
-                    suffixIcon: IconButton(
-                      icon: SvgPicture.asset(
-                        isObscureText
-                            ? 'lib/ui/assets/svg/eye-slash.svg'
-                            : 'lib/ui/assets/svg/eye.svg',
-                        width: 20,
-                        height: 20,
-                        colorFilter: ColorFilter.mode(
-                          _hasFocus ? AppColors.dark100 : AppColors.dark80,
-                          BlendMode.srcIn,
-                        ),
-                      ),
-                      onPressed: () {
-                        setState(() {
-                          isObscureText = !isObscureText;
-                        });
-                      },
                     ),
                     filled: true,
                     fillColor: AppColors.dark30,
@@ -166,7 +145,7 @@ class _PasswordInputState extends State<PasswordInput> {
             );
           },
         ),
-        const SizedBox(height: 61),
+        const SizedBox(height: 16),
       ],
     );
   }

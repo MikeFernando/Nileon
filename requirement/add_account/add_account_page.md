@@ -1,4 +1,4 @@
-# Signup Page
+# Add Account Page
 
 > ## Regras de interface
 01. ✅ Deve exibir o título "Create Your Account"
@@ -37,7 +37,7 @@
 
 > ## Regras de navegação
 28. ✅ Deve navegar para página de login quando clicar em "Already have an account? Login"
-29. ✅ Deve navegar para fluxo de Google Signup quando clicar em "Register with Google"
+29. ✅ Deve navegar para fluxo de Google Add Account quando clicar em "Register with Google"
 30. ✅ Deve navegar para página de sucesso após cadastro bem-sucedido
 31. ✅ Deve manter usuário na página em caso de erro
 

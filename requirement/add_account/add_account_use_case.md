@@ -1,7 +1,7 @@
 # AddAccount Use Case
 
 > ## Regras de entrada
-01. ✅ Deve receber SignupParams com nome, email, telefone e senha
+01. ✅ Deve receber AddAccountParams com nome, email, telefone e senha
 02. ✅ Deve validar que todos os campos obrigatórios estão preenchidos
 03. ✅ Deve validar que o email está em formato válido
 04. ✅ Deve validar que a senha tem pelo menos 8 caracteres

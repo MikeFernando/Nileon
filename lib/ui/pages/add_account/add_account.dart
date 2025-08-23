@@ -2,21 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import 'components/components.dart';
-import 'signup_presenter.dart';
+import 'add_account_presenter.dart';
 
 import '../../themes/themes.dart';
 
 import 'widgets/or_divider.dart';
 
-class SignupPage extends StatefulWidget {
-  final SignupPresenter presenter;
-  const SignupPage({super.key, required this.presenter});
+class AddAccountPage extends StatefulWidget {
+  final AddAccountPresenter presenter;
+  const AddAccountPage({super.key, required this.presenter});
 
   @override
-  State<SignupPage> createState() => _SignupPageState();
+  State<AddAccountPage> createState() => _AddAccountPageState();
 }
 
-class _SignupPageState extends State<SignupPage> {
+class _AddAccountPageState extends State<AddAccountPage> {
   @override
   void initState() {
     super.initState();
@@ -36,7 +36,7 @@ class _SignupPageState extends State<SignupPage> {
       }
     });
 
-    widget.presenter.navigateToGoogleSignupStream.listen((route) {
+    widget.presenter.navigateToGoogleAddAccountStream.listen((route) {
       if (route != null && mounted) {
         Navigator.of(context).pushReplacementNamed(route);
       }
@@ -62,7 +62,7 @@ class _SignupPageState extends State<SignupPage> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                signupHeader(context),
+                addAccountHeader(context),
                 Expanded(
                   child: Container(
                     decoration: BoxDecoration(
@@ -92,7 +92,7 @@ class _SignupPageState extends State<SignupPage> {
                                 const PhoneInput(),
                                 const PasswordInput(),
                                 const MainErrorDisplay(),
-                                const ButtonSignup(),
+                                const AddAccountButton(),
                                 orDivider(),
                                 const ButtonGoogle(),
                                 const AlreadyHaveAccount(),
