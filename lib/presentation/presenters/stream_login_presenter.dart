@@ -154,8 +154,8 @@ class StreamLoginPresenter implements LoginPresenter {
     switch (error) {
       case DomainError.invalidCredentials:
         return 'Credenciais inválidas';
-      case DomainError.unexpected:
-        return 'Erro inesperado';
+      case DomainError.invalidData:
+        return 'Dados inválidos';
       case DomainError.emailInUse:
         return 'E-mail já está em uso';
       case DomainError.invalidEmail:
@@ -164,6 +164,8 @@ class StreamLoginPresenter implements LoginPresenter {
         return 'Senha muito fraca';
       case DomainError.invalidPhone:
         return 'Telefone inválido';
+      case DomainError.unexpected:
+        return 'Erro inesperado';
     }
   }
 }

@@ -155,7 +155,6 @@ class StreamAddAccountPresenter implements AddAccountPresenter {
       _mainErrorController.add(null);
       _isLoadingController.add(true);
 
-      // Limpa a formatação do telefone (remove espaços e hífens)
       final cleanPhone = _phone?.replaceAll(RegExp(r'[^\d]'), '') ?? '';
 
       final params = AddAccountParams(
@@ -166,7 +165,7 @@ class StreamAddAccountPresenter implements AddAccountPresenter {
       );
 
       await addAccountUseCase.add(params);
-      _navigateToController.add('/home'); // Navegação após sucesso
+      _navigateToController.add('/home');
     } on DomainError catch (error) {
       _mainErrorController.add(_getErrorMessage(error));
     } catch (e) {
@@ -300,6 +299,8 @@ class StreamAddAccountPresenter implements AddAccountPresenter {
         return 'Senha muito fraca';
       case DomainError.invalidPhone:
         return 'Telefone inválido';
+      case DomainError.invalidData:
+        return 'Dados inválidos';
       case DomainError.unexpected:
         return 'Erro inesperado';
     }

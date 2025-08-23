@@ -5,4 +5,5 @@ enum DomainError {
   invalidEmail,
   weakPassword,
   invalidPhone,
+  invalidData,
 }

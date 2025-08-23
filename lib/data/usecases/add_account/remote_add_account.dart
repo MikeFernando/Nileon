@@ -33,12 +33,12 @@ class RemoteAddAccount implements AddAccount {
           throw DomainError.invalidCredentials;
         case HttpError.forbidden:
           throw DomainError.emailInUse;
+        case HttpError.invalidData:
+          throw DomainError.invalidData;
         case HttpError.notFound:
           throw DomainError.unexpected;
         case HttpError.serverError:
           throw DomainError.unexpected;
-        case HttpError.invalidData:
-          throw DomainError.invalidEmail;
       }
     }
   }
