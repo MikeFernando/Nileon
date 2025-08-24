@@ -2,21 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import 'components/components.dart';
-import 'add_account_presenter.dart';
+import 'signup_presenter.dart';
 
 import '../../themes/themes.dart';
 
 import 'widgets/or_divider.dart';
 
-class AddAccountPage extends StatefulWidget {
-  final AddAccountPresenter presenter;
-  const AddAccountPage({super.key, required this.presenter});
+class SignUpPage extends StatefulWidget {
+  final SignUpPresenter presenter;
+  const SignUpPage({super.key, required this.presenter});
 
   @override
-  State<AddAccountPage> createState() => _AddAccountPageState();
+  State<SignUpPage> createState() => _SignUpPageState();
 }
 
-class _AddAccountPageState extends State<AddAccountPage> {
+class _SignUpPageState extends State<SignUpPage> {
   @override
   void initState() {
     super.initState();
@@ -62,7 +62,7 @@ class _AddAccountPageState extends State<AddAccountPage> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                addAccountHeader(context),
+                signUpHeader(context),
                 Expanded(
                   child: Container(
                     decoration: BoxDecoration(
@@ -92,7 +92,7 @@ class _AddAccountPageState extends State<AddAccountPage> {
                                 const PhoneInput(),
                                 const PasswordInput(),
                                 const MainErrorDisplay(),
-                                const AddAccountButton(),
+                                const SignUpButton(),
                                 orDivider(),
                                 const ButtonGoogle(),
                                 const AlreadyHaveAccount(),

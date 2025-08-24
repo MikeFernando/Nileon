@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
-import '../add_account_presenter.dart';
+import '../signup_presenter.dart';
 
 import '../../../themes/themes.dart';
 
@@ -17,7 +17,7 @@ class _PhoneInputState extends State<PhoneInput> {
   final FocusNode _focusNode = FocusNode();
   final TextEditingController _controller = TextEditingController();
   bool _hasFocus = false;
-  AddAccountPresenter? _presenter;
+  SignUpPresenter? _presenter;
 
   @override
   void initState() {
@@ -62,7 +62,7 @@ class _PhoneInputState extends State<PhoneInput> {
 
   @override
   Widget build(BuildContext context) {
-    _presenter = Provider.of<AddAccountPresenter>(context);
+    _presenter = Provider.of<SignUpPresenter>(context);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,

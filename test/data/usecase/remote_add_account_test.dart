@@ -132,14 +132,13 @@ void main() {
     expect(account.refreshToken, mockData['refreshToken']);
   });
 
-  test(
-      'deve lançar InvalidEmail se HttpClient retornar 200 com dados inválidos',
+  test('deve lançar InvalidData se HttpClient retornar 200 com dados inválidos',
       () async {
     mockHttpData({'invalid_key': 'invalid_value'});
 
     final future = sut.add(params);
 
-    expect(future, throwsA(DomainError.invalidEmail));
+    expect(future, throwsA(DomainError.invalidData));
   });
 
   test('deve lançar UnexpectedError se HttpClient retornar null', () async {

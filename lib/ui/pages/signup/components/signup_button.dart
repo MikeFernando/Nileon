@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../add_account_presenter.dart';
+import '../signup_presenter.dart';
 
 import '../../../themes/themes.dart';
 
-class AddAccountButton extends StatelessWidget {
-  const AddAccountButton({super.key});
+class SignUpButton extends StatelessWidget {
+  const SignUpButton({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final presenter = Provider.of<AddAccountPresenter>(context);
+    final presenter = Provider.of<SignUpPresenter>(context);
     return SizedBox(
       width: double.infinity,
       child: StreamBuilder<bool>(
@@ -26,7 +26,7 @@ class AddAccountButton extends StatelessWidget {
 
               return ElevatedButton(
                 onPressed: (isFormValid && !isLoading)
-                    ? () async => await presenter.addAccount()
+                    ? () async => await presenter.signUp()
                     : null,
                 style: ElevatedButton.styleFrom(
                   backgroundColor: (isFormValid && !isLoading)

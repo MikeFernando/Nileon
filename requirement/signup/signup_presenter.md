@@ -35,10 +35,10 @@
 22. ✅ Deve validar que nome, email, telefone e senha são campos obrigatórios
 
 > ## Regras de cadastro
-23. ✅ Deve chamar o AddAccount com nome, email, telefone e senha corretos
-24. ✅ Deve notificar o isLoadingStream como true antes de chamar o AddAccount
-25. ✅ Deve notificar o isLoadingStream como false no fim do AddAccount
-26. ✅ Deve notificar o mainErrorStream caso o AddAccount retorne um DomainError
+23. ✅ Deve chamar o SignUp com nome, email, telefone e senha corretos
+24. ✅ Deve notificar o isLoadingStream como true antes de chamar o SignUp
+25. ✅ Deve notificar o isLoadingStream como false no fim do SignUp
+26. ✅ Deve notificar o mainErrorStream caso o SignUp retorne um DomainError
 27. ✅ Deve notificar o navigateToStream com sucesso após cadastro bem-sucedido
 
 > ## Regras de navegação

@@ -91,7 +91,7 @@ void main() {
   });
 
   testWidgets(
-      'Deve navegar para a tela de add account ao clicar no botão ButtonRegister',
+      'Deve navegar para a tela de SignUp ao clicar no botão ButtonRegister',
       (WidgetTester tester) async {
     // Arrange
     when(() => presenter.emailErrorStream)
@@ -110,8 +110,8 @@ void main() {
       GetMaterialApp(
         getPages: [
           GetPage(
-              name: '/add_account',
-              page: () => const Scaffold(body: Text('Add Account Page'))),
+              name: '/signup',
+              page: () => const Scaffold(body: Text('Signup Page'))),
         ],
         home: LoginPage(presenter: presenter),
       ),
@@ -122,10 +122,8 @@ void main() {
         find.byType(SingleChildScrollView), const Offset(0, -300));
     await tester.pumpAndSettle();
 
-    // Verificar se o ButtonRegister está visível antes de clicar
     expect(find.byType(ButtonRegister), findsOneWidget);
 
-    // Encontrar o GestureDetector dentro do ButtonRegister
     final buttonRegister = find.byType(ButtonRegister);
     final gestureDetector = find.descendant(
       of: buttonRegister,
@@ -135,7 +133,6 @@ void main() {
     await tester.tap(gestureDetector, warnIfMissed: false);
     await tester.pumpAndSettle();
 
-    // Assert - verificar se a navegação foi chamada
-    expect(Get.currentRoute, '/add_account');
+    expect(Get.currentRoute, '/signup');
   });
 }

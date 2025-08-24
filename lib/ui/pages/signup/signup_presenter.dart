@@ -1,6 +1,6 @@
 import 'dart:async';
 
-abstract class AddAccountPresenter {
+abstract class SignUpPresenter {
   // Streams de erro para cada campo
   Stream<String?> get nameErrorStream;
   Stream<String?> get emailErrorStream;
@@ -31,7 +31,7 @@ abstract class AddAccountPresenter {
 
   // Métodos de controle
   void isLoading(bool isLoading);
-  Future<void> addAccount();
+  Future<void> signUp();
 
   // Métodos de navegação
   void navigateToLogin();

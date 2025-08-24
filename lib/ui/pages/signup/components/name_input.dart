@@ -2,22 +2,22 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 
-import '../add_account_presenter.dart';
+import '../signup_presenter.dart';
 
 import '../../../themes/themes.dart';
 
-class EmailInput extends StatefulWidget {
-  const EmailInput({super.key});
+class NameInput extends StatefulWidget {
+  const NameInput({super.key});
 
   @override
-  State<EmailInput> createState() => _EmailInputState();
+  State<NameInput> createState() => _NameInputState();
 }
 
-class _EmailInputState extends State<EmailInput> {
+class _NameInputState extends State<NameInput> {
   final FocusNode _focusNode = FocusNode();
   final TextEditingController _controller = TextEditingController();
   bool _hasFocus = false;
-  AddAccountPresenter? _presenter;
+  SignUpPresenter? _presenter;
 
   @override
   void initState() {
@@ -29,7 +29,7 @@ class _EmailInputState extends State<EmailInput> {
 
       if (!_focusNode.hasFocus && _controller.text.isNotEmpty) {
         if (mounted && _presenter != null) {
-          _presenter!.validateEmailOnFocusLost(_controller.text);
+          _presenter!.validateNameOnFocusLost(_controller.text);
         }
       }
     });
@@ -44,19 +44,19 @@ class _EmailInputState extends State<EmailInput> {
 
   @override
   Widget build(BuildContext context) {
-    _presenter = Provider.of<AddAccountPresenter>(context);
+    _presenter = Provider.of<SignUpPresenter>(context);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const SizedBox(height: 24),
+        const SizedBox(height: 18),
         Text(
-          'Email',
+          'Nome',
           style: AppTypography.bodyLargeWithColor(AppColors.dark100),
         ),
         const SizedBox(height: 8),
         StreamBuilder<String?>(
-          stream: _presenter!.emailErrorStream,
+          stream: _presenter!.nameErrorStream,
           initialData: null,
           builder: (context, snapshot) {
             return Column(
@@ -65,12 +65,13 @@ class _EmailInputState extends State<EmailInput> {
                 TextFormField(
                   controller: _controller,
                   focusNode: _focusNode,
-                  keyboardType: TextInputType.emailAddress,
-                  onChanged: _presenter!.validateEmail,
+                  keyboardType: TextInputType.name,
+                  textCapitalization: TextCapitalization.words,
+                  onChanged: _presenter!.validateName,
                   onEditingComplete: () =>
-                      _presenter!.validateEmailOnFocusLost(_controller.text),
+                      _presenter!.validateNameOnFocusLost(_controller.text),
                   decoration: InputDecoration(
-                    hintText: 'Digite seu email',
+                    hintText: 'Digite seu nome',
                     hintStyle: TextStyle(
                       color: AppColors.dark80,
                       fontFamily: 'Manrope',
@@ -79,9 +80,9 @@ class _EmailInputState extends State<EmailInput> {
                     prefixIcon: Padding(
                       padding: const EdgeInsets.all(12.0),
                       child: SvgPicture.asset(
-                        'lib/ui/assets/svg/email.svg',
-                        width: 20,
-                        height: 20,
+                        'lib/ui/assets/svg/user.svg',
+                        width: 18,
+                        height: 18,
                         colorFilter: ColorFilter.mode(
                           _hasFocus ? AppColors.dark100 : AppColors.dark80,
                           BlendMode.srcIn,
@@ -145,7 +146,6 @@ class _EmailInputState extends State<EmailInput> {
             );
           },
         ),
-        const SizedBox(height: 16),
       ],
     );
   }

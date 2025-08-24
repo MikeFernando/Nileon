@@ -21,8 +21,8 @@ class App extends StatelessWidget {
       initialRoute: '/login',
       getPages: [
         GetPage(name: '/login', page: makeLoginPage),
-        GetPage(name: '/add_account', page: makeAddAccountPage),
-        GetPage(name: '/google-add-account', page: makeAddAccountPage),
+        GetPage(name: '/signup', page: makeSignUpPage),
+        GetPage(name: '/google-signup', page: makeSignUpPage),
         GetPage(name: '/home', page: makeHomePage),
       ],
     );

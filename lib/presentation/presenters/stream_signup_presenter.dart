@@ -4,11 +4,11 @@ import '../../domain/usecases/usecases.dart';
 import '../../domain/helpers/helpers.dart';
 
 import '../../presentation/protocols/protocols.dart';
-import '../../ui/pages/add_account/add_account_presenter.dart';
+import '../../ui/pages/signup/signup_presenter.dart';
 
-class StreamAddAccountPresenter implements AddAccountPresenter {
+class StreamSignUpPresenter implements SignUpPresenter {
   final Validation validation;
-  final AddAccount addAccountUseCase;
+  final AddAccount addAccount;
 
   // Controllers para streams de erro
   final _nameErrorController = StreamController<String?>.broadcast();
@@ -39,9 +39,9 @@ class StreamAddAccountPresenter implements AddAccountPresenter {
   String? _lastPhoneError;
   String? _lastPasswordError;
 
-  StreamAddAccountPresenter({
+  StreamSignUpPresenter({
     required this.validation,
-    required this.addAccountUseCase,
+    required this.addAccount,
   }) {
     // Inicializa todos os streams com valores padrão
     _nameErrorController.add(null);
@@ -150,7 +150,7 @@ class StreamAddAccountPresenter implements AddAccountPresenter {
   }
 
   @override
-  Future<void> addAccount() async {
+  Future<void> signUp() async {
     try {
       _mainErrorController.add(null);
       _isLoadingController.add(true);
@@ -164,7 +164,7 @@ class StreamAddAccountPresenter implements AddAccountPresenter {
         password: _password ?? '',
       );
 
-      await addAccountUseCase.add(params);
+      await addAccount.add(params);
       _navigateToController.add('/home');
     } on DomainError catch (error) {
       _mainErrorController.add(_getErrorMessage(error));

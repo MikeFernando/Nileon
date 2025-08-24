@@ -1,4 +1,4 @@
 export 'login/login_page.dart';
 export 'login/login_presenter.dart';
-export 'add_account/add_account.dart';
-export 'add_account/add_account_presenter.dart';
+export 'signup/signup_page.dart';
+export 'signup/signup_presenter.dart';

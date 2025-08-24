@@ -1,11 +1,11 @@
-# Add Account Requirements
+# SignUp Requirements
 
-Este diretório contém todos os requirements relacionados ao fluxo de cadastro (add account) da aplicação Nileon.
+Este diretório contém todos os requirements relacionados ao fluxo de cadastro (SignUp) da aplicação Nileon.
 
 ## 📋 Arquivos de Requirement
 
-### 1. [Add Account Presenter](./add_account_presenter.md)
-Contém todas as regras de negócio e validações que o presenter de add account deve implementar, incluindo:
+### 1. [SignUp Presenter](./signup_presenter.md)
+Contém todas as regras de negócio e validações que o presenter de SignUp deve implementar, incluindo:
 - Validação de campos (nome, email, telefone, senha)
 - Gerenciamento de estado e streams
 - Tratamento de erros
@@ -20,7 +20,7 @@ Contém as regras do caso de uso de criação de conta, incluindo:
 - Segurança
 - **30 regras detalhadas**
 
-### 3. [Add Account Page](./add_account_page.md)
+### 3. [SignUp Page](./signup_page.md)
 Contém as regras de interface e experiência do usuário, incluindo:
 - Layout e componentes visuais
 - Validação visual
@@ -63,9 +63,9 @@ Baseado na análise da tela de registro, o formulário deve conter:
 
 ## ✅ Status de Implementação
 
-- [ ] Add Account Presenter
+- [ ] SignUp Presenter
 - [ ] AddAccount Use Case
-- [ ] Add Account Page
+- [ ] SignUp Page
 - [ ] Validações específicas
 - [ ] Testes unitários
 - [ ] Testes de integração
