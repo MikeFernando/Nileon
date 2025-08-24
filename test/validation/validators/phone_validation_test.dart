@@ -25,8 +25,8 @@ void main() {
       expect(error, 'Campo obrigatório');
     });
 
-    test('deve retornar erro se o telefone tiver menos de 10 dígitos', () {
-      final error = sut.validate(field: 'phone', value: '119999999');
+    test('deve retornar erro se o telefone tiver menos de 11 dígitos', () {
+      final error = sut.validate(field: 'phone', value: '1199999999');
       expect(error, 'Telefone inválido');
     });
 
@@ -36,7 +36,7 @@ void main() {
     });
 
     test('deve retornar erro se o DDD for menor que 11', () {
-      final error = sut.validate(field: 'phone', value: '1099999999');
+      final error = sut.validate(field: 'phone', value: '10999999999');
       expect(error, 'DDD inválido');
     });
 
@@ -45,9 +45,9 @@ void main() {
       expect(error, 'DDD inválido');
     });
 
-    test('deve retornar erro se o número do telefone tiver menos de 8 dígitos',
+    test('deve retornar erro se o número do telefone tiver menos de 9 dígitos',
         () {
-      final error = sut.validate(field: 'phone', value: '11999999');
+      final error = sut.validate(field: 'phone', value: '119999999');
       expect(error, 'Telefone inválido');
     });
 
@@ -57,9 +57,9 @@ void main() {
       expect(error, 'Telefone inválido');
     });
 
-    test('deve retornar vazio se o telefone for válido com 10 dígitos', () {
+    test('deve retornar erro se o telefone tiver exatamente 10 dígitos', () {
       final error = sut.validate(field: 'phone', value: '1199999999');
-      expect(error, isEmpty);
+      expect(error, 'Telefone inválido');
     });
 
     test('deve retornar vazio se o telefone for válido com 11 dígitos', () {

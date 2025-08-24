@@ -17,8 +17,8 @@ class PhoneValidation implements Validation {
     final cleanPhone = value.replaceAll(RegExp(r'[^\d]'), '');
 
     // Validação para telefone brasileiro
-    // Deve ter 10 ou 11 dígitos (com DDD)
-    if (cleanPhone.length < 10 || cleanPhone.length > 11) {
+    // Deve ter exatamente 11 dígitos (2 DDD + 9 números)
+    if (cleanPhone.length != 11) {
       return 'Telefone inválido';
     }
 
@@ -28,9 +28,9 @@ class PhoneValidation implements Validation {
       return 'DDD inválido';
     }
 
-    // Validação do número do telefone
+    // Validação do número do telefone (deve ter exatamente 9 dígitos)
     final phoneNumber = cleanPhone.substring(2);
-    if (phoneNumber.length < 8 || phoneNumber.length > 9) {
+    if (phoneNumber.length != 9) {
       return 'Número de telefone inválido';
     }
 

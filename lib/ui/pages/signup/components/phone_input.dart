@@ -106,13 +106,9 @@ class _PhoneInputState extends State<PhoneInput> {
                         ),
                         child: Row(
                           children: [
-                            Container(
+                            SizedBox(
                               width: 24,
                               height: 24,
-                              decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                color: Colors.green,
-                              ),
                               child: const Align(
                                 alignment: Alignment.center,
                                 child: SizedBox(
@@ -133,9 +129,7 @@ class _PhoneInputState extends State<PhoneInput> {
                             Text(
                               '+55',
                               style: TextStyle(
-                                color: _hasFocus
-                                    ? AppColors.dark100
-                                    : AppColors.dark80,
+                                color: AppColors.dark80,
                                 fontFamily: 'Manrope',
                                 fontSize: 14,
                                 fontWeight: FontWeight.w500,
