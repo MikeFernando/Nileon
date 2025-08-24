@@ -16,6 +16,9 @@ class StreamSignUpPresenter implements SignUpPresenter {
   final _phoneErrorController = StreamController<String?>.broadcast();
   final _passwordErrorController = StreamController<String?>.broadcast();
 
+  // Controller para stream do texto da senha (para regras em tempo real)
+  final _passwordTextController = StreamController<String>.broadcast();
+
   // Controllers para streams de estado
   final _isFormValidController = StreamController<bool>.broadcast();
   final _isLoadingController = StreamController<bool>.broadcast();
@@ -69,6 +72,9 @@ class StreamSignUpPresenter implements SignUpPresenter {
   Stream<String?> get passwordErrorStream => _passwordErrorController.stream;
 
   @override
+  Stream<String> get passwordTextStream => _passwordTextController.stream;
+
+  @override
   Stream<bool> get isFormValidStream => _isFormValidController.stream;
 
   @override
@@ -112,6 +118,7 @@ class StreamSignUpPresenter implements SignUpPresenter {
   @override
   void validatePassword(String password) {
     _password = password;
+    _passwordTextController.add(password);
     _validatePassword();
     _validateForm();
   }
@@ -191,6 +198,7 @@ class StreamSignUpPresenter implements SignUpPresenter {
     _emailErrorController.close();
     _phoneErrorController.close();
     _passwordErrorController.close();
+    _passwordTextController.close();
     _isFormValidController.close();
     _isLoadingController.close();
     _mainErrorController.close();

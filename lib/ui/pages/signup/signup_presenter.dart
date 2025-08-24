@@ -7,6 +7,9 @@ abstract class SignUpPresenter {
   Stream<String?> get phoneErrorStream;
   Stream<String?> get passwordErrorStream;
 
+  // Stream para texto da senha (para regras em tempo real)
+  Stream<String> get passwordTextStream;
+
   // Streams de estado
   Stream<bool> get isFormValidStream;
   Stream<bool> get isLoadingStream;
