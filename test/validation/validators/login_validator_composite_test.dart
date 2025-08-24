@@ -1,20 +1,23 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:nileon/validation/validation_login/validation_composite.dart';
-import 'package:nileon/validation/validation_login/required_field_validator.dart';
-import 'package:nileon/validation/validation_login/email_validation.dart';
-import 'package:nileon/validation/validation_login/password_validation.dart';
+import 'package:nileon/validation/validators/login_validator_composite.dart';
+import 'package:nileon/validation/validators/validation_composite.dart';
+import 'package:nileon/validation/validators/required_field_validator.dart';
+import 'package:nileon/validation/validators/email_validation.dart';
+import 'package:nileon/validation/validators/password_validation.dart';
 
 void main() {
-  group('ValidationComposite', () {
-    late ValidationComposite sut;
+  group('LoginValidatorComposite', () {
+    late LoginValidatorComposite sut;
 
     setUp(() {
-      sut = ValidationComposite([
-        RequiredFieldValidator('email'),
-        EmailValidation('email'),
-        RequiredFieldValidator('password'),
-        PasswordValidation('password'),
-      ]);
+      sut = LoginValidatorComposite(
+        ValidationComposite([
+          RequiredFieldValidator('email'),
+          EmailValidation('email'),
+          RequiredFieldValidator('password'),
+          PasswordValidation('password'),
+        ]),
+      );
     });
 
     test('Deve retornar string vazia quando todos os campos são válidos', () {
@@ -43,4 +46,3 @@ void main() {
     });
   });
 }
-

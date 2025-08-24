@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:nileon/validation/validation_login/phone_validation.dart';
+import 'package:nileon/validation/validators/phone_validation.dart';
 
 void main() {
   late PhoneValidation sut;

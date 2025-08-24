@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:nileon/validation/validation_login/email_validation.dart';
+import 'package:nileon/validation/validators/email_validation.dart';
 
 void main() {
   late EmailValidation sut;

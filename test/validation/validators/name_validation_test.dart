@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:nileon/validation/validation_login/name_validation.dart';
+import 'package:nileon/validation/validators/name_validation.dart';
 
 void main() {
   late NameValidation sut;
@@ -25,9 +25,9 @@ void main() {
       expect(error, 'Campo obrigatório');
     });
 
-    test('deve retornar erro se o nome tiver menos de 2 caracteres', () {
-      final error = sut.validate(field: 'name', value: 'J');
-      expect(error, 'Nome deve ter pelo menos 2 caracteres');
+    test('deve retornar erro se o nome tiver menos de 3 caracteres', () {
+      final error = sut.validate(field: 'name', value: 'Jo');
+      expect(error, 'Nome deve ter pelo menos 3 caracteres');
     });
 
     test('deve retornar erro se o nome tiver mais de 100 caracteres', () {
@@ -47,9 +47,9 @@ void main() {
       expect(error, 'Nome deve conter apenas letras');
     });
 
-    test('deve retornar erro se tiver apenas uma palavra', () {
+    test('deve retornar vazio se tiver apenas uma palavra válida', () {
       final error = sut.validate(field: 'name', value: 'João');
-      expect(error, 'Digite nome e sobrenome');
+      expect(error, isEmpty);
     });
 
     test('deve retornar vazio se o nome for válido com duas palavras', () {
@@ -59,6 +59,11 @@ void main() {
 
     test('deve retornar vazio se o nome for válido com três palavras', () {
       final error = sut.validate(field: 'name', value: 'João Pedro Silva');
+      expect(error, isEmpty);
+    });
+
+    test('deve retornar vazio se o nome tiver exatamente 3 caracteres', () {
+      final error = sut.validate(field: 'name', value: 'Ana');
       expect(error, isEmpty);
     });
 

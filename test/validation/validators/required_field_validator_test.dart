@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:nileon/validation/validation_login/required_field_validator.dart';
+import 'package:nileon/validation/validators/required_field_validator.dart';
 
 void main() {
   group('RequiredFieldValidator', () {
@@ -30,4 +30,3 @@ void main() {
     });
   });
 }
-

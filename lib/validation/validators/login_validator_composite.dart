@@ -1,5 +1,5 @@
 import 'package:nileon/presentation/protocols/validations.dart';
-import 'package:nileon/validation/validation_login/validation_composite.dart';
+import 'package:nileon/validation/validators/validation_composite.dart';
 
 class LoginValidatorComposite implements Validation {
   final ValidationComposite validation;
