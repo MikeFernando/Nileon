@@ -69,7 +69,7 @@ class _PhoneInputState extends State<PhoneInput> {
       children: [
         Text(
           'Telefone',
-          style: AppTypography.bodyLargeWithColor(AppColors.dark100),
+          style: AppTypography.bodyMediumWithColor(AppColors.dark100),
         ),
         const SizedBox(height: 8),
         StreamBuilder<String?>(

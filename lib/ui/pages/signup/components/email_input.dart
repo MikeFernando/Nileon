@@ -52,7 +52,7 @@ class _EmailInputState extends State<EmailInput> {
         const SizedBox(height: 24),
         Text(
           'Email',
-          style: AppTypography.bodyLargeWithColor(AppColors.dark100),
+          style: AppTypography.bodyMediumWithColor(AppColors.dark100),
         ),
         const SizedBox(height: 8),
         StreamBuilder<String?>(

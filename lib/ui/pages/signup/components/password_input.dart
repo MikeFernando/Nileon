@@ -54,7 +54,7 @@ class _PasswordInputState extends State<PasswordInput> {
       children: [
         Text(
           'Senha',
-          style: AppTypography.bodyLargeWithColor(AppColors.dark100),
+          style: AppTypography.bodyMediumWithColor(AppColors.dark100),
         ),
         const SizedBox(height: 8),
         StreamBuilder<String?>(

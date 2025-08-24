@@ -52,7 +52,7 @@ class _NameInputState extends State<NameInput> {
         const SizedBox(height: 18),
         Text(
           'Nome',
-          style: AppTypography.bodyLargeWithColor(AppColors.dark100),
+          style: AppTypography.bodyMediumWithColor(AppColors.dark100),
         ),
         const SizedBox(height: 8),
         StreamBuilder<String?>(

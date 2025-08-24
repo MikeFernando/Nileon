@@ -27,9 +27,7 @@ class _PasswordInputState extends State<PasswordInput> {
         _hasFocus = _focusNode.hasFocus;
       });
 
-      // Valida quando o foco sai
       if (!_focusNode.hasFocus && _controller.text.isNotEmpty) {
-        // Valida quando o foco sai
         if (mounted && _presenter != null) {
           _presenter!.validatePasswordOnFocusLost(_controller.text);
         }
@@ -53,7 +51,7 @@ class _PasswordInputState extends State<PasswordInput> {
       children: [
         Text(
           'Senha',
-          style: AppTypography.bodyLargeWithColor(AppColors.dark100),
+          style: AppTypography.bodyMediumWithColor(AppColors.dark100),
         ),
         const SizedBox(height: 8),
         StreamBuilder<String?>(
