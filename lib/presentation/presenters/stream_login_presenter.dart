@@ -57,20 +57,6 @@ class StreamLoginPresenter implements LoginPresenter {
   }
 
   @override
-  void validateEmailOnFocusLost(String email) {
-    _email = email;
-    _validateEmail();
-    _validateForm();
-  }
-
-  @override
-  void validatePasswordOnFocusLost(String password) {
-    _password = password;
-    _validatePassword();
-    _validateForm();
-  }
-
-  @override
   void isLoading(bool isLoading) {
     _isLoadingController.add(isLoading);
   }

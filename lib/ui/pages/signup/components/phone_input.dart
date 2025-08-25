@@ -29,7 +29,7 @@ class _PhoneInputState extends State<PhoneInput> {
 
       if (!_focusNode.hasFocus && _controller.text.isNotEmpty) {
         if (mounted && _presenter != null) {
-          _presenter!.validatePhoneOnFocusLost(_controller.text);
+          _presenter!.validatePhone(_controller.text);
         }
       }
     });
@@ -163,8 +163,7 @@ class _PhoneInputState extends State<PhoneInput> {
                               _presenter!.validatePhone(formattedValue);
                             },
                             onEditingComplete: () {
-                              _presenter!
-                                  .validatePhoneOnFocusLost(_controller.text);
+                              _presenter!.validatePhone(_controller.text);
                             },
                             autofillHints: const [
                               AutofillHints.telephoneNumber

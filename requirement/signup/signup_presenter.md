@@ -55,8 +55,7 @@
 
 > ## Regras de validação em tempo real
 38. ✅ Deve validar campos em tempo real conforme o usuário digita
-39. ✅ Deve validar campos quando o usuário perde o foco (onFocusLost)
-40. ✅ Deve evitar validações desnecessárias se o valor não mudou
+39. ✅ Deve evitar validações desnecessárias se o valor não mudou
 
 > ## Regras de tratamento de erros
 41. ✅ Deve mapear DomainError.invalidCredentials para "Credenciais inválidas"

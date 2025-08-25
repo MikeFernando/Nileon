@@ -32,7 +32,7 @@ class _PasswordInputState extends State<PasswordInput> {
 
       if (!_focusNode.hasFocus && _controller.text.isNotEmpty) {
         if (mounted && _presenter != null) {
-          _presenter!.validatePasswordOnFocusLost(_controller.text);
+          _presenter!.validatePassword(_controller.text);
         }
       }
     });
@@ -75,7 +75,7 @@ class _PasswordInputState extends State<PasswordInput> {
                       });
                     },
                     onEditingComplete: () {
-                      _presenter!.validatePasswordOnFocusLost(_controller.text);
+                      _presenter!.validatePassword(_controller.text);
                     },
                     obscureText: isObscureText,
                     autofillHints: const [AutofillHints.newPassword],

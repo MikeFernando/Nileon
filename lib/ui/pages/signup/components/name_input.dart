@@ -29,7 +29,7 @@ class _NameInputState extends State<NameInput> {
 
       if (!_focusNode.hasFocus && _controller.text.isNotEmpty) {
         if (mounted && _presenter != null) {
-          _presenter!.validateNameOnFocusLost(_controller.text);
+          _presenter!.validateName(_controller.text);
         }
       }
     });
@@ -68,7 +68,7 @@ class _NameInputState extends State<NameInput> {
                     textCapitalization: TextCapitalization.words,
                     onChanged: _presenter!.validateName,
                     onEditingComplete: () =>
-                        _presenter!.validateNameOnFocusLost(_controller.text),
+                        _presenter!.validateName(_controller.text),
                     autofillHints: const [AutofillHints.name],
                     decoration: InputDecoration(
                       hintText: 'Digite seu nome',

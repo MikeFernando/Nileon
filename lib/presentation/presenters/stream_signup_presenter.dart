@@ -124,34 +124,6 @@ class StreamSignUpPresenter implements SignUpPresenter {
   }
 
   @override
-  void validateNameOnFocusLost(String name) {
-    _name = name;
-    _validateName();
-    _validateForm();
-  }
-
-  @override
-  void validateEmailOnFocusLost(String email) {
-    _email = email;
-    _validateEmail();
-    _validateForm();
-  }
-
-  @override
-  void validatePhoneOnFocusLost(String phone) {
-    _phone = phone;
-    _validatePhone();
-    _validateForm();
-  }
-
-  @override
-  void validatePasswordOnFocusLost(String password) {
-    _password = password;
-    _validatePassword();
-    _validateForm();
-  }
-
-  @override
   void isLoading(bool isLoading) {
     _isLoadingController.add(isLoading);
   }

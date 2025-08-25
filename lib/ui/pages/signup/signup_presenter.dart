@@ -26,11 +26,7 @@ abstract class SignUpPresenter {
   void validatePhone(String phone);
   void validatePassword(String password);
 
-  // Métodos de validação ao perder foco
-  void validateNameOnFocusLost(String name);
-  void validateEmailOnFocusLost(String email);
-  void validatePhoneOnFocusLost(String phone);
-  void validatePasswordOnFocusLost(String password);
+
 
   // Métodos de controle
   void isLoading(bool isLoading);

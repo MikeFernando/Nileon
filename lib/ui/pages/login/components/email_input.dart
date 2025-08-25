@@ -29,7 +29,7 @@ class _EmailInputState extends State<EmailInput> {
 
       if (!_focusNode.hasFocus && _controller.text.isNotEmpty) {
         if (mounted && _presenter != null) {
-          _presenter!.validateEmailOnFocusLost(_controller.text);
+          _presenter!.validateEmail(_controller.text);
         }
       }
     });
@@ -65,7 +65,7 @@ class _EmailInputState extends State<EmailInput> {
                     keyboardType: TextInputType.emailAddress,
                     onChanged: _presenter!.validateEmail,
                     onEditingComplete: () =>
-                        _presenter!.validateEmailOnFocusLost(_controller.text),
+                        _presenter!.validateEmail(_controller.text),
                     autofillHints: const [AutofillHints.email],
                     decoration: InputDecoration(
                       hintText: 'Digite seu email',

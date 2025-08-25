@@ -9,8 +9,6 @@ abstract class LoginPresenter {
 
   void validateEmail(String email);
   void validatePassword(String password);
-  void validateEmailOnFocusLost(String email);
-  void validatePasswordOnFocusLost(String password);
   void isLoading(bool isLoading);
   Future<void> auth();
   void dispose();
