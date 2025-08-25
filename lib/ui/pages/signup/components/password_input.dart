@@ -64,89 +64,94 @@ class _PasswordInputState extends State<PasswordInput> {
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                TextFormField(
-                  controller: _controller,
-                  focusNode: _focusNode,
-                  keyboardType: TextInputType.visiblePassword,
-                  onChanged: _presenter!.validatePassword,
-                  onEditingComplete: () {
-                    _presenter!.validatePasswordOnFocusLost(_controller.text);
-                  },
-                  obscureText: isObscureText,
-                  decoration: InputDecoration(
-                    hintText: 'Digite sua senha',
-                    hintStyle: TextStyle(
-                      color: AppColors.dark80,
+                Semantics(
+                  label: 'Campo de senha',
+                  hint: 'Digite sua senha',
+                  child: TextFormField(
+                    controller: _controller,
+                    focusNode: _focusNode,
+                    keyboardType: TextInputType.visiblePassword,
+                    onChanged: _presenter!.validatePassword,
+                    onEditingComplete: () {
+                      _presenter!.validatePasswordOnFocusLost(_controller.text);
+                    },
+                    obscureText: isObscureText,
+                    autofillHints: const [AutofillHints.newPassword],
+                    decoration: InputDecoration(
+                      hintText: 'Digite sua senha',
+                      hintStyle: TextStyle(
+                        color: AppColors.dark80,
+                        fontFamily: 'Manrope',
+                        fontSize: 14,
+                      ),
+                      prefixIcon: Padding(
+                        padding: const EdgeInsets.all(12.0),
+                        child: SvgPicture.asset(
+                          'lib/ui/assets/svg/key.svg',
+                          width: 20,
+                          height: 20,
+                          colorFilter: ColorFilter.mode(
+                            _hasFocus ? AppColors.dark100 : AppColors.dark80,
+                            BlendMode.srcIn,
+                          ),
+                        ),
+                      ),
+                      suffixIcon: IconButton(
+                        icon: SvgPicture.asset(
+                          isObscureText
+                              ? 'lib/ui/assets/svg/eye-slash.svg'
+                              : 'lib/ui/assets/svg/eye.svg',
+                          width: 20,
+                          height: 20,
+                          colorFilter: ColorFilter.mode(
+                            _hasFocus ? AppColors.dark100 : AppColors.dark80,
+                            BlendMode.srcIn,
+                          ),
+                        ),
+                        onPressed: () {
+                          setState(() {
+                            isObscureText = !isObscureText;
+                          });
+                        },
+                      ),
+                      filled: true,
+                      fillColor: AppColors.dark30,
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(32),
+                        borderSide: BorderSide.none,
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(32),
+                        borderSide: snapshot.hasData &&
+                                snapshot.data != null &&
+                                snapshot.data!.isNotEmpty
+                            ? const BorderSide(
+                                color: AppColors.error,
+                                width: 1.0,
+                              )
+                            : BorderSide.none,
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(32),
+                        borderSide: BorderSide(
+                          color: snapshot.hasData &&
+                                  snapshot.data != null &&
+                                  snapshot.data!.isNotEmpty
+                              ? AppColors.error
+                              : AppColors.primary,
+                          width: 1.0,
+                        ),
+                      ),
+                      contentPadding: const EdgeInsets.symmetric(
+                        vertical: 0,
+                        horizontal: 0,
+                      ),
+                    ),
+                    style: const TextStyle(
+                      color: AppColors.dark100,
                       fontFamily: 'Manrope',
                       fontSize: 14,
                     ),
-                    prefixIcon: Padding(
-                      padding: const EdgeInsets.all(12.0),
-                      child: SvgPicture.asset(
-                        'lib/ui/assets/svg/key.svg',
-                        width: 20,
-                        height: 20,
-                        colorFilter: ColorFilter.mode(
-                          _hasFocus ? AppColors.dark100 : AppColors.dark80,
-                          BlendMode.srcIn,
-                        ),
-                      ),
-                    ),
-                    suffixIcon: IconButton(
-                      icon: SvgPicture.asset(
-                        isObscureText
-                            ? 'lib/ui/assets/svg/eye-slash.svg'
-                            : 'lib/ui/assets/svg/eye.svg',
-                        width: 20,
-                        height: 20,
-                        colorFilter: ColorFilter.mode(
-                          _hasFocus ? AppColors.dark100 : AppColors.dark80,
-                          BlendMode.srcIn,
-                        ),
-                      ),
-                      onPressed: () {
-                        setState(() {
-                          isObscureText = !isObscureText;
-                        });
-                      },
-                    ),
-                    filled: true,
-                    fillColor: AppColors.dark30,
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(32),
-                      borderSide: BorderSide.none,
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(32),
-                      borderSide: snapshot.hasData &&
-                              snapshot.data != null &&
-                              snapshot.data!.isNotEmpty
-                          ? const BorderSide(
-                              color: AppColors.error,
-                              width: 1.0,
-                            )
-                          : BorderSide.none,
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(32),
-                      borderSide: BorderSide(
-                        color: snapshot.hasData &&
-                                snapshot.data != null &&
-                                snapshot.data!.isNotEmpty
-                            ? AppColors.error
-                            : AppColors.primary,
-                        width: 1.0,
-                      ),
-                    ),
-                    contentPadding: const EdgeInsets.symmetric(
-                      vertical: 0,
-                      horizontal: 0,
-                    ),
-                  ),
-                  style: const TextStyle(
-                    color: AppColors.dark100,
-                    fontFamily: 'Manrope',
-                    fontSize: 14,
                   ),
                 ),
                 if (snapshot.hasData &&

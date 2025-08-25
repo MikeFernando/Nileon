@@ -24,36 +24,41 @@ class SignUpButton extends StatelessWidget {
               final isLoading = loadingSnapshot.data ?? false;
               final isFormValid = formSnapshot.data ?? false;
 
-              return ElevatedButton(
-                onPressed: (isFormValid && !isLoading)
-                    ? () async => await presenter.signUp()
-                    : null,
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: (isFormValid && !isLoading)
-                      ? AppColors.primary
-                      : AppColors.dark40,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(40),
+              return Semantics(
+                label: 'Botão de registro',
+                hint: 'Toque para criar sua conta',
+                button: true,
+                child: ElevatedButton(
+                  onPressed: (isFormValid && !isLoading)
+                      ? () async => await presenter.signUp()
+                      : null,
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: (isFormValid && !isLoading)
+                        ? AppColors.primary
+                        : AppColors.dark40,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(40),
+                    ),
+                    padding: const EdgeInsets.symmetric(vertical: 14),
+                    elevation: 4,
                   ),
-                  padding: const EdgeInsets.symmetric(vertical: 14),
-                  elevation: 4,
-                ),
-                child: isLoading
-                    ? const CircularProgressIndicator(
-                        valueColor:
-                            AlwaysStoppedAnimation<Color>(AppColors.dark10),
-                      )
-                    : Text(
-                        'Registrar',
-                        style: TextStyle(
-                          color: (isFormValid && !isLoading)
-                              ? AppColors.dark10
-                              : AppColors.dark80,
-                          fontSize: 16,
-                          fontWeight: FontWeight.w500,
-                          fontFamily: 'Manrope',
+                  child: isLoading
+                      ? const CircularProgressIndicator(
+                          valueColor:
+                              AlwaysStoppedAnimation<Color>(AppColors.dark10),
+                        )
+                      : Text(
+                          'Registrar',
+                          style: TextStyle(
+                            color: (isFormValid && !isLoading)
+                                ? AppColors.dark10
+                                : AppColors.dark80,
+                            fontSize: 16,
+                            fontWeight: FontWeight.w500,
+                            fontFamily: 'Manrope',
+                          ),
                         ),
-                      ),
+                ),
               );
             },
           );

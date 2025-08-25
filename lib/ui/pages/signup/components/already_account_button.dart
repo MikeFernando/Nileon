@@ -23,17 +23,22 @@ class AlreadyHaveAccount extends StatelessWidget {
               ),
               children: [
                 WidgetSpan(
-                  child: GestureDetector(
-                    onTap: () {
-                      Get.toNamed('/login');
-                    },
-                    child: Text(
-                      ' Login',
-                      style: TextStyle(
-                        color: AppColors.dark100,
-                        fontWeight: FontWeight.w500,
-                        fontFamily: 'Manrope',
-                        fontSize: 14,
+                  child: Semantics(
+                    label: 'Link para login',
+                    hint: 'Toque para ir para a tela de login',
+                    button: true,
+                    child: GestureDetector(
+                      onTap: () {
+                        Get.toNamed('/login');
+                      },
+                      child: Text(
+                        ' Login',
+                        style: TextStyle(
+                          color: AppColors.dark100,
+                          fontWeight: FontWeight.w500,
+                          fontFamily: 'Manrope',
+                          fontSize: 14,
+                        ),
                       ),
                     ),
                   ),

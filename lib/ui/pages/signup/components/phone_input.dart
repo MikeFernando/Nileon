@@ -144,45 +144,52 @@ class _PhoneInputState extends State<PhoneInput> {
                         color: AppColors.dark80.withValues(alpha: 0.3),
                       ),
                       Expanded(
-                        child: TextFormField(
-                          controller: _controller,
-                          focusNode: _focusNode,
-                          keyboardType: TextInputType.phone,
-                          inputFormatters: [
-                            FilteringTextInputFormatter.digitsOnly,
-                            LengthLimitingTextInputFormatter(11),
-                          ],
-                          onChanged: (value) {
-                            final formattedValue = _formatPhoneNumber(value);
-                            if (formattedValue != value) {
-                              _controller.value = TextEditingValue(
-                                text: formattedValue,
-                                selection: TextSelection.collapsed(
-                                  offset: formattedValue.length,
-                                ),
-                              );
-                            }
-                            _presenter!.validatePhone(value);
-                          },
-                          onEditingComplete: () => _presenter!
-                              .validatePhoneOnFocusLost(_controller.text),
-                          decoration: InputDecoration(
-                            hintText: '00 00000-0000',
-                            hintStyle: TextStyle(
-                              color: AppColors.dark80,
+                        child: Semantics(
+                          label: 'Campo de telefone',
+                          hint: 'Digite seu número de telefone',
+                          child: TextFormField(
+                            controller: _controller,
+                            focusNode: _focusNode,
+                            keyboardType: TextInputType.phone,
+                            inputFormatters: [
+                              FilteringTextInputFormatter.digitsOnly,
+                              LengthLimitingTextInputFormatter(11),
+                            ],
+                            onChanged: (value) {
+                              final formattedValue = _formatPhoneNumber(value);
+                              if (formattedValue != value) {
+                                _controller.value = TextEditingValue(
+                                  text: formattedValue,
+                                  selection: TextSelection.collapsed(
+                                    offset: formattedValue.length,
+                                  ),
+                                );
+                              }
+                              _presenter!.validatePhone(value);
+                            },
+                            onEditingComplete: () => _presenter!
+                                .validatePhoneOnFocusLost(_controller.text),
+                            autofillHints: const [
+                              AutofillHints.telephoneNumber
+                            ],
+                            decoration: InputDecoration(
+                              hintText: '00 00000-0000',
+                              hintStyle: TextStyle(
+                                color: AppColors.dark80,
+                                fontFamily: 'Manrope',
+                                fontSize: 14,
+                              ),
+                              border: InputBorder.none,
+                              contentPadding: const EdgeInsets.symmetric(
+                                horizontal: 16,
+                                vertical: 12,
+                              ),
+                            ),
+                            style: const TextStyle(
+                              color: AppColors.dark100,
                               fontFamily: 'Manrope',
                               fontSize: 14,
                             ),
-                            border: InputBorder.none,
-                            contentPadding: const EdgeInsets.symmetric(
-                              horizontal: 16,
-                              vertical: 12,
-                            ),
-                          ),
-                          style: const TextStyle(
-                            color: AppColors.dark100,
-                            fontFamily: 'Manrope',
-                            fontSize: 14,
                           ),
                         ),
                       ),

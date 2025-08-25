@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
 
-Widget backgroundImage() {
-  return Image.asset(
-    'lib/ui/assets/star.png',
-    fit: BoxFit.cover,
-  );
+class BackgroundImage extends StatelessWidget {
+  const BackgroundImage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const Image(
+      image: AssetImage('lib/ui/assets/star.png'),
+      fit: BoxFit.cover,
+      width: double.infinity,
+      height: double.infinity,
+    );
+  }
 }
 
-@override
-Widget build(BuildContext context) {
-  return Image.asset(
-    'lib/ui/assets/star.png',
-    fit: BoxFit.cover,
-  );
-}
+Widget backgroundImage() => const BackgroundImage();

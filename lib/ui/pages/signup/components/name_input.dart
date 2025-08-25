@@ -62,70 +62,75 @@ class _NameInputState extends State<NameInput> {
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                TextFormField(
-                  controller: _controller,
-                  focusNode: _focusNode,
-                  keyboardType: TextInputType.name,
-                  textCapitalization: TextCapitalization.words,
-                  onChanged: _presenter!.validateName,
-                  onEditingComplete: () =>
-                      _presenter!.validateNameOnFocusLost(_controller.text),
-                  decoration: InputDecoration(
-                    hintText: 'Digite seu nome',
-                    hintStyle: TextStyle(
-                      color: AppColors.dark80,
+                Semantics(
+                  label: 'Campo de nome',
+                  hint: 'Digite seu nome completo',
+                  child: TextFormField(
+                    controller: _controller,
+                    focusNode: _focusNode,
+                    keyboardType: TextInputType.name,
+                    textCapitalization: TextCapitalization.words,
+                    onChanged: _presenter!.validateName,
+                    onEditingComplete: () =>
+                        _presenter!.validateNameOnFocusLost(_controller.text),
+                    autofillHints: const [AutofillHints.name],
+                    decoration: InputDecoration(
+                      hintText: 'Digite seu nome',
+                      hintStyle: TextStyle(
+                        color: AppColors.dark80,
+                        fontFamily: 'Manrope',
+                        fontSize: 14,
+                      ),
+                      prefixIcon: Padding(
+                        padding: const EdgeInsets.all(12.0),
+                        child: SvgPicture.asset(
+                          'lib/ui/assets/svg/user.svg',
+                          width: 18,
+                          height: 18,
+                          colorFilter: ColorFilter.mode(
+                            _hasFocus ? AppColors.dark100 : AppColors.dark80,
+                            BlendMode.srcIn,
+                          ),
+                        ),
+                      ),
+                      filled: true,
+                      fillColor: AppColors.dark30,
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(32),
+                        borderSide: BorderSide.none,
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(32),
+                        borderSide: snapshot.hasData &&
+                                snapshot.data != null &&
+                                snapshot.data!.isNotEmpty
+                            ? const BorderSide(
+                                color: AppColors.error,
+                                width: 1.0,
+                              )
+                            : BorderSide.none,
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(32),
+                        borderSide: BorderSide(
+                          color: snapshot.hasData &&
+                                  snapshot.data != null &&
+                                  snapshot.data!.isNotEmpty
+                              ? AppColors.error
+                              : AppColors.primary,
+                          width: 1.0,
+                        ),
+                      ),
+                      contentPadding: const EdgeInsets.symmetric(
+                        vertical: 0,
+                        horizontal: 0,
+                      ),
+                    ),
+                    style: const TextStyle(
+                      color: AppColors.dark100,
                       fontFamily: 'Manrope',
                       fontSize: 14,
                     ),
-                    prefixIcon: Padding(
-                      padding: const EdgeInsets.all(12.0),
-                      child: SvgPicture.asset(
-                        'lib/ui/assets/svg/user.svg',
-                        width: 18,
-                        height: 18,
-                        colorFilter: ColorFilter.mode(
-                          _hasFocus ? AppColors.dark100 : AppColors.dark80,
-                          BlendMode.srcIn,
-                        ),
-                      ),
-                    ),
-                    filled: true,
-                    fillColor: AppColors.dark30,
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(32),
-                      borderSide: BorderSide.none,
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(32),
-                      borderSide: snapshot.hasData &&
-                              snapshot.data != null &&
-                              snapshot.data!.isNotEmpty
-                          ? const BorderSide(
-                              color: AppColors.error,
-                              width: 1.0,
-                            )
-                          : BorderSide.none,
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(32),
-                      borderSide: BorderSide(
-                        color: snapshot.hasData &&
-                                snapshot.data != null &&
-                                snapshot.data!.isNotEmpty
-                            ? AppColors.error
-                            : AppColors.primary,
-                        width: 1.0,
-                      ),
-                    ),
-                    contentPadding: const EdgeInsets.symmetric(
-                      vertical: 0,
-                      horizontal: 0,
-                    ),
-                  ),
-                  style: const TextStyle(
-                    color: AppColors.dark100,
-                    fontFamily: 'Manrope',
-                    fontSize: 14,
                   ),
                 ),
                 if (snapshot.hasData &&
