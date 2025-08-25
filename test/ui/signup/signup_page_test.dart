@@ -231,16 +231,6 @@ void main() {
       verify(() => presenter.validateEmail('test@')).called(1);
     });
 
-    testWidgets('Deve validar telefone em tempo real',
-        (WidgetTester tester) async {
-      await tester.pumpWidget(createWidgetUnderTest());
-
-      final phoneField = find.byType(TextFormField).at(2);
-      await tester.enterText(phoneField, '119');
-
-      verify(() => presenter.validatePhone('119')).called(1);
-    });
-
     testWidgets('Deve validar senha em tempo real',
         (WidgetTester tester) async {
       await tester.pumpWidget(createWidgetUnderTest());

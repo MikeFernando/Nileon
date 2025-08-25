@@ -222,10 +222,10 @@ void main() {
       final color = sut.getStrengthColor(strength);
       final percentage = sut.getStrengthPercentage(strength);
 
-      print('Testando senha: $testPassword');
-      print('Força detectada: $strength');
-      print('Cor retornada: ${color.toRadixString(16)}');
-      print('Porcentagem: $percentage');
+      // Testando senha: $testPassword
+      // Força detectada: $strength
+      // Cor retornada: ${color.toRadixString(16)}
+      // Porcentagem: $percentage
 
       expect(strength, PasswordStrength.strong);
       expect(color, 0xFF50CD89); // AppColors.success
@@ -237,9 +237,9 @@ void main() {
       final strength = sut.getPasswordStrength(testPassword);
       final color = sut.getStrengthColor(strength);
 
-      print('Testando senha: $testPassword');
-      print('Força detectada: $strength');
-      print('Cor retornada: ${color.toRadixString(16)}');
+      // Testando senha: $testPassword
+      // Força detectada: $strength
+      // Cor retornada: ${color.toRadixString(16)}
 
       expect(strength, PasswordStrength.strong);
       expect(color, 0xFF50CD89); // AppColors.success
@@ -251,16 +251,15 @@ void main() {
       final color = sut.getStrengthColor(strength);
       final percentage = sut.getStrengthPercentage(strength);
 
-      print('Testando senha: $testPassword');
-      print('Comprimento: ${testPassword.length}');
-      print('Tem maiúscula: ${RegExp(r'[A-Z]').hasMatch(testPassword)}');
-      print('Tem minúscula: ${RegExp(r'[a-z]').hasMatch(testPassword)}');
-      print('Tem número: ${RegExp(r'[0-9]').hasMatch(testPassword)}');
-      print(
-          'Tem especial: ${RegExp(r'[!@#$%^&*(),.?":{}|<>]').hasMatch(testPassword)}');
-      print('Força detectada: $strength');
-      print('Cor retornada: ${color.toRadixString(16)}');
-      print('Porcentagem: $percentage');
+      // Testando senha: $testPassword
+      // Comprimento: ${testPassword.length}
+      // Tem maiúscula: ${RegExp(r'[A-Z]').hasMatch(testPassword)}
+      // Tem minúscula: ${RegExp(r'[a-z]').hasMatch(testPassword)}
+      // Tem número: ${RegExp(r'[0-9]').hasMatch(testPassword)}
+      // Tem especial: ${RegExp(r'[!@#$%^&*(),.?":{}|<>]').hasMatch(testPassword)}
+      // Força detectada: $strength
+      // Cor retornada: ${color.toRadixString(16)}
+      // Porcentagem: $percentage
 
       expect(strength, PasswordStrength.strong);
       expect(color, 0xFF50CD89); // AppColors.success

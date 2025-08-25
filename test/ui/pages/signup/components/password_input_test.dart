@@ -123,7 +123,7 @@ void main() {
       );
       expect(fractionallySizedBox.widthFactor, 1.0);
 
-      print('DEBUG: Senha forte detectada corretamente com cor verde');
+      // DEBUG: Senha forte detectada corretamente com cor verde
     });
 
     testWidgets(
@@ -153,8 +153,7 @@ void main() {
       );
       expect(fractionallySizedBox.widthFactor, 1.0);
 
-      print(
-          'DEBUG: Senha Riocard@123underline detectada corretamente como forte');
+      // DEBUG: Senha Riocard@123underline detectada corretamente como forte
     });
 
     testWidgets('Deve atualizar indicador de força quando senha muda',
@@ -192,7 +191,7 @@ void main() {
       final strongTextWidget = tester.widget<Text>(find.text('Senha forte'));
       expect(strongTextWidget.style?.color, const Color(0xFF50CD89)); // Verde
 
-      print('DEBUG: Indicador de força atualizado corretamente');
+      // DEBUG: Indicador de força atualizado corretamente
     });
   });
 }
