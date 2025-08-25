@@ -17,24 +17,8 @@ class _PasswordInputState extends State<PasswordInput> {
   bool isObscureText = true;
   final FocusNode _focusNode = FocusNode();
   final TextEditingController _controller = TextEditingController();
-  bool _hasFocus = false;
+  final bool _hasFocus = false;
   LoginPresenter? _presenter;
-
-  @override
-  void initState() {
-    super.initState();
-    _focusNode.addListener(() {
-      setState(() {
-        _hasFocus = _focusNode.hasFocus;
-      });
-
-      if (!_focusNode.hasFocus && _controller.text.isNotEmpty) {
-        if (mounted && _presenter != null) {
-          _presenter!.validatePassword(_controller.text);
-        }
-      }
-    });
-  }
 
   @override
   void dispose() {
