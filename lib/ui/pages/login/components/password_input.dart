@@ -17,7 +17,6 @@ class _PasswordInputState extends State<PasswordInput> {
   bool isObscureText = true;
   final FocusNode _focusNode = FocusNode();
   final TextEditingController _controller = TextEditingController();
-  final bool _hasFocus = false;
   LoginPresenter? _presenter;
 
   @override
@@ -65,7 +64,9 @@ class _PasswordInputState extends State<PasswordInput> {
                           width: 20,
                           height: 20,
                           colorFilter: ColorFilter.mode(
-                            _hasFocus ? AppColors.dark100 : AppColors.dark80,
+                            _focusNode.hasFocus
+                                ? AppColors.dark100
+                                : AppColors.dark80,
                             BlendMode.srcIn,
                           ),
                         ),
@@ -78,7 +79,9 @@ class _PasswordInputState extends State<PasswordInput> {
                           width: 20,
                           height: 20,
                           colorFilter: ColorFilter.mode(
-                            _hasFocus ? AppColors.dark100 : AppColors.dark80,
+                            _focusNode.hasFocus
+                                ? AppColors.dark100
+                                : AppColors.dark80,
                             BlendMode.srcIn,
                           ),
                         ),

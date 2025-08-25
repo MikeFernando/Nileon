@@ -100,7 +100,7 @@ class _PhoneInputState extends State<PhoneInput> {
                             Text(
                               '+55',
                               style: TextStyle(
-                                color: AppColors.dark80,
+                                color: AppColors.dark60,
                                 fontFamily: 'Manrope',
                                 fontSize: 14,
                                 fontWeight: FontWeight.w500,

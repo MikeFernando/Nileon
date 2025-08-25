@@ -16,7 +16,6 @@ class EmailInput extends StatefulWidget {
 class _EmailInputState extends State<EmailInput> {
   final FocusNode _focusNode = FocusNode();
   final TextEditingController _controller = TextEditingController();
-  final bool _hasFocus = false;
   SignUpPresenter? _presenter;
 
   @override
@@ -63,7 +62,9 @@ class _EmailInputState extends State<EmailInput> {
                           width: 20,
                           height: 20,
                           colorFilter: ColorFilter.mode(
-                            _hasFocus ? AppColors.dark100 : AppColors.dark80,
+                            _focusNode.hasFocus
+                                ? AppColors.dark100
+                                : AppColors.dark80,
                             BlendMode.srcIn,
                           ),
                         ),

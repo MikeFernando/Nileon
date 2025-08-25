@@ -16,7 +16,6 @@ class NameInput extends StatefulWidget {
 class _NameInputState extends State<NameInput> {
   final FocusNode _focusNode = FocusNode();
   final TextEditingController _controller = TextEditingController();
-  final bool _hasFocus = false;
   SignUpPresenter? _presenter;
 
   @override
@@ -64,7 +63,9 @@ class _NameInputState extends State<NameInput> {
                           width: 18,
                           height: 18,
                           colorFilter: ColorFilter.mode(
-                            _hasFocus ? AppColors.dark100 : AppColors.dark80,
+                            _focusNode.hasFocus
+                                ? AppColors.dark100
+                                : AppColors.dark80,
                             BlendMode.srcIn,
                           ),
                         ),

@@ -15,12 +15,11 @@ class PasswordInput extends StatefulWidget {
 }
 
 class _PasswordInputState extends State<PasswordInput> {
-  bool isObscureText = true;
   final FocusNode _focusNode = FocusNode();
   final TextEditingController _controller = TextEditingController();
-  final bool _hasFocus = false;
-  SignUpPresenter? _presenter;
   final PasswordValidation _passwordValidation = PasswordValidation('password');
+  SignUpPresenter? _presenter;
+  bool isObscureText = true;
 
   @override
   void dispose() {
@@ -53,10 +52,8 @@ class _PasswordInputState extends State<PasswordInput> {
                     focusNode: _focusNode,
                     keyboardType: TextInputType.visiblePassword,
                     onChanged: (value) {
-                      _presenter!.validatePassword(value);
-                      setState(() {
-                        // Força a reconstrução do widget para atualizar o indicador de força
-                      });
+                      (value);
+                      setState(() {});
                     },
                     onEditingComplete: () {
                       _presenter!.validatePassword(_controller.text);
@@ -73,7 +70,9 @@ class _PasswordInputState extends State<PasswordInput> {
                           width: 20,
                           height: 20,
                           colorFilter: ColorFilter.mode(
-                            _hasFocus ? AppColors.dark100 : AppColors.dark80,
+                            _focusNode.hasFocus
+                                ? AppColors.dark100
+                                : AppColors.dark80,
                             BlendMode.srcIn,
                           ),
                         ),
@@ -86,7 +85,9 @@ class _PasswordInputState extends State<PasswordInput> {
                           width: 20,
                           height: 20,
                           colorFilter: ColorFilter.mode(
-                            _hasFocus ? AppColors.dark100 : AppColors.dark80,
+                            _focusNode.hasFocus
+                                ? AppColors.dark100
+                                : AppColors.dark80,
                             BlendMode.srcIn,
                           ),
                         ),

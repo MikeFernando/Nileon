@@ -16,7 +16,6 @@ class EmailInput extends StatefulWidget {
 class _EmailInputState extends State<EmailInput> {
   final FocusNode _focusNode = FocusNode();
   final TextEditingController _controller = TextEditingController();
-  final bool _hasFocus = false;
   LoginPresenter? _presenter;
 
   @override
@@ -48,8 +47,6 @@ class _EmailInputState extends State<EmailInput> {
                     focusNode: _focusNode,
                     keyboardType: TextInputType.emailAddress,
                     onChanged: _presenter!.validateEmail,
-                    onEditingComplete: () =>
-                        _presenter!.validateEmail(_controller.text),
                     autofillHints: const [AutofillHints.email],
                     decoration: InputDecoration(
                       hintText: 'Digite seu email',
@@ -61,7 +58,9 @@ class _EmailInputState extends State<EmailInput> {
                           width: 20,
                           height: 20,
                           colorFilter: ColorFilter.mode(
-                            _hasFocus ? AppColors.dark100 : AppColors.dark80,
+                            _focusNode.hasFocus
+                                ? AppColors.dark100
+                                : AppColors.dark80,
                             BlendMode.srcIn,
                           ),
                         ),
