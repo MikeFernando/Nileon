@@ -16,24 +16,8 @@ class NameInput extends StatefulWidget {
 class _NameInputState extends State<NameInput> {
   final FocusNode _focusNode = FocusNode();
   final TextEditingController _controller = TextEditingController();
-  bool _hasFocus = false;
+  final bool _hasFocus = false;
   SignUpPresenter? _presenter;
-
-  @override
-  void initState() {
-    super.initState();
-    _focusNode.addListener(() {
-      setState(() {
-        _hasFocus = _focusNode.hasFocus;
-      });
-
-      if (!_focusNode.hasFocus && _controller.text.isNotEmpty) {
-        if (mounted && _presenter != null) {
-          _presenter!.validateName(_controller.text);
-        }
-      }
-    });
-  }
 
   @override
   void dispose() {
