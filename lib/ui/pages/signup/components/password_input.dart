@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import '../../../themes/themes.dart';
 import '../../../components/components.dart';
 import '../signup_presenter.dart';
+import '../../../../validation/validators/password_validation.dart';
 
 class PasswordInput extends StatefulWidget {
   const PasswordInput({super.key});
@@ -19,6 +20,7 @@ class _PasswordInputState extends State<PasswordInput> {
   final TextEditingController _controller = TextEditingController();
   bool _hasFocus = false;
   SignUpPresenter? _presenter;
+  final PasswordValidation _passwordValidation = PasswordValidation('password');
 
   @override
   void initState() {
@@ -66,7 +68,12 @@ class _PasswordInputState extends State<PasswordInput> {
                     controller: _controller,
                     focusNode: _focusNode,
                     keyboardType: TextInputType.visiblePassword,
-                    onChanged: _presenter!.validatePassword,
+                    onChanged: (value) {
+                      _presenter!.validatePassword(value);
+                      setState(() {
+                        // Força a reconstrução do widget para atualizar o indicador de força
+                      });
+                    },
                     onEditingComplete: () {
                       _presenter!.validatePasswordOnFocusLost(_controller.text);
                     },
@@ -140,6 +147,10 @@ class _PasswordInputState extends State<PasswordInput> {
                     ),
                     style: InputDecorationHelper.baseTextStyle,
                   ),
+                ),
+                PasswordStrengthIndicator(
+                  password: _controller.text,
+                  validation: _passwordValidation,
                 ),
                 if (snapshot.hasData &&
                     snapshot.data != null &&

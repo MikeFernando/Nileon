@@ -27,45 +27,49 @@
 18. ✅ Deve notificar o passwordErrorStream com null, caso o PasswordValidation não retorne erro
 19. ✅ Não deve notificar o passwordErrorStream se o valor for igual ao último
 20. ✅ Deve notificar o isFormValidStream após alterar a senha
-
-
+21. ✅ Deve notificar o passwordStrengthStream com o nível de força da senha (weak, medium, strong)
+22. ✅ Deve bloquear senhas fracas automaticamente
+23. ✅ Deve permitir senhas médias com aviso
+24. ✅ Deve recomendar senhas fortes
 
 > ## Regras de validação do formulário
-21. ✅ Deve validar que para o formulário estar válido todos os Streams de erro precisam estar null e todos os campos obrigatórios não podem estar vazios
-22. ✅ Deve validar que nome, email, telefone e senha são campos obrigatórios
+25. ✅ Deve validar que para o formulário estar válido todos os Streams de erro precisam estar null e todos os campos obrigatórios não podem estar vazios
+26. ✅ Deve validar que nome, email, telefone e senha são campos obrigatórios
+27. ✅ Deve validar que a senha não é fraca para permitir envio do formulário
 
 > ## Regras de cadastro
-23. ✅ Deve chamar o SignUp com nome, email, telefone e senha corretos
-24. ✅ Deve notificar o isLoadingStream como true antes de chamar o SignUp
-25. ✅ Deve notificar o isLoadingStream como false no fim do SignUp
-26. ✅ Deve notificar o mainErrorStream caso o SignUp retorne um DomainError
-27. ✅ Deve notificar o navigateToStream com sucesso após cadastro bem-sucedido
+28. ✅ Deve chamar o SignUp com nome, email, telefone e senha corretos
+29. ✅ Deve notificar o isLoadingStream como true antes de chamar o SignUp
+30. ✅ Deve notificar o isLoadingStream como false no fim do SignUp
+31. ✅ Deve notificar o mainErrorStream caso o SignUp retorne um DomainError
+32. ✅ Deve notificar o navigateToStream com sucesso após cadastro bem-sucedido
 
 > ## Regras de navegação
-28. ✅ Deve notificar o navigateToLoginStream quando o usuário clicar em "Já tem uma conta? Login"
-29. ✅ Deve notificar o navigateToGoogleAddAccountStream quando o usuário clicar em "Registrar com Google"
+33. ✅ Deve notificar o navigateToLoginStream quando o usuário clicar em "Já tem uma conta? Login"
+34. ✅ Deve notificar o navigateToGoogleAddAccountStream quando o usuário clicar em "Registrar com Google"
 
 > ## Regras de gerenciamento de estado
-30. ✅ Deve fechar todos os Streams no dispose
-31. ✅ Deve inicializar todos os Streams com valores padrão apropriados
-32. ✅ Deve gerenciar o estado de loading durante operações assíncronas
+35. ✅ Deve fechar todos os Streams no dispose
+36. ✅ Deve inicializar todos os Streams com valores padrão apropriados
+37. ✅ Deve gerenciar o estado de loading durante operações assíncronas
 
 > ## Regras de validação em tempo real
-33. ✅ Deve validar campos em tempo real conforme o usuário digita
-34. ✅ Deve validar campos quando o usuário perde o foco (onFocusLost)
-35. ✅ Deve evitar validações desnecessárias se o valor não mudou
+38. ✅ Deve validar campos em tempo real conforme o usuário digita
+39. ✅ Deve validar campos quando o usuário perde o foco (onFocusLost)
+40. ✅ Deve evitar validações desnecessárias se o valor não mudou
 
 > ## Regras de tratamento de erros
-36. ✅ Deve mapear DomainError.invalidCredentials para "Credenciais inválidas"
-37. ✅ Deve mapear DomainError.emailInUse para "E-mail já está em uso"
-38. ✅ Deve mapear DomainError.invalidEmail para "E-mail inválido"
-39. ✅ Deve mapear DomainError.weakPassword para "Senha muito fraca"
-40. ✅ Deve mapear DomainError.unexpected para "Erro inesperado"
-41. ✅ Deve limpar erros anteriores antes de iniciar nova operação
+41. ✅ Deve mapear DomainError.invalidCredentials para "Credenciais inválidas"
+42. ✅ Deve mapear DomainError.emailInUse para "E-mail já está em uso"
+43. ✅ Deve mapear DomainError.invalidEmail para "E-mail inválido"
+44. ✅ Deve mapear DomainError.weakPassword para "Senha muito fraca"
+45. ✅ Deve mapear DomainError.unexpected para "Erro inesperado"
+46. ✅ Deve limpar erros anteriores antes de iniciar nova operação
 
 > ## Regras de validação específicas
-42. ✅ Deve validar que o nome tem pelo menos 2 caracteres
-43. ✅ Deve validar que o email está em formato válido
-44. ✅ Deve validar que o telefone está em formato válido (com código do país)
-45. ✅ Deve validar que a senha tem pelo menos 8 caracteres
-46. ✅ Deve validar que a senha contém pelo menos uma letra maiúscula, uma minúscula e um número
+47. ✅ Deve validar que o nome tem pelo menos 2 caracteres
+48. ✅ Deve validar que o email está em formato válido
+49. ✅ Deve validar que o telefone está em formato válido (com código do país)
+50. ✅ Deve validar que a senha não é fraca (menos de 8 caracteres, apenas letras minúsculas ou apenas números, sequências óbvias)
+51. ✅ Deve validar que a senha é pelo menos média (8+ caracteres com pelo menos 2 categorias)
+52. ✅ Deve recomendar senhas fortes (12+ caracteres com pelo menos 3 categorias)

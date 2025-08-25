@@ -1,6 +1,7 @@
 export 'button.dart';
 export 'custom_text_button.dart';
 export 'password_rules_display.dart';
+export 'password_strength_indicator.dart';
 export 'input_label.dart';
 export 'spacing.dart';
 export 'input_decoration.dart';

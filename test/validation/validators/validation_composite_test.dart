@@ -39,7 +39,8 @@ void main() {
 
     test('Deve retornar erro de senha muito curta', () {
       final error = sut.validate(field: 'password', value: '123');
-      expect(error, 'Senha deve ter pelo menos 8 caracteres');
+      expect(error,
+          'Senha muito fraca. Use pelo menos 8 caracteres com letras, números e símbolos.');
     });
   });
 }

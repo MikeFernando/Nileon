@@ -11,67 +11,78 @@
 08. ✅ Deve exibir separador "Or"
 09. ✅ Deve exibir botão "Register with Google" com logo do Google
 10. ✅ Deve exibir link "Already have an account? Login" no final
+11. ✅ Deve exibir indicador de força da senha com barra de progresso colorida
+12. ✅ Deve exibir mensagens de força da senha (Fraca, Média, Forte)
 
 > ## Regras de validação visual
-11. ✅ Deve exibir borda vermelha no campo com erro
-12. ✅ Deve exibir mensagem de erro abaixo do campo com problema
-13. ✅ Deve exibir mensagem "E-mail obrigatório" quando email estiver vazio
-14. ✅ Deve exibir mensagem "Nome obrigatório" quando nome estiver vazio
-15. ✅ Deve exibir mensagem "Telefone obrigatório" quando telefone estiver vazio
-16. ✅ Deve exibir mensagem "Senha obrigatória" quando senha estiver vazia
+13. ✅ Deve exibir borda vermelha no campo com erro
+14. ✅ Deve exibir mensagem de erro abaixo do campo com problema
+15. ✅ Deve exibir mensagem "E-mail obrigatório" quando email estiver vazio
+16. ✅ Deve exibir mensagem "Nome obrigatório" quando nome estiver vazio
+17. ✅ Deve exibir mensagem "Telefone obrigatório" quando telefone estiver vazio
+18. ✅ Deve exibir mensagem "Senha obrigatória" quando senha estiver vazia
+19. ✅ Deve exibir barra de força da senha em vermelho para senhas fracas
+20. ✅ Deve exibir barra de força da senha em laranja para senhas médias
+21. ✅ Deve exibir barra de força da senha em verde para senhas fortes
 
 > ## Regras de interação
-17. ✅ Deve validar nome em tempo real conforme usuário digita
-18. ✅ Deve validar email em tempo real conforme usuário digita
-19. ✅ Deve validar telefone em tempo real conforme usuário digita
-20. ✅ Deve validar senha em tempo real conforme usuário digita
-21. ✅ Deve validar campos quando usuário perde o foco
-22. ✅ Deve habilitar botão "Register" apenas quando formulário estiver válido
-23. ✅ Deve desabilitar botão "Register" quando formulário estiver inválido
+22. ✅ Deve validar nome em tempo real conforme usuário digita
+23. ✅ Deve validar email em tempo real conforme usuário digita
+24. ✅ Deve validar telefone em tempo real conforme usuário digita
+25. ✅ Deve validar senha em tempo real conforme usuário digita
+26. ✅ Deve validar campos quando usuário perde o foco
+27. ✅ Deve habilitar botão "Register" apenas quando formulário estiver válido
+28. ✅ Deve desabilitar botão "Register" quando formulário estiver inválido
+29. ✅ Deve desabilitar botão "Register" quando senha for fraca
+30. ✅ Deve permitir envio quando senha for média ou forte
 
 > ## Regras de estado de loading
-24. ✅ Deve exibir indicador de loading no botão "Register" durante cadastro
-25. ✅ Deve desabilitar todos os campos durante operação de cadastro
-26. ✅ Deve exibir "Registrando..." no botão durante operação
-27. ✅ Deve restaurar estado normal após conclusão da operação
+31. ✅ Deve exibir indicador de loading no botão "Register" durante cadastro
+32. ✅ Deve desabilitar todos os campos durante operação de cadastro
+33. ✅ Deve exibir "Registrando..." no botão durante operação
+34. ✅ Deve restaurar estado normal após conclusão da operação
 
 > ## Regras de navegação
-28. ✅ Deve navegar para página de login quando clicar em "Already have an account? Login"
-29. ✅ Deve navegar para fluxo de Google Add Account quando clicar em "Register with Google"
-30. ✅ Deve navegar para página de sucesso após cadastro bem-sucedido
-31. ✅ Deve manter usuário na página em caso de erro
+35. ✅ Deve navegar para página de login quando clicar em "Already have an account? Login"
+36. ✅ Deve navegar para fluxo de Google Add Account quando clicar em "Register with Google"
+37. ✅ Deve navegar para página de sucesso após cadastro bem-sucedido
+38. ✅ Deve manter usuário na página em caso de erro
 
 > ## Regras de acessibilidade
-32. ✅ Deve ter labels apropriados para leitores de tela
-33. ✅ Deve ter focus management adequado
-34. ✅ Deve ter contraste de cores adequado
-35. ✅ Deve ter tamanho de fonte legível
-36. ✅ Deve ter área de toque adequada para botões
+39. ✅ Deve ter labels apropriados para leitores de tela
+40. ✅ Deve ter focus management adequado
+41. ✅ Deve ter contraste de cores adequado
+42. ✅ Deve ter tamanho de fonte legível
+43. ✅ Deve ter área de toque adequada para botões
+44. ✅ Deve anunciar força da senha para leitores de tela
 
 > ## Regras de responsividade
-37. ✅ Deve se adaptar a diferentes tamanhos de tela
-38. ✅ Deve funcionar em orientação portrait apenas
-39. ✅ Deve ter scroll adequado em telas menores
-40. ✅ Deve manter proporções adequadas em diferentes dispositivos
+45. ✅ Deve se adaptar a diferentes tamanhos de tela
+46. ✅ Deve funcionar em orientação portrait apenas
+47. ✅ Deve ter scroll adequado em telas menores
+48. ✅ Deve manter proporções adequadas em diferentes dispositivos
 
 > ## Regras de validação específicas
-41. ✅ Deve validar formato de email (ex: user@domain.com)
-42. ✅ Deve validar formato de telefone com código do país
-43. ✅ Deve validar que senha tem pelo menos 8 caracteres
-44. ✅ Deve validar que senha contém caracteres especiais
-45. ✅ Deve validar que nome tem pelo menos 2 caracteres
+49. ✅ Deve validar formato de email (ex: user@domain.com)
+50. ✅ Deve validar formato de telefone com código do país
+51. ✅ Deve validar que senha não é fraca (menos de 8 caracteres, apenas letras minúsculas ou apenas números, sequências óbvias)
+52. ✅ Deve validar que senha é pelo menos média (8+ caracteres com pelo menos 2 categorias)
+53. ✅ Deve validar que nome tem pelo menos 2 caracteres
 
 > ## Regras de tratamento de erro
-46. ✅ Deve exibir mensagem de erro principal quando cadastro falhar
-47. ✅ Deve exibir "E-mail já está em uso" quando email já existir
-48. ✅ Deve exibir "Senha muito fraca" quando senha não atender critérios
-49. ✅ Deve exibir "Erro inesperado" para erros não mapeados
-50. ✅ Deve limpar mensagens de erro ao iniciar nova operação
+54. ✅ Deve exibir mensagem de erro principal quando cadastro falhar
+55. ✅ Deve exibir "E-mail já está em uso" quando email já existir
+56. ✅ Deve exibir "Senha muito fraca" quando senha não atender critérios mínimos
+57. ✅ Deve exibir "Erro inesperado" para erros não mapeados
+58. ✅ Deve limpar mensagens de erro ao iniciar nova operação
 
 > ## Regras de UX
-51. ✅ Deve ter feedback visual imediato para validações
-52. ✅ Deve ter animações suaves para transições
-53. ✅ Deve ter feedback tátil (vibração) em dispositivos móveis
-54. ✅ Deve ter auto-focus no primeiro campo ao abrir a página
-55. ✅ Deve ter navegação por teclado adequada
+59. ✅ Deve ter feedback visual imediato para validações
+60. ✅ Deve ter animações suaves para transições
+61. ✅ Deve ter feedback tátil (vibração) em dispositivos móveis
+62. ✅ Deve ter auto-focus no primeiro campo ao abrir a página
+63. ✅ Deve ter navegação por teclado adequada
+64. ✅ Deve atualizar indicador de força da senha em tempo real
+65. ✅ Deve mostrar mensagem de recomendação para senhas médias
+66. ✅ Deve mostrar mensagem de confirmação para senhas fortes
 

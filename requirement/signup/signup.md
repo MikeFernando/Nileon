@@ -36,7 +36,10 @@ Baseado na análise da tela de registro, o formulário deve conter:
 1. **Nome** - Campo obrigatório com validação de mínimo 2 caracteres
 2. **Email** - Campo obrigatório com validação de formato
 3. **Telefone** - Campo obrigatório com código do país e validação de formato
-4. **Senha** - Campo obrigatório com validação de força (mínimo 8 caracteres, maiúscula, minúscula, número)
+4. **Senha** - Campo obrigatório com validação de força em três níveis:
+   - 🔴 **Fraca** (não permitir): Menos de 8 caracteres, apenas letras minúsculas ou apenas números, sequências óbvias
+   - 🟡 **Média** (permitir, mas avisar): 8-11 caracteres com pelo menos 2 categorias (maiúscula, minúscula, número, especial)
+   - 🟢 **Forte** (permitir e recomendar): 12+ caracteres com pelo menos 3 categorias
 
 ## 🔄 Fluxo de Validação
 
@@ -50,7 +53,8 @@ Baseado na análise da tela de registro, o formulário deve conter:
 - **Campos obrigatórios** - Mensagens específicas para cada campo
 - **Formato inválido** - Validação de email, telefone e senha
 - **Email em uso** - Verificação de duplicidade
-
+- **Senha fraca** - Bloqueio automático de senhas fracas
+- **Senha média** - Aviso de que pode melhorar
 - **Erro de rede** - Tratamento de falhas de comunicação
 
 ## 📱 Funcionalidades da Tela
@@ -59,7 +63,29 @@ Baseado na análise da tela de registro, o formulário deve conter:
 - **Registro com Google** - Integração com OAuth
 - **Navegação para login** - Link para usuários existentes
 - **Feedback visual** - Indicadores de loading e erro
+- **Indicador de força da senha** - Barra de progresso colorida (vermelha, laranja, verde)
 - **Acessibilidade** - Suporte a leitores de tela
+
+## 🔐 Regras de Força da Senha
+
+### 🔴 Senha Fraca (NÃO PERMITIR)
+- Menos de 8 caracteres
+- Apenas letras minúsculas ou apenas números
+- Sequências óbvias (ex: 123456, abcdef)
+
+### 🟡 Senha Média (PERMITIR, MAS AVISAR)
+- 8 a 11 caracteres
+- Contém pelo menos duas categorias entre:
+  - Letras maiúsculas (A-Z)
+  - Letras minúsculas (a-z)
+  - Números (0-9)
+  - Caracteres especiais (!@#$%&* etc.)
+
+### 🟢 Senha Forte (PERMITIR E RECOMENDAR)
+- 12 ou mais caracteres
+- Contém pelo menos três categorias (maiúscula, minúscula, número, especial)
+- Não deve conter apenas palavras comuns de dicionário
+- Quanto mais imprevisível, melhor
 
 ## ✅ Status de Implementação
 
