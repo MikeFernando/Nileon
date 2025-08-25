@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../../themes/themes.dart';
+import '../../../components/components.dart';
 import '../login_presenter.dart';
 
 class ButtonLogin extends StatelessWidget {
@@ -10,8 +11,7 @@ class ButtonLogin extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final presenter = Provider.of<LoginPresenter>(context);
-    return SizedBox(
-      width: double.infinity,
+    return ButtonContainer(
       child: StreamBuilder<bool>(
         stream: presenter.isFormValidStream,
         builder: (context, formSnapshot) {

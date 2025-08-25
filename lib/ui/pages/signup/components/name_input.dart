@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 
-import '../signup_presenter.dart';
-
 import '../../../themes/themes.dart';
+import '../../../components/components.dart';
+import '../signup_presenter.dart';
 
 class NameInput extends StatefulWidget {
   const NameInput({super.key});
@@ -49,12 +49,8 @@ class _NameInputState extends State<NameInput> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const SizedBox(height: 18),
-        Text(
-          'Nome',
-          style: AppTypography.bodyMediumWithColor(AppColors.dark100),
-        ),
-        const SizedBox(height: 8),
+        const InputLabel(label: 'Nome', topPadding: 8),
+        const SpacingH(),
         StreamBuilder<String?>(
           stream: _presenter!.nameErrorStream,
           initialData: null,
@@ -76,11 +72,7 @@ class _NameInputState extends State<NameInput> {
                     autofillHints: const [AutofillHints.name],
                     decoration: InputDecoration(
                       hintText: 'Digite seu nome',
-                      hintStyle: TextStyle(
-                        color: AppColors.dark80,
-                        fontFamily: 'Manrope',
-                        fontSize: 14,
-                      ),
+                      hintStyle: InputDecorationHelper.hintTextStyle,
                       prefixIcon: Padding(
                         padding: const EdgeInsets.all(12.0),
                         child: SvgPicture.asset(
@@ -126,27 +118,13 @@ class _NameInputState extends State<NameInput> {
                         horizontal: 0,
                       ),
                     ),
-                    style: const TextStyle(
-                      color: AppColors.dark100,
-                      fontFamily: 'Manrope',
-                      fontSize: 14,
-                    ),
+                    style: InputDecorationHelper.baseTextStyle,
                   ),
                 ),
                 if (snapshot.hasData &&
                     snapshot.data != null &&
                     snapshot.data!.isNotEmpty)
-                  Padding(
-                    padding: const EdgeInsets.only(top: 8.0),
-                    child: Text(
-                      snapshot.data!,
-                      style: TextStyle(
-                        color: AppColors.error,
-                        fontSize: 12,
-                        fontFamily: 'Manrope',
-                      ),
-                    ),
-                  ),
+                  ErrorDisplay(error: snapshot.data!),
               ],
             );
           },

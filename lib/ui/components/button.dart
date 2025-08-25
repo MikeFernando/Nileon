@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'button_container.dart';
 
 class Button extends StatelessWidget {
   const Button({
@@ -14,9 +15,7 @@ class Button extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: 50,
-      width: double.infinity,
+    return ButtonContainer(
       child: enabled
           ? ElevatedButton(
               onPressed: onPressed,
@@ -27,7 +26,7 @@ class Button extends StatelessWidget {
               ),
               child: Text(
                 label,
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.bold,
                 ),
@@ -41,7 +40,7 @@ class Button extends StatelessWidget {
               child: Center(
                 child: Text(
                   label,
-                  style: TextStyle(
+                  style: const TextStyle(
                     color: Colors.white,
                     fontSize: 16,
                     fontWeight: FontWeight.bold,

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../signup_presenter.dart';
-
 import '../../../themes/themes.dart';
+import '../../../components/components.dart';
+import '../signup_presenter.dart';
 
 class MainErrorDisplay extends StatefulWidget {
   const MainErrorDisplay({super.key});
@@ -29,12 +29,12 @@ class _MainErrorDisplayState extends State<MainErrorDisplay> {
               SnackBar(
                 content: Row(
                   children: [
-                    Icon(
+                    const Icon(
                       Icons.error_outline,
                       color: Colors.white,
                       size: 20,
                     ),
-                    const SizedBox(width: 12),
+                    const SpacingW(width: 12),
                     Expanded(
                       child: Text(
                         snapshot.data!,

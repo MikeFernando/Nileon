@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../signup_presenter.dart';
-
 import '../../../themes/themes.dart';
+import '../../../components/components.dart';
+import '../signup_presenter.dart';
 
 class SignUpButton extends StatelessWidget {
   const SignUpButton({super.key});
@@ -11,8 +11,7 @@ class SignUpButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final presenter = Provider.of<SignUpPresenter>(context);
-    return SizedBox(
-      width: double.infinity,
+    return ButtonContainer(
       child: StreamBuilder<bool>(
         stream: presenter.isFormValidStream,
         initialData: false,

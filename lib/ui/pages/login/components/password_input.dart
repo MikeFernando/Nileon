@@ -3,6 +3,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 
 import '../../../themes/themes.dart';
+import '../../../components/components.dart';
 import '../login_presenter.dart';
 
 class PasswordInput extends StatefulWidget {
@@ -49,11 +50,8 @@ class _PasswordInputState extends State<PasswordInput> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          'Senha',
-          style: AppTypography.bodyMediumWithColor(AppColors.dark100),
-        ),
-        const SizedBox(height: 8),
+        const InputLabel(label: 'Senha', topPadding: 0),
+        const SpacingH(),
         StreamBuilder<String?>(
           stream: _presenter!.passwordErrorStream,
           builder: (context, snapshot) {
@@ -75,11 +73,7 @@ class _PasswordInputState extends State<PasswordInput> {
                     autofillHints: const [AutofillHints.password],
                     decoration: InputDecoration(
                       hintText: 'Digite sua senha',
-                      hintStyle: TextStyle(
-                        color: AppColors.dark80,
-                        fontFamily: 'Manrope',
-                        fontSize: 14,
-                      ),
+                      hintStyle: InputDecorationHelper.hintTextStyle,
                       prefixIcon: Padding(
                         padding: const EdgeInsets.all(12.0),
                         child: SvgPicture.asset(
@@ -143,32 +137,18 @@ class _PasswordInputState extends State<PasswordInput> {
                         horizontal: 0,
                       ),
                     ),
-                    style: const TextStyle(
-                      color: AppColors.dark100,
-                      fontFamily: 'Manrope',
-                      fontSize: 14,
-                    ),
+                    style: InputDecorationHelper.baseTextStyle,
                   ),
                 ),
                 if (snapshot.hasData &&
                     snapshot.data != null &&
                     snapshot.data!.isNotEmpty)
-                  Padding(
-                    padding: const EdgeInsets.only(top: 8.0),
-                    child: Text(
-                      snapshot.data!,
-                      style: TextStyle(
-                        color: AppColors.error,
-                        fontSize: 12,
-                        fontFamily: 'Manrope',
-                      ),
-                    ),
-                  ),
+                  ErrorDisplay(error: snapshot.data!),
               ],
             );
           },
         ),
-        const SizedBox(height: 61),
+        const SpacingH(height: 61),
       ],
     );
   }
