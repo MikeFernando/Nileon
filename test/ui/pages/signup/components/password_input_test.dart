@@ -64,11 +64,10 @@ void main() {
       );
 
       // Verificar se a mensagem "Senha média" está sendo exibida
-      expect(find.text('Senha média - pode melhorar'), findsOneWidget);
+      expect(find.text('Senha média'), findsOneWidget);
 
       // Verificar se a cor está sendo aplicada corretamente
-      final textWidget =
-          tester.widget<Text>(find.text('Senha média - pode melhorar'));
+      final textWidget = tester.widget<Text>(find.text('Senha média'));
       expect(textWidget.style?.color, const Color(0xFFFFD33C)); // Laranja
     });
 

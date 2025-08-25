@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:flutter/material.dart';
 
 abstract class SignUpPresenter {
   // Streams de erro para cada campo
@@ -20,13 +21,26 @@ abstract class SignUpPresenter {
   Stream<String?> get navigateToLoginStream;
   Stream<String?> get navigateToGoogleAddAccountStream;
 
+  // Controllers para os campos de texto (para persistir estado)
+  TextEditingController get nameController;
+  TextEditingController get emailController;
+  TextEditingController get phoneController;
+  TextEditingController get passwordController;
+
+  // FocusNodes para os campos
+  FocusNode get nameFocusNode;
+  FocusNode get emailFocusNode;
+  FocusNode get phoneFocusNode;
+  FocusNode get passwordFocusNode;
+
   // Métodos de validação em tempo real
   void validateName(String name);
   void validateEmail(String email);
   void validatePhone(String phone);
   void validatePassword(String password);
 
-
+  // Métodos para mostrar erros
+  void showEmailError();
 
   // Métodos de controle
   void isLoading(bool isLoading);

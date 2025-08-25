@@ -14,16 +14,7 @@ class NameInput extends StatefulWidget {
 }
 
 class _NameInputState extends State<NameInput> {
-  final FocusNode _focusNode = FocusNode();
-  final TextEditingController _controller = TextEditingController();
   SignUpPresenter? _presenter;
-
-  @override
-  void dispose() {
-    _focusNode.dispose();
-    _controller.dispose();
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -45,13 +36,19 @@ class _NameInputState extends State<NameInput> {
                   label: 'Campo de nome',
                   hint: 'Digite seu nome completo',
                   child: TextFormField(
-                    controller: _controller,
-                    focusNode: _focusNode,
+                    controller: _presenter!.nameController,
+                    focusNode: _presenter!.nameFocusNode,
                     keyboardType: TextInputType.name,
                     textCapitalization: TextCapitalization.words,
-                    onChanged: _presenter!.validateName,
-                    onEditingComplete: () =>
-                        _presenter!.validateName(_controller.text),
+                    onTapOutside: (event) {
+                      FocusScope.of(context).unfocus();
+                      if (_presenter!.nameController.text.isNotEmpty) {
+                        _presenter!
+                            .validateName(_presenter!.nameController.text);
+                      }
+                    },
+                    onEditingComplete: () => _presenter!
+                        .validateName(_presenter!.nameController.text),
                     autofillHints: const [AutofillHints.name],
                     decoration: InputDecoration(
                       hintText: 'Digite seu nome',
@@ -63,7 +60,7 @@ class _NameInputState extends State<NameInput> {
                           width: 18,
                           height: 18,
                           colorFilter: ColorFilter.mode(
-                            _focusNode.hasFocus
+                            _presenter!.nameFocusNode.hasFocus
                                 ? AppColors.dark100
                                 : AppColors.dark80,
                             BlendMode.srcIn,
@@ -106,9 +103,7 @@ class _NameInputState extends State<NameInput> {
                     style: InputDecorationHelper.baseTextStyle,
                   ),
                 ),
-                if (snapshot.hasData &&
-                    snapshot.data != null &&
-                    snapshot.data!.isNotEmpty)
+                if (snapshot.data != null && snapshot.data!.isNotEmpty)
                   ErrorDisplay(error: snapshot.data!),
               ],
             );

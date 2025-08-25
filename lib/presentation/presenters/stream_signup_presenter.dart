@@ -1,5 +1,7 @@
 import 'dart:async';
 
+import 'package:flutter/material.dart';
+
 import '../../domain/usecases/usecases.dart';
 import '../../domain/helpers/helpers.dart';
 
@@ -30,6 +32,18 @@ class StreamSignUpPresenter implements SignUpPresenter {
   final _navigateToGoogleAddAccountController =
       StreamController<String?>.broadcast();
 
+  // Controllers para os campos de texto (persistentes)
+  final _nameController = TextEditingController();
+  final _emailController = TextEditingController();
+  final _phoneController = TextEditingController();
+  final _passwordController = TextEditingController();
+
+  // FocusNodes para os campos (persistentes)
+  final _nameFocusNode = FocusNode();
+  final _emailFocusNode = FocusNode();
+  final _phoneFocusNode = FocusNode();
+  final _passwordFocusNode = FocusNode();
+
   // Variáveis de estado
   String? _name;
   String? _email;
@@ -57,7 +71,54 @@ class StreamSignUpPresenter implements SignUpPresenter {
     _navigateToController.add(null);
     _navigateToLoginController.add(null);
     _navigateToGoogleAddAccountController.add(null);
+
+    // Configura listeners para os controllers
+    _setupControllerListeners();
   }
+
+  void _setupControllerListeners() {
+    _nameController.addListener(() {
+      validateName(_nameController.text);
+    });
+
+    _emailController.addListener(() {
+      validateEmail(_emailController.text);
+    });
+
+    _phoneController.addListener(() {
+      validatePhone(_phoneController.text);
+    });
+
+    _passwordController.addListener(() {
+      validatePassword(_passwordController.text);
+    });
+  }
+
+  // Getters para os controllers
+  @override
+  TextEditingController get nameController => _nameController;
+
+  @override
+  TextEditingController get emailController => _emailController;
+
+  @override
+  TextEditingController get phoneController => _phoneController;
+
+  @override
+  TextEditingController get passwordController => _passwordController;
+
+  // Getters para os focusNodes
+  @override
+  FocusNode get nameFocusNode => _nameFocusNode;
+
+  @override
+  FocusNode get emailFocusNode => _emailFocusNode;
+
+  @override
+  FocusNode get phoneFocusNode => _phoneFocusNode;
+
+  @override
+  FocusNode get passwordFocusNode => _passwordFocusNode;
 
   @override
   Stream<String?> get nameErrorStream => _nameErrorController.stream;
@@ -177,6 +238,18 @@ class StreamSignUpPresenter implements SignUpPresenter {
     _navigateToController.close();
     _navigateToLoginController.close();
     _navigateToGoogleAddAccountController.close();
+
+    // Dispose dos controllers de texto
+    _nameController.dispose();
+    _emailController.dispose();
+    _phoneController.dispose();
+    _passwordController.dispose();
+
+    // Dispose dos focusNodes
+    _nameFocusNode.dispose();
+    _emailFocusNode.dispose();
+    _phoneFocusNode.dispose();
+    _passwordFocusNode.dispose();
   }
 
   void _validateName() {
@@ -190,6 +263,7 @@ class StreamSignUpPresenter implements SignUpPresenter {
 
     final error = validation.validate(field: 'name', value: _name!);
 
+    // Sempre atualizar o erro se houver mudança
     if (error != _lastNameError) {
       _lastNameError = error;
       _nameErrorController.add(error.isEmpty ? null : error);
@@ -207,6 +281,7 @@ class StreamSignUpPresenter implements SignUpPresenter {
 
     final error = validation.validate(field: 'email', value: _email!);
 
+    // Sempre atualizar o erro se houver mudança
     if (error != _lastEmailError) {
       _lastEmailError = error;
       _emailErrorController.add(error.isEmpty ? null : error);
@@ -224,6 +299,7 @@ class StreamSignUpPresenter implements SignUpPresenter {
 
     final error = validation.validate(field: 'phone', value: _phone!);
 
+    // Sempre atualizar o erro se houver mudança
     if (error != _lastPhoneError) {
       _lastPhoneError = error;
       _phoneErrorController.add(error.isEmpty ? null : error);
@@ -241,6 +317,7 @@ class StreamSignUpPresenter implements SignUpPresenter {
 
     final error = validation.validate(field: 'password', value: _password!);
 
+    // Sempre atualizar o erro se houver mudança
     if (error != _lastPasswordError) {
       _lastPasswordError = error;
       _passwordErrorController.add(error.isEmpty ? null : error);
@@ -265,6 +342,14 @@ class StreamSignUpPresenter implements SignUpPresenter {
         isNameValid && isEmailValid && isPhoneValid && isPasswordValid;
 
     _isFormValidController.add(isFormValid);
+  }
+
+  @override
+  void showEmailError() {
+    // Força a exibição do erro atual do email
+    if (_lastEmailError != null && _lastEmailError!.isNotEmpty) {
+      _emailErrorController.add(_lastEmailError);
+    }
   }
 
   String _getErrorMessage(DomainError error) {

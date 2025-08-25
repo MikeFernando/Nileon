@@ -44,11 +44,10 @@ void main() {
       );
 
       // Verificar se a mensagem está correta
-      expect(find.text('Senha média - pode melhorar'), findsOneWidget);
+      expect(find.text('Senha média'), findsOneWidget);
 
       // Verificar se a cor está sendo aplicada (laranja)
-      final textWidget =
-          tester.widget<Text>(find.text('Senha média - pode melhorar'));
+      final textWidget = tester.widget<Text>(find.text('Senha média'));
       expect(textWidget.style?.color, const Color(0xFFFFD33C));
     });
 
@@ -141,9 +140,8 @@ void main() {
           ),
         ),
       );
-      expect(find.text('Senha média - pode melhorar'), findsOneWidget);
-      final mediumTextWidget =
-          tester.widget<Text>(find.text('Senha média - pode melhorar'));
+      expect(find.text('Senha média'), findsOneWidget);
+      final mediumTextWidget = tester.widget<Text>(find.text('Senha média'));
       expect(mediumTextWidget.style?.color, const Color(0xFFFFD33C)); // Laranja
 
       // Teste para senha forte

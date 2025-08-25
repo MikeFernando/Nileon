@@ -7,7 +7,41 @@ import 'package:nileon/ui/pages/signup/signup_page.dart';
 import 'package:nileon/ui/pages/signup/signup_presenter.dart';
 import 'package:nileon/ui/pages/signup/components/components.dart';
 
-class SignUpPresenterSpy extends Mock implements SignUpPresenter {}
+class SignUpPresenterSpy extends Mock implements SignUpPresenter {
+  final _nameController = TextEditingController();
+  final _emailController = TextEditingController();
+  final _phoneController = TextEditingController();
+  final _passwordController = TextEditingController();
+
+  final _nameFocusNode = FocusNode();
+  final _emailFocusNode = FocusNode();
+  final _phoneFocusNode = FocusNode();
+  final _passwordFocusNode = FocusNode();
+
+  @override
+  TextEditingController get nameController => _nameController;
+
+  @override
+  TextEditingController get emailController => _emailController;
+
+  @override
+  TextEditingController get phoneController => _phoneController;
+
+  @override
+  TextEditingController get passwordController => _passwordController;
+
+  @override
+  FocusNode get nameFocusNode => _nameFocusNode;
+
+  @override
+  FocusNode get emailFocusNode => _emailFocusNode;
+
+  @override
+  FocusNode get phoneFocusNode => _phoneFocusNode;
+
+  @override
+  FocusNode get passwordFocusNode => _passwordFocusNode;
+}
 
 void main() {
   late SignUpPresenterSpy presenter;
@@ -15,7 +49,6 @@ void main() {
   setUp(() {
     presenter = SignUpPresenterSpy();
 
-    // Setup default stream responses
     when(() => presenter.nameErrorStream).thenAnswer((_) => Stream.value(null));
     when(() => presenter.emailErrorStream)
         .thenAnswer((_) => Stream.value(null));
@@ -23,6 +56,8 @@ void main() {
         .thenAnswer((_) => Stream.value(null));
     when(() => presenter.passwordErrorStream)
         .thenAnswer((_) => Stream.value(null));
+    when(() => presenter.passwordTextStream)
+        .thenAnswer((_) => Stream.value(''));
     when(() => presenter.isFormValidStream)
         .thenAnswer((_) => Stream.value(false));
     when(() => presenter.isLoadingStream)
@@ -145,7 +180,6 @@ void main() {
   group('SignUpPage - Regras de Interação', () {
     testWidgets('Deve chamar presenter.signUp() quando botão for pressionado',
         (WidgetTester tester) async {
-      // Configura o formulário como válido
       when(() => presenter.isFormValidStream)
           .thenAnswer((_) => Stream.value(true));
       when(() => presenter.isLoadingStream)
@@ -157,17 +191,14 @@ void main() {
       await tester.pumpWidget(createWidgetUnderTest());
       await tester.pump();
 
-      // Verifica se o botão está habilitado
       final button = tester.widget<ElevatedButton>(find.byType(ElevatedButton));
       expect(button.onPressed, isNotNull);
 
-      // Verifica se o texto do botão está correto
       expect(find.text('Registrar'), findsOneWidget);
     });
 
     testWidgets('Deve desabilitar botão quando formulário não for válido',
         (WidgetTester tester) async {
-      // Configura o formulário como inválido
       when(() => presenter.isFormValidStream)
           .thenAnswer((_) => Stream.value(false));
       when(() => presenter.isLoadingStream)
@@ -176,14 +207,12 @@ void main() {
       await tester.pumpWidget(createWidgetUnderTest());
       await tester.pump();
 
-      // Verifica se o botão está desabilitado
       final button = tester.widget<ElevatedButton>(find.byType(ElevatedButton));
       expect(button.onPressed, isNull);
     });
 
     testWidgets('Deve desabilitar botão quando estiver carregando',
         (WidgetTester tester) async {
-      // Configura o formulário como válido mas carregando
       when(() => presenter.isFormValidStream)
           .thenAnswer((_) => Stream.value(true));
       when(() => presenter.isLoadingStream)
@@ -192,14 +221,12 @@ void main() {
       await tester.pumpWidget(createWidgetUnderTest());
       await tester.pump();
 
-      // Verifica se o botão está desabilitado
       final button = tester.widget<ElevatedButton>(find.byType(ElevatedButton));
       expect(button.onPressed, isNull);
     });
 
     testWidgets('Deve mostrar loading indicator quando estiver carregando',
         (WidgetTester tester) async {
-      // Configura o formulário como válido e carregando
       when(() => presenter.isFormValidStream)
           .thenAnswer((_) => Stream.value(true));
       when(() => presenter.isLoadingStream)
@@ -208,7 +235,6 @@ void main() {
       await tester.pumpWidget(createWidgetUnderTest());
       await tester.pump();
 
-      // Verifica se o CircularProgressIndicator está sendo exibido
       expect(find.byType(CircularProgressIndicator), findsOneWidget);
     });
 
@@ -217,8 +243,9 @@ void main() {
 
       final nameField = find.byType(TextFormField).first;
       await tester.enterText(nameField, 'Jo');
+      await tester.tapAt(const Offset(0, 0));
 
-      verify(() => presenter.validateName('Jo')).called(1);
+      verify(() => presenter.validateName('Jo')).called(greaterThan(0));
     });
 
     testWidgets('Deve validar email em tempo real',
@@ -227,8 +254,9 @@ void main() {
 
       final emailField = find.byType(TextFormField).at(1);
       await tester.enterText(emailField, 'test@');
+      await tester.tapAt(const Offset(0, 0));
 
-      verify(() => presenter.validateEmail('test@')).called(1);
+      verify(() => presenter.validateEmail('test@')).called(greaterThan(0));
     });
 
     testWidgets('Deve validar senha em tempo real',
@@ -237,8 +265,9 @@ void main() {
 
       final passwordField = find.byType(TextFormField).at(3);
       await tester.enterText(passwordField, '123');
+      await tester.tapAt(const Offset(0, 0));
 
-      verify(() => presenter.validatePassword('123')).called(1);
+      verify(() => presenter.validatePassword('123')).called(greaterThan(0));
     });
 
     testWidgets('Deve navegar para login ao clicar em AlreadyHaveAccount',
@@ -254,15 +283,12 @@ void main() {
         ),
       );
 
-      // Scroll para garantir que o AlreadyHaveAccount esteja visível
       await tester.drag(
           find.byType(SingleChildScrollView), const Offset(0, -300));
       await tester.pumpAndSettle();
 
-      // Verificar se o AlreadyHaveAccount está visível antes de clicar
       expect(find.byType(AlreadyHaveAccount), findsOneWidget);
 
-      // Encontrar o GestureDetector dentro do AlreadyHaveAccount
       final alreadyHaveAccount = find.byType(AlreadyHaveAccount);
       final gestureDetector = find.descendant(
         of: alreadyHaveAccount,
@@ -272,7 +298,6 @@ void main() {
       await tester.tap(gestureDetector, warnIfMissed: false);
       await tester.pumpAndSettle();
 
-      // Assert - verificar se a navegação foi chamada
       expect(Get.currentRoute, '/login');
     });
   });
@@ -342,7 +367,6 @@ void main() {
         (WidgetTester tester) async {
       await tester.pumpWidget(createWidgetUnderTest());
 
-      // Preencher formulário
       final nameField = find.byType(TextFormField).first;
       final emailField = find.byType(TextFormField).at(1);
       final passwordField = find.byType(TextFormField).at(3);
@@ -351,7 +375,6 @@ void main() {
       await tester.enterText(emailField, 'joao@example.com');
       await tester.enterText(passwordField, 'Senha123!');
 
-      // Verificar que os campos foram preenchidos
       expect(find.text('João Silva'), findsOneWidget);
       expect(find.text('joao@example.com'), findsOneWidget);
       expect(find.text('Senha123!'), findsOneWidget);
@@ -361,7 +384,6 @@ void main() {
         (WidgetTester tester) async {
       await tester.pumpWidget(createWidgetUnderTest());
 
-      // Verificar presença de todos os componentes principais
       expect(find.byType(NameInput), findsOneWidget);
       expect(find.byType(EmailInput), findsOneWidget);
       expect(find.byType(PhoneInput), findsOneWidget);

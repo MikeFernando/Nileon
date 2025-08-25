@@ -147,7 +147,7 @@ class PasswordValidation implements Validation {
       case PasswordStrength.weak:
         return 'Senha fraca';
       case PasswordStrength.medium:
-        return 'Senha média - pode melhorar';
+        return 'Senha média';
       case PasswordStrength.strong:
         return 'Senha forte';
     }

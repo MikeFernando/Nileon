@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:flutter/material.dart';
 import 'package:nileon/domain/usecases/usecases.dart';
 import 'package:nileon/domain/helpers/helpers.dart';
 import 'package:nileon/presentation/protocols/protocols.dart';
@@ -13,6 +14,16 @@ class StreamLoginPresenter implements LoginPresenter {
   final _isFormValidController = StreamController<bool>.broadcast();
   final _isLoadingController = StreamController<bool>.broadcast();
   final _mainErrorController = StreamController<String?>.broadcast();
+  final _emailErrorDisplayController = StreamController<bool>.broadcast();
+  final _passwordErrorDisplayController = StreamController<bool>.broadcast();
+
+  // Controllers para os campos de texto (persistentes)
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
+
+  // FocusNodes para os campos (persistentes)
+  final _emailFocusNode = FocusNode();
+  final _passwordFocusNode = FocusNode();
 
   String? _email;
   String? _password;
@@ -25,7 +36,34 @@ class StreamLoginPresenter implements LoginPresenter {
   }) {
     _isFormValidController.add(false);
     _isLoadingController.add(false);
+
+    // Configura listeners para os controllers
+    _setupControllerListeners();
   }
+
+  void _setupControllerListeners() {
+    _emailController.addListener(() {
+      validateEmail(_emailController.text);
+    });
+
+    _passwordController.addListener(() {
+      validatePassword(_passwordController.text);
+    });
+  }
+
+  // Getters para os controllers
+  @override
+  TextEditingController get emailController => _emailController;
+
+  @override
+  TextEditingController get passwordController => _passwordController;
+
+  // Getters para os focusNodes
+  @override
+  FocusNode get emailFocusNode => _emailFocusNode;
+
+  @override
+  FocusNode get passwordFocusNode => _passwordFocusNode;
 
   @override
   Stream<String?> get emailErrorStream => _emailErrorController.stream;
@@ -41,6 +79,14 @@ class StreamLoginPresenter implements LoginPresenter {
 
   @override
   Stream<String?> get mainErrorStream => _mainErrorController.stream;
+
+  @override
+  Stream<bool> get emailErrorDisplayStream =>
+      _emailErrorDisplayController.stream;
+
+  @override
+  Stream<bool> get passwordErrorDisplayStream =>
+      _passwordErrorDisplayController.stream;
 
   @override
   void validateEmail(String email) {
@@ -81,12 +127,38 @@ class StreamLoginPresenter implements LoginPresenter {
   }
 
   @override
+  void showEmailError() {
+    _emailErrorDisplayController.add(true);
+  }
+
+  @override
+  void showPasswordError() {
+    _passwordErrorDisplayController.add(true);
+  }
+
+  @override
+  void refreshEmailErrorDisplay() {
+    _emailErrorDisplayController.add(_lastEmailError != null);
+  }
+
+  @override
+  void refreshPasswordErrorDisplay() {
+    _passwordErrorDisplayController.add(_lastPasswordError != null);
+  }
+
+  @override
   void dispose() {
     _emailErrorController.close();
     _passwordErrorController.close();
     _isFormValidController.close();
     _isLoadingController.close();
     _mainErrorController.close();
+    _emailErrorDisplayController.close();
+    _passwordErrorDisplayController.close();
+    _emailController.dispose();
+    _passwordController.dispose();
+    _emailFocusNode.dispose();
+    _passwordFocusNode.dispose();
   }
 
   void _validateEmail() {

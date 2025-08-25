@@ -154,8 +154,7 @@ void main() {
     });
 
     test('Deve retornar mensagem correta para senha média', () {
-      expect(sut.getStrengthMessage(PasswordStrength.medium),
-          'Senha média - pode melhorar');
+      expect(sut.getStrengthMessage(PasswordStrength.medium), 'Senha média');
     });
 
     test('Deve retornar mensagem correta para senha forte', () {
